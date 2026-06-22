@@ -81,7 +81,7 @@ export const VISA_DETAILS: Record<
 };
 
 /** Comparison table data for the three most popular visas. */
-export const COMPARE_SLUGS = ["30d-single", "60d-single", "60d-multi"] as const;
+export const COMPARE_SLUGS = ["14d-single", "30d-single", "60d-single"] as const;
 
 export interface CompareRow {
   label: string;
@@ -89,11 +89,11 @@ export interface CompareRow {
 }
 
 export const COMPARE_ROWS: CompareRow[] = [
-  { label: "Price", values: ["AED 549", "AED 918", "AED 1,285"] },
-  { label: "Duration", values: ["30 days", "60 days", "60 days"] },
-  { label: "Entry", values: ["Single", "Single", "Multiple"] },
+  { label: "Price", values: ["AED 459", "AED 549", "AED 918"] },
+  { label: "Duration", values: ["14 days", "30 days", "60 days"] },
+  { label: "Entry", values: ["Single", "Single", "Single"] },
   { label: "Entry Validity", values: ["60 days", "60 days", "60 days"] },
-  { label: "Processing", values: ["24–72h", "24–72h", "48–72h"] },
+  { label: "Processing", values: ["24–72h", "24–72h", "24–72h"] },
   { label: "Express Available", values: [true, true, true] },
   { label: "Refund Guarantee", values: [true, true, true] },
 ];

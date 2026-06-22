@@ -118,7 +118,7 @@ function ComparisonTable() {
                   <th className="text-left py-4 px-6 font-semibold text-ink">Features</th>
                   {COMPARE_SLUGS.map((slug) => {
                     const visa = SAMPLE_VISA_TYPES.find((v) => v.slug === slug);
-                    const isPopular = slug === "60d-single";
+                    const isPopular = slug === "30d-single";
                     return (
                       <th key={slug} className="text-center py-4 px-6">
                         <span className={cn("font-semibold", isPopular ? "text-blue" : "text-ink")}>
@@ -237,7 +237,7 @@ export function VisaTypesClient() {
       </section>
 
       {/* Filters */}
-      <section className="border-b border-line bg-white sticky top-0 z-10">
+      <section className="border-b border-line bg-white">
         <div className="mx-auto max-w-6xl px-4 py-4 flex flex-wrap items-center gap-6">
           {/* Duration */}
           <div>
