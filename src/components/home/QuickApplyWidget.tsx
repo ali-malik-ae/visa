@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { ArrowRight, Lock, Zap } from "lucide-react";
 import { Dropdown } from "@/components/ui/Dropdown";
 import { DatePickerDark } from "@/components/ui/DatePicker";
+import { NationalityDropdown } from "@/components/ui/NationalityDropdown";
 
 interface QuickApplyWidgetProps {
   visaTypes: VisaType[];
@@ -49,8 +50,6 @@ export function QuickApplyWidget({ visaTypes }: QuickApplyWidgetProps) {
 
   const labelCls =
     "text-[11px] font-semibold uppercase tracking-widest text-white/50 font-sans";
-  const fieldCls =
-    "h-11 w-full min-w-0 rounded-lg border border-white/15 bg-white/5 px-4 text-white placeholder:text-white/40 font-sans text-sm focus:outline-none focus:border-blue focus:ring-2 focus:ring-blue/30 transition-colors";
 
   return (
     <div className="rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 p-6 shadow-2xl">
@@ -71,20 +70,16 @@ export function QuickApplyWidget({ visaTypes }: QuickApplyWidgetProps) {
       <div className="space-y-4">
         {/* Nationality */}
         <div className="flex flex-col gap-1.5">
-          <label className={labelCls}>Nationality</label>
-          <input
-            type="text"
-            placeholder="e.g. United Kingdom"
+          <NationalityDropdown
             value={nationality}
-            onChange={(e) => {
-              setNationality(e.target.value);
+            onChange={(v) => {
+              setNationality(v);
               setErrors((p) => ({ ...p, nationality: "" }));
             }}
-            className={fieldCls}
+            placeholder="Select nationality"
+            error={errors.nationality}
+            dark
           />
-          {errors.nationality && (
-            <p className="text-xs text-danger">{errors.nationality}</p>
-          )}
         </div>
 
         {/* Visa Type */}

@@ -42,5 +42,43 @@ export const BRAND = {
   visasProcessed: "1,20,000+",
 };
 
+/* ── Stats Data (centralized for reuse) ──────────────── */
+import {
+  Globe,
+  Users,
+  CheckCircle,
+  Star,
+  Clock,
+  Building2,
+  ShieldCheck,
+  Zap,
+} from "lucide-react";
+import type { ComponentType } from "react";
+
+type StatItem =
+  | { type: "countup"; end: number; prefix?: string; suffix?: string; locale?: string; decimals?: number; label: string; Icon: ComponentType<{ className?: string; strokeWidth?: number }> }
+  | { type: "static"; value: string; label: string; Icon: ComponentType<{ className?: string; strokeWidth?: number }> };
+
+export const HERO_STATS: StatItem[] = [
+  { type: "countup", end: 120000, suffix: "+", locale: "en-IN", label: "Visas Issued", Icon: Users },
+  { type: "countup", end: 98, suffix: "%", label: "Approval Rate", Icon: CheckCircle },
+  { type: "static", value: BRAND.avgProcessing, label: "Avg. Processing", Icon: Clock },
+  { type: "countup", end: 184, label: "Countries Served", Icon: Globe },
+];
+
+export const GLOBAL_STATS: StatItem[] = [
+  { type: "countup", end: 42, suffix: "+", label: "Countries Served", Icon: Globe },
+  { type: "countup", end: 120000, suffix: "+", locale: "en-IN", label: "Visas Processed", Icon: Users },
+  { type: "countup", end: 98, suffix: "%", label: "Approval Rate", Icon: CheckCircle },
+  { type: "countup", end: 4.9, decimals: 1, suffix: "/5", label: "Customer Rating", Icon: Star },
+];
+
+export const ABOUT_STATS: StatItem[] = [
+  { type: "countup", end: 15000, suffix: "+", locale: "en-IN", label: "Travellers served", Icon: Users },
+  { type: "countup", end: 98, suffix: "%", label: "Approval rate", Icon: CheckCircle },
+  { type: "countup", end: 184, label: "Countries served", Icon: Globe },
+  { type: "static", value: BRAND.avgProcessing, label: "Avg. processing time", Icon: Clock },
+];
+
 /* ── Express Surcharge ────────────────────────────────── */
 export const EXPRESS_SURCHARGE_AED = 99;

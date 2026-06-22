@@ -105,6 +105,7 @@ interface NationalityDropdownProps {
   label?: string;
   error?: string;
   placeholder?: string;
+  dark?: boolean;
 }
 
 export function NationalityDropdown({
@@ -113,6 +114,7 @@ export function NationalityDropdown({
   label,
   error,
   placeholder = "Select nationality",
+  dark = false,
 }: NationalityDropdownProps) {
   const [open, setOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
@@ -191,7 +193,10 @@ export function NationalityDropdown({
       {label && (
         <label
           htmlFor={inputId}
-          className="text-xs font-medium uppercase tracking-[0.06em] text-muted font-sans"
+          className={cn(
+            "text-xs font-medium uppercase tracking-[0.06em] font-sans",
+            dark ? "text-white/50" : "text-muted"
+          )}
         >
           {label}
         </label>
@@ -204,8 +209,10 @@ export function NationalityDropdown({
           onKeyDown={handleKeyDown}
           className={cn(
             "h-11 w-full rounded-lg border px-4 pr-10 text-left font-sans text-sm transition-colors",
-            "bg-white border-line",
-            !selected && "text-muted/60",
+            dark
+              ? "border-white/15 bg-white/5 text-white placeholder:text-white/40"
+              : "bg-white border-line",
+            !selected && (dark ? "text-white/40" : "text-muted/60"),
             open && "border-blue ring-2 ring-blue/20",
             error && "border-danger"
           )}
@@ -219,14 +226,20 @@ export function NationalityDropdown({
         </button>
         <ChevronDown
           className={cn(
-            "absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 pointer-events-none transition-transform text-muted",
+            "absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 pointer-events-none transition-transform",
+            dark ? "text-white/40" : "text-muted",
             open && "rotate-180"
           )}
         />
         {open && (
-          <div className="absolute z-50 mt-1.5 w-full rounded-lg border border-line bg-white shadow-xl">
+          <div className={cn(
+            "absolute z-50 mt-1.5 w-full rounded-lg border shadow-xl",
+            dark
+              ? "border-white/15 bg-navy"
+              : "border-line bg-white"
+          )}>
             {/* Search input */}
-            <div className="p-2 border-b border-line">
+            <div className={cn("p-2 border-b", dark ? "border-white/15" : "border-line")}>
               <input
                 ref={inputRef}
                 type="text"
@@ -236,7 +249,12 @@ export function NationalityDropdown({
                   setHighlightedIndex(-1);
                 }}
                 placeholder="Search..."
-                className="h-9 w-full rounded-md border border-line px-3 text-sm font-sans focus:outline-none focus:border-blue"
+                className={cn(
+                  "h-9 w-full rounded-md border px-3 text-sm font-sans focus:outline-none focus:border-blue",
+                  dark
+                    ? "border-white/15 bg-white/5 text-white placeholder:text-white/40"
+                    : "border-line"
+                )}
               />
             </div>
             <ul
@@ -259,8 +277,10 @@ export function NationalityDropdown({
                     onMouseEnter={() => setHighlightedIndex(i)}
                     className={cn(
                       "flex items-center gap-2 px-4 py-2.5 cursor-pointer transition-colors",
-                      isHighlighted && "bg-blue/5",
-                      isSelected ? "text-blue font-medium" : "text-ink"
+                      isHighlighted && (dark ? "bg-white/10" : "bg-blue/5"),
+                      isSelected
+                        ? "text-blue font-medium"
+                        : dark ? "text-white" : "text-ink"
                     )}
                   >
                     {opt.value && (

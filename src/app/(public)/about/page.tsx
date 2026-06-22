@@ -1,4 +1,5 @@
-import { BRAND, WHATSAPP_URL } from "@/lib/constants";
+import { BRAND, WHATSAPP_URL, ABOUT_STATS } from "@/lib/constants";
+import { CountUp } from "@/components/ui/CountUp";
 import {
   ArrowRight,
   CheckCircle,
@@ -18,13 +19,6 @@ export const metadata: Metadata = {
   title: `About ${BRAND.name} — ${BRAND.tagline}`,
   description: `Learn about Visati, Dubai's trusted UAE visa consultancy. ${BRAND.clientCount} clients served with a ${BRAND.approvalRate} approval rate across ${BRAND.countriesServed} countries.`,
 };
-
-const STATS = [
-  { value: BRAND.clientCount, label: "Travellers served" },
-  { value: BRAND.approvalRate, label: "Approval rate" },
-  { value: BRAND.countriesServed, label: "Countries served" },
-  { value: BRAND.avgProcessing, label: "Avg. processing time" },
-];
 
 const VALUES = [
   {
@@ -102,12 +96,21 @@ export default function AboutPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <FadeIn direction="up" delay={100}>
             <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-line">
-              {STATS.map(({ value, label }) => (
-                <div key={label} className="px-6 py-10 text-center">
+              {ABOUT_STATS.map((stat) => (
+                <div key={stat.label} className="px-6 py-10 text-center">
                   <p className="font-display font-bold text-3xl sm:text-4xl text-navy mb-1.5">
-                    {value}
+                    {stat.type === "static" ? (
+                      stat.value
+                    ) : (
+                      <CountUp
+                        end={stat.end}
+                        suffix={stat.suffix}
+                        locale={stat.locale}
+                        decimals={stat.decimals}
+                      />
+                    )}
                   </p>
-                  <p className="text-muted font-sans text-sm">{label}</p>
+                  <p className="text-muted font-sans text-sm">{stat.label}</p>
                 </div>
               ))}
             </div>

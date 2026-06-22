@@ -43,6 +43,11 @@ const SOCIAL_ICONS = [
   { key: "linkedin", Icon: Linkedin, url: SOCIAL.linkedin },
 ];
 
+function scrollToTop(e: React.MouseEvent<HTMLAnchorElement>) {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
 export function Footer() {
   return (
     <footer className="bg-navy text-white">
@@ -82,6 +87,7 @@ export function Footer() {
                   <li key={link.label}>
                     <Link
                       href={link.href}
+                      onClick={scrollToTop}
                       className="text-sm text-white/60 hover:text-white font-sans transition-colors"
                     >
                       {link.label}
@@ -144,18 +150,21 @@ export function Footer() {
           <div className="flex flex-wrap items-center gap-5">
             <Link
               href="/privacy"
+              onClick={scrollToTop}
               className="text-xs text-white/40 hover:text-white font-sans transition-colors"
             >
               Privacy
             </Link>
             <Link
               href="/terms"
+              onClick={scrollToTop}
               className="text-xs text-white/40 hover:text-white font-sans transition-colors"
             >
               Terms
             </Link>
             <Link
               href="/cookies"
+              onClick={scrollToTop}
               className="text-xs text-white/40 hover:text-white font-sans transition-colors"
             >
               Cookies

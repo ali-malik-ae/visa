@@ -1,5 +1,5 @@
 import { CountUp } from "@/components/ui/CountUp";
-import { BRAND } from "@/lib/constants";
+import { BRAND, HERO_STATS } from "@/lib/constants";
 import {
   ArrowRight,
   Building2,
@@ -17,17 +17,6 @@ const TRUST_ICONS = [
   { icon: ShieldCheck, label: "Secure Documents" },
   { icon: Zap, label: "Fast Processing" },
   { icon: Globe, label: "Worldwide Applicants" },
-];
-
-type Stat =
-  | { end: number; prefix?: string; suffix?: string; locale?: string; label: string }
-  | { static: string; label: string };
-
-const STATS: Stat[] = [
-  { end: 120000, suffix: "+", locale: "en-IN", label: "Visas Issued" },
-  { end: 98, suffix: "%", label: "Approval Rate" },
-  { static: BRAND.avgProcessing, label: "Avg. Processing" },
-  { end: 184, label: "Countries Served" },
 ];
 
 export function Hero({ children }: { children?: React.ReactNode }) {
@@ -141,17 +130,18 @@ export function Hero({ children }: { children?: React.ReactNode }) {
       <section className="bg-navy-2">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-8">
-            {STATS.map((stat) => (
-              <div key={stat.label} className="px-2 lg:px-6">
+            {HERO_STATS.map((stat) => (
+              <div key={stat.label} className="px-2 lg:px-6 text-center lg:text-left">
                 <p className="font-display font-bold text-3xl lg:text-4xl text-white">
-                  {"static" in stat ? (
-                    stat.static
+                  {stat.type === "static" ? (
+                    stat.value
                   ) : (
                     <CountUp
                       end={stat.end}
                       prefix={stat.prefix}
                       suffix={stat.suffix}
                       locale={stat.locale}
+                      decimals={stat.decimals}
                     />
                   )}
                 </p>

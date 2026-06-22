@@ -1,15 +1,8 @@
 "use client";
 
 import { CountUp } from "@/components/ui/CountUp";
-import { Globe, Users, CheckCircle, Star } from "lucide-react";
+import { GLOBAL_STATS } from "@/lib/constants";
 import Link from "next/link";
-
-const STATS = [
-  { icon: Globe, end: 42, suffix: "+", label: "Countries Served" },
-  { icon: Users, end: 120000, suffix: "+", locale: "en-IN", label: "Visas Processed" },
-  { icon: CheckCircle, end: 98, suffix: "%", label: "Approval Rate" },
-  { icon: Star, end: 4.9, decimals: 1, suffix: "/5", label: "Customer Rating" },
-];
 
 const PINS = [
   { id: "uae", cx: 62, cy: 23, label: "Dubai, UAE" },
@@ -67,7 +60,7 @@ export function GlobalReach() {
         <div className="rounded-3xl bg-[#0a1a3a]/60 backdrop-blur-sm p-8 lg:p-12 relative overflow-hidden min-h-[300px] lg:min-h-[380px]">
 
           {/* --- Map + Pins overlay (full width behind text) --- */}
-          <div className="absolute inset-0 hidden sm:block py-4">
+          <div className="absolute inset-0 py-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/world-map.svg"
@@ -147,6 +140,9 @@ export function GlobalReach() {
 
             {/* Left copy */}
             <div className="max-w-md">
+              <p className="text-blue text-xs font-sans font-semibold uppercase tracking-widest mb-3">
+                Global Reach
+              </p>
               <h2 className="font-display font-bold text-[28px] lg:text-[34px] leading-tight text-white tracking-tight">
                 Trusted by Applicants Across the Globe
               </h2>
@@ -165,19 +161,23 @@ export function GlobalReach() {
             {/* Stats right */}
             <div className="xl:w-[200px] flex-shrink-0 self-center">
               <div className="grid grid-cols-2 gap-4 xl:grid-cols-1 xl:gap-5">
-                {STATS.map((s) => (
+                {GLOBAL_STATS.map((s) => (
                   <div key={s.label} className="flex items-center gap-3">
                     <div className="h-9 w-9 rounded-lg bg-white/[0.06] grid place-items-center flex-shrink-0">
-                      <s.icon className="h-[18px] w-[18px] text-blue-400" strokeWidth={1.5} />
+                      <s.Icon className="h-[18px] w-[18px] text-blue-400" strokeWidth={1.5} />
                     </div>
                     <div>
                       <p className="text-xl font-display font-bold text-white leading-none">
-                        <CountUp
-                          end={s.end}
-                          suffix={s.suffix}
-                          decimals={s.decimals}
-                          locale={s.locale}
-                        />
+                        {s.type === "static" ? (
+                          s.value
+                        ) : (
+                          <CountUp
+                            end={s.end}
+                            suffix={s.suffix}
+                            decimals={s.decimals}
+                            locale={s.locale}
+                          />
+                        )}
                       </p>
                       <p className="text-[11px] font-sans text-white/50 mt-1 leading-none">
                         {s.label}

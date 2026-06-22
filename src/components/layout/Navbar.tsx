@@ -30,21 +30,28 @@ export function Navbar() {
     <>
       <header
         className={cn(
-          "sticky top-0 z-50 w-full transition-all duration-200",
+          "sticky top-0 z-50 transition-all duration-300",
           scrolled
-            ? "bg-navy/95 backdrop-blur-md shadow-lg"
-            : "bg-navy"
+            ? "py-3 px-4 sm:px-6 lg:px-8"
+            : "py-0 px-0"
         )}
       >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between gap-4">
+        <div
+          className={cn(
+            "mx-auto transition-all duration-300",
+            scrolled
+              ? "max-w-6xl bg-navy/95 backdrop-blur-xl rounded-2xl shadow-2xl shadow-black/20 border border-white/10"
+              : "max-w-7xl bg-navy"
+          )}
+        >
+          <div className="flex h-14 items-center justify-between gap-4 px-4 sm:px-6">
             {/* Logo */}
             <Link href="/" className="flex-shrink-0" aria-label="Visati home">
               <Logo variant="light" showTagline />
             </Link>
 
             {/* Desktop nav */}
-            <nav className="hidden lg:flex items-center gap-8">
+            <nav className="hidden lg:flex items-center gap-7">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
@@ -60,7 +67,7 @@ export function Navbar() {
             <div className="flex items-center gap-3 flex-shrink-0">
               <Link
                 href="/apply"
-                className="hidden sm:inline-flex items-center gap-2 h-9 px-4 rounded-lg bg-blue text-white text-sm font-semibold font-sans hover:bg-blue-hover transition-colors whitespace-nowrap"
+                className="hidden sm:inline-flex items-center gap-2 h-9 px-4 rounded-full bg-blue text-white text-sm font-semibold font-sans hover:bg-blue-hover transition-colors whitespace-nowrap"
               >
                 Apply Now
                 <ArrowRight className="h-4 w-4 flex-shrink-0" />
