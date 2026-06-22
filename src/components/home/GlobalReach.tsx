@@ -142,47 +142,52 @@ export function GlobalReach() {
             </svg>
           </div>
 
-          {/* --- Stats right --- */}
-          <div className="xl:w-[200px] flex-shrink-0 relative z-10">
-            <div className="grid grid-cols-2 gap-4 xl:grid-cols-1 xl:gap-5">
-              {STATS.map((s) => (
-                <div key={s.label} className="flex items-center gap-3">
-                  <div className="h-9 w-9 rounded-lg bg-white/[0.06] grid place-items-center flex-shrink-0">
-                    <s.icon className="h-[18px] w-[18px] text-blue-400" strokeWidth={1.5} />
-                  </div>
-                  <div>
-                    <p className="text-xl font-display font-bold text-white leading-none">
-                      <CountUp
-                        end={s.end}
-                        suffix={s.suffix}
-                        decimals={s.decimals}
-                        locale={s.locale}
-                      />
-                    </p>
-                    <p className="text-[11px] font-sans text-white/50 mt-1 leading-none">
-                      {s.label}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          {/* --- Content on top of map --- */}
+          <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
 
-          {/* --- Left copy (on top of map) --- */}
-          <div className="relative z-10 max-w-md">
-            <h2 className="font-display font-bold text-[28px] lg:text-[34px] leading-tight text-white tracking-tight">
-              Trusted by Applicants Across the Globe
-            </h2>
-            <p className="mt-4 text-[13px] lg:text-sm leading-relaxed text-white/60 font-sans max-w-sm">
-              We are a Dubai based visa agency serving residents of all
-              nationalities across USA, UK, Canada, Australia and Europe.
-            </p>
-            <Link
-              href="/about"
-              className="mt-6 inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/[0.04] px-5 py-2.5 text-xs font-semibold text-white font-sans hover:bg-white/[0.08] transition-colors"
-            >
-              More About Us
-            </Link>
+            {/* Left copy */}
+            <div className="max-w-md">
+              <h2 className="font-display font-bold text-[28px] lg:text-[34px] leading-tight text-white tracking-tight">
+                Trusted by Applicants Across the Globe
+              </h2>
+              <p className="mt-4 text-[13px] lg:text-sm leading-relaxed text-white/60 font-sans max-w-sm">
+                We are a Dubai based visa agency serving residents of all
+                nationalities across USA, UK, Canada, Australia and Europe.
+              </p>
+              <Link
+                href="/about"
+                className="mt-6 inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/[0.04] px-5 py-2.5 text-xs font-semibold text-white font-sans hover:bg-white/[0.08] transition-colors"
+              >
+                More About Us
+              </Link>
+            </div>
+
+            {/* Stats right */}
+            <div className="xl:w-[200px] flex-shrink-0">
+              <div className="grid grid-cols-2 gap-4 xl:grid-cols-1 xl:gap-5">
+                {STATS.map((s) => (
+                  <div key={s.label} className="flex items-center gap-3">
+                    <div className="h-9 w-9 rounded-lg bg-white/[0.06] grid place-items-center flex-shrink-0">
+                      <s.icon className="h-[18px] w-[18px] text-blue-400" strokeWidth={1.5} />
+                    </div>
+                    <div>
+                      <p className="text-xl font-display font-bold text-white leading-none">
+                        <CountUp
+                          end={s.end}
+                          suffix={s.suffix}
+                          decimals={s.decimals}
+                          locale={s.locale}
+                        />
+                      </p>
+                      <p className="text-[11px] font-sans text-white/50 mt-1 leading-none">
+                        {s.label}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
