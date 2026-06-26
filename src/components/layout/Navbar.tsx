@@ -40,7 +40,7 @@ export function Navbar() {
           className={cn(
             "transition-all duration-300",
             scrolled
-              ? "mx-auto max-w-6xl bg-navy/95 backdrop-blur-xl rounded-2xl shadow-2xl shadow-black/20 border border-white/10"
+              ? "mx-auto max-w-6xl bg-navy/95 backdrop-blur-xl rounded-2xl shadow-lg shadow-black/20 border border-white/8"
               : "w-full bg-navy"
           )}
         >
@@ -67,7 +67,7 @@ export function Navbar() {
             <div className="flex items-center gap-3 flex-shrink-0">
               <Link
                 href="/apply"
-                className="hidden sm:inline-flex items-center gap-2 h-9 px-4 rounded-full bg-blue text-white text-sm font-semibold font-sans hover:bg-blue-hover transition-colors whitespace-nowrap"
+                className="hidden sm:inline-flex items-center gap-2 h-9 px-4 rounded-lg bg-gold text-navy text-sm font-semibold font-sans hover:bg-gold/90 transition-colors whitespace-nowrap"
               >
                 Apply Now
                 <ArrowRight className="h-4 w-4 flex-shrink-0" />

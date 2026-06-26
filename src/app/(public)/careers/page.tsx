@@ -97,7 +97,7 @@ export default function CareersPage() {
         </div>
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-24 pb-16 lg:pt-32 lg:pb-24 text-center">
           <FadeIn>
-            <p className="text-blue text-xs font-sans font-semibold uppercase tracking-widest mb-4">
+            <p className="text-gold text-xs font-sans font-semibold uppercase tracking-widest mb-4">
               We&apos;re hiring
             </p>
             <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
@@ -121,10 +121,10 @@ export default function CareersPage() {
               {PERKS.map(({ Icon, label }) => (
                 <div
                   key={label}
-                  className="flex flex-col items-center gap-3 p-5 rounded-2xl border border-ink/8 hover:border-blue/20 transition-colors"
+                  className="flex flex-col items-center gap-3 p-5 rounded-2xl border border-ink/8 hover:border-gold/30 transition-colors"
                 >
-                  <div className="h-10 w-10 rounded-xl bg-blue/8 grid place-items-center">
-                    <Icon className="h-5 w-5 text-blue" />
+                  <div className="h-10 w-10 rounded-xl bg-gold/15 grid place-items-center">
+                    <Icon className="h-5 w-5 text-gold" />
                   </div>
                   <span className="text-sm text-ink/70 text-center font-medium">{label}</span>
                 </div>
@@ -148,14 +148,14 @@ export default function CareersPage() {
         <div className="space-y-4">
           {OPENINGS.map((job, i) => (
             <FadeIn key={job.title} delay={i * 80}>
-              <div className="group border border-ink/10 rounded-2xl p-6 lg:p-8 hover:border-blue/25 hover:shadow-md transition-all duration-300">
+              <div className="group border border-ink/10 rounded-2xl p-6 lg:p-8 hover:border-gold/25 hover:shadow-md transition-all duration-300">
                 <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5">
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-2 mb-2">
-                      <h3 className="font-display text-lg font-semibold text-ink group-hover:text-blue transition-colors">
+                      <h3 className="font-display text-lg font-semibold text-ink group-hover:text-gold transition-colors">
                         {job.title}
                       </h3>
-                      <span className="px-2.5 py-0.5 rounded-full bg-blue/8 text-blue text-xs font-medium">
+                      <span className="px-2.5 py-0.5 rounded-full bg-gold/10 text-gold text-xs font-medium">
                         {job.type}
                       </span>
                     </div>
@@ -175,7 +175,7 @@ export default function CareersPage() {
                     <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-1.5">
                       {job.requirements.map((r) => (
                         <li key={r} className="flex items-start gap-2 text-sm text-ink/50">
-                          <span className="h-1.5 w-1.5 rounded-full bg-blue/40 mt-1.5 flex-shrink-0" />
+                           <span className="h-1.5 w-1.5 rounded-full bg-gold/40 mt-1.5 flex-shrink-0" />
                           {r}
                         </li>
                       ))}
@@ -186,7 +186,7 @@ export default function CareersPage() {
                       href={WHATSAPP_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 bg-blue hover:bg-blue-hover text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors whitespace-nowrap"
+                      className="inline-flex items-center gap-2 bg-whatsapp hover:bg-whatsapp-hover text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors whitespace-nowrap"
                     >
                       Apply via WhatsApp
                     </a>

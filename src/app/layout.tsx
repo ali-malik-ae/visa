@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { clashDisplay, jetbrainsMono, montserrat, satoshi } from "./fonts";
+import { inter, poppins, jetbrainsMono, montserrat } from "./fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`h-full antialiased ${clashDisplay.variable} ${satoshi.variable} ${jetbrainsMono.variable} ${montserrat.variable}`}
+      className={`h-full antialiased ${inter.variable} ${poppins.variable} ${jetbrainsMono.variable} ${montserrat.variable}`}
     >
       <body className="min-h-full flex flex-col bg-white text-ink">
         {children}

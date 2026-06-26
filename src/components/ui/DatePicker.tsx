@@ -173,7 +173,7 @@ export function DatePicker({
         <Calendar className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted pointer-events-none" />
 
         {open && (
-          <div className="absolute z-50 mt-1.5 w-72 rounded-xl border border-line bg-white shadow-xl p-4">
+          <div className="absolute z-[100] mt-1.5 w-72 rounded-xl border border-line bg-white shadow-xl p-4">
             {/* Header — always shown */}
             <div className="flex items-center justify-between mb-3">
               {viewMode === "days" && (
@@ -487,7 +487,7 @@ export function DatePickerDark({
         <Calendar className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40 pointer-events-none" />
 
         {open && (
-          <div className="absolute z-50 mt-1.5 w-72 rounded-xl border border-line bg-white shadow-xl p-4">
+          <div className="absolute z-[100] mt-1.5 w-72 rounded-xl border border-line bg-white shadow-xl p-4">
             {/* Header */}
             <div className="flex items-center justify-between mb-3">
               {viewMode === "days" && (

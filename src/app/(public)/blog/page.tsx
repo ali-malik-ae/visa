@@ -118,13 +118,13 @@ export default function BlogPage() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {POSTS.map((post, i) => (
             <FadeIn key={post.slug} delay={i * 100}>
-              <article className="group bg-white border border-ink/10 rounded-2xl overflow-hidden hover:border-blue/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+              <article className="group bg-white border border-ink/10 rounded-2xl overflow-hidden hover:border-gold/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
                 {/* Placeholder image */}
-                <div className="h-48 bg-gradient-to-br from-navy/5 to-blue/5 relative">
+                <div className="h-48 bg-gradient-to-br from-navy/5 to-gold/5 relative">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <Tag className="h-10 w-10 text-ink/10" />
                   </div>
-                  <span className="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-medium text-blue">
+                  <span className="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-medium text-gold">
                     {post.category}
                   </span>
                 </div>
@@ -141,7 +141,7 @@ export default function BlogPage() {
                     </span>
                   </div>
 
-                  <h2 className="font-heading text-lg font-semibold text-ink mb-2 group-hover:text-blue transition-colors">
+                  <h2 className="font-heading text-lg font-semibold text-ink mb-2 group-hover:text-gold transition-colors">
                     {post.title}
                   </h2>
                   <p className="text-sm text-ink/55 leading-relaxed flex-1">
@@ -150,7 +150,7 @@ export default function BlogPage() {
 
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-blue hover:text-blue/80 transition-colors"
+                    className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-gold hover:text-gold/80 transition-colors"
                   >
                     Read more →
                   </Link>

@@ -6,7 +6,7 @@ import { FadeIn } from "@/components/ui/FadeIn";
 const FEATURES = [
   {
     icon: ShieldCheck,
-    iconClass: "text-blue bg-blue/10",
+    iconClass: "text-indigo-600 bg-indigo-50",
     title: "100% Approval Guarantee",
     description:
       "100% refund guarantee if your visa is rejected for any reason within our control.",
@@ -27,7 +27,7 @@ const FEATURES = [
   },
   {
     icon: FileText,
-    iconClass: "text-blue bg-blue/10",
+    iconClass: "text-gold bg-gold/10",
     title: "Document Verification",
     description:
       "We pre-check every document. Catch issues before the embassy does.",
@@ -42,7 +42,7 @@ export function WhyChoose() {
           {/* Left — heading */}
           <FadeIn direction="left">
             <div className="min-w-0">
-              <p className="text-xs font-semibold uppercase tracking-widest text-blue font-sans mb-4">
+              <p className="text-xs font-semibold uppercase tracking-widest text-gold font-sans mb-4">
                 Why Choose Visati
               </p>
               <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-navy leading-tight">

@@ -89,8 +89,8 @@ export function GlobalReach() {
                     <path
                       d={path}
                       fill="none"
-                      stroke="rgba(96,165,250,0.5)"
-                      strokeWidth="0.25"
+                      stroke="rgba(201,168,76,0.4)"
+                      strokeWidth="0.3"
                       strokeLinecap="round"
                       strokeDasharray="3 7"
                       className="arc-dash"
@@ -101,8 +101,8 @@ export function GlobalReach() {
 
               <defs>
                 <radialGradient id="pinGlow" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.6" />
-                  <stop offset="100%" stopColor="#60a5fa" stopOpacity="0" />
+                  <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="#C9A84C" stopOpacity="0" />
                 </radialGradient>
                 <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
                   <feGaussianBlur stdDeviation="1.2" result="blur" />
@@ -126,8 +126,8 @@ export function GlobalReach() {
                     cx={pin.cx}
                     cy={pin.cy}
                     r="0.8"
-                    fill="#60a5fa"
-                    stroke="#93c5fd"
+                    fill="#C9A84C"
+                    stroke="#e8d5a0"
                     strokeWidth="0.3"
                   />
                 </g>
@@ -140,7 +140,7 @@ export function GlobalReach() {
 
             {/* Left copy */}
             <div className="max-w-md">
-              <p className="text-blue text-xs font-sans font-semibold uppercase tracking-widest mb-3">
+              <p className="text-gold text-xs font-sans font-semibold uppercase tracking-widest mb-3">
                 Global Reach
               </p>
               <h2 className="font-display font-bold text-[28px] lg:text-[34px] leading-tight text-white tracking-tight">
@@ -164,7 +164,7 @@ export function GlobalReach() {
                 {GLOBAL_STATS.map((s) => (
                   <div key={s.label} className="flex items-center gap-3">
                     <div className="h-9 w-9 rounded-lg bg-white/[0.06] grid place-items-center flex-shrink-0">
-                      <s.Icon className="h-[18px] w-[18px] text-blue-400" strokeWidth={1.5} />
+                      <s.Icon className="h-[18px] w-[18px] text-gold/60" strokeWidth={1.5} />
                     </div>
                     <div>
                       <p className="text-xl font-display font-bold text-white leading-none">

@@ -1,23 +1,23 @@
-/* Fonts are self-hosted via next/font (see src/app/fonts.ts) for performance —
-   no render-blocking @import. CSS variables --font-clash / --font-satoshi /
-   --font-jetbrains are set on <html> by next/font. */
+/* Fonts are loaded via next/font (see src/app/fonts.ts). CSS variables
+   --font-inter / --font-poppins / --font-jetbrains / --font-montserrat
+   are set on <html> by next/font. */
 
 @import "tailwindcss";
 
 @theme {
   /* ── Typography ─────────────────────────────────────── */
-  --font-display: var(--font-clash), "Clash Display", sans-serif;
-  --font-sans:    var(--font-satoshi), system-ui, sans-serif;
+  --font-display: var(--font-inter), "Inter", sans-serif;
+  --font-sans:    var(--font-poppins), "Poppins", system-ui, sans-serif;
   --font-mono:    var(--font-jetbrains), "JetBrains Mono", monospace;
   --font-brand:   var(--font-montserrat), "Montserrat", sans-serif;
 
   /* ── Brand Colours ──────────────────────────────────── */
-  --color-navy:       #062B5B; /* deep blue-navy — bg + headings (from design) */
-  --color-navy-2:     #0A3A78; /* lighter blue-navy for gradients/cards */
+  --color-navy:       #0A1628; /* refined deep navy */
+  --color-navy-2:     #12203F; /* lighter navy for gradient sections */
+  --color-gold: #C9A84C; /* premium gold accent */
   --color-ink:        #1A2332;
-  --color-ink-2:      #21407A;
-  --color-blue:       #0057FF;
-  --color-blue-hover: #0046CC;
+  --color-blue:       #1E5BBE;
+  --color-blue-hover: #1749A0;
   --color-mist:       #F8F9FB;
   --color-mist-2:     #EFF1F5;
   --color-line:       #E5E7EC;

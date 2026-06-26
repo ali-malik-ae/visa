@@ -50,7 +50,7 @@ export default function PrivacyPage() {
             <h2 className="font-display font-semibold text-lg text-navy mb-2">4. Contact</h2>
             <p>
               For privacy questions or data deletion requests, contact us at{" "}
-              <a href={`mailto:${CONTACT.email}`} className="text-blue hover:underline">
+              <a href={`mailto:${CONTACT.email}`} className="text-gold hover:underline">
                 {CONTACT.email}
               </a>
               . {BRAND.legalName}, {CONTACT.office}.

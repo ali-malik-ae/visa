@@ -32,7 +32,7 @@ export function VisaTypeCard({ visa }: { visa: VisaType }) {
         "relative rounded-xl bg-white p-7 flex flex-col transition-all " +
         (isPopular
           ? "border-2 border-blue shadow-md"
-          : "border border-line hover:border-blue/40 hover:shadow-sm")
+          : "border border-line hover:border-gold/40 hover:shadow-sm")
       }
     >
       {isPopular && (
@@ -70,7 +70,7 @@ export function VisaTypeCard({ visa }: { visa: VisaType }) {
         </div>
         <Link
           href={`/apply?visa=${visa.slug}`}
-          className="inline-flex items-center gap-1.5 h-10 px-5 rounded-lg bg-blue text-white text-sm font-semibold font-sans hover:bg-blue-hover transition-colors whitespace-nowrap flex-shrink-0"
+          className="inline-flex items-center gap-1.5 h-10 px-5 rounded-lg bg-gold text-navy text-sm font-semibold font-sans hover:bg-gold/90 transition-colors whitespace-nowrap flex-shrink-0"
         >
           Apply <ArrowRight className="h-4 w-4" />
         </Link>

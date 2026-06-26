@@ -72,7 +72,7 @@ export default function ServicesPage() {
         </div>
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-24 pb-16 lg:pt-32 lg:pb-24 text-center">
           <FadeIn>
-            <p className="text-blue text-xs font-sans font-semibold uppercase tracking-widest mb-4">
+            <p className="text-gold text-xs font-sans font-semibold uppercase tracking-widest mb-4">
               What we do
             </p>
             <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
@@ -90,9 +90,9 @@ export default function ServicesPage() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
           {SERVICES.map((service, i) => (
             <FadeIn key={service.title} delay={i * 80}>
-              <div className="group border border-ink/10 rounded-2xl p-6 lg:p-8 hover:border-blue/25 hover:shadow-md transition-all duration-300 h-full">
-                <div className="h-11 w-11 rounded-xl bg-blue/8 grid place-items-center mb-5">
-                  <service.Icon className="h-5 w-5 text-blue" />
+              <div className="group border border-ink/10 rounded-2xl p-6 lg:p-8 hover:border-gold/25 hover:shadow-md transition-all duration-300 h-full">
+                <div className="h-11 w-11 rounded-xl bg-gold/15 grid place-items-center mb-5">
+                  <service.Icon className="h-5 w-5 text-gold" />
                 </div>
                 <h3 className="font-display text-lg font-semibold text-ink mb-2">
                   {service.title}
@@ -103,7 +103,7 @@ export default function ServicesPage() {
                 <ul className="space-y-2">
                   {service.features.map((f) => (
                     <li key={f} className="flex items-center gap-2 text-sm text-ink/45">
-                      <span className="h-1.5 w-1.5 rounded-full bg-blue/40 flex-shrink-0" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-gold/40 flex-shrink-0" />
                       {f}
                     </li>
                   ))}

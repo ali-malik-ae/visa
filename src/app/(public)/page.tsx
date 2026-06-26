@@ -1,4 +1,3 @@
-import { CountriesServed } from "@/components/home/CountriesServed";
 import { FooterCTA } from "@/components/home/FooterCTA";
 import { GlobalReach } from "@/components/home/GlobalReach";
 import { Hero } from "@/components/home/Hero";
@@ -42,12 +41,7 @@ export default async function HomePage() {
         <ProcessSteps />
       </FadeIn>
 
-      {/* 5 — Countries */}
-      <FadeIn delay={100}>
-        <CountriesServed />
-      </FadeIn>
-
-      {/* 6 — Why Choose */}
+      {/* 5 — Why Choose */}
       <FadeIn delay={100}>
         <WhyChoose />
       </FadeIn>

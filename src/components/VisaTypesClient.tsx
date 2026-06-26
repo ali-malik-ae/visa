@@ -68,7 +68,7 @@ function VisaCard({ visa }: { visa: VisaType }) {
       <ul className="mt-4 space-y-2 mb-6 flex-1">
         {details?.features.map((feat) => (
           <li key={feat} className="flex items-start gap-2 text-sm text-ink font-sans">
-            <Check className="h-4 w-4 text-blue flex-shrink-0 mt-0.5" />
+            <Check className="h-4 w-4 text-gold flex-shrink-0 mt-0.5" />
             {feat}
           </li>
         ))}
@@ -98,7 +98,7 @@ function ComparisonTable() {
   return (
     <section className="py-16 px-4 bg-mist">
       <div className="mx-auto max-w-5xl">
-        <p className="text-blue text-xs font-sans font-semibold uppercase tracking-widest mb-2">
+        <p className="text-gold text-xs font-sans font-semibold uppercase tracking-widest mb-2">
           Compare
         </p>
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-8">
@@ -121,14 +121,14 @@ function ComparisonTable() {
                     const isPopular = slug === "30d-single";
                     return (
                       <th key={slug} className="text-center py-4 px-6">
-                        <span className={cn("font-semibold", isPopular ? "text-blue" : "text-ink")}>
+                        <span className={cn("font-semibold", isPopular ? "text-gold" : "text-ink")}>
                           {visa?.name.split("·")[0]?.trim() ?? slug}
                         </span>
                         <span className="text-ink font-semibold">
                           {" "}{visa?.name.split("·")[1]?.trim() ?? ""}
                         </span>
                         {isPopular && (
-                          <span className="ml-2 inline-flex items-center rounded-full bg-blue/10 px-2 py-0.5 text-[10px] font-semibold text-blue">
+                          <span className="ml-2 inline-flex items-center rounded-full bg-gold/10 px-2 py-0.5 text-[10px] font-semibold text-gold">
                             Most Popular
                           </span>
                         )}
@@ -151,7 +151,7 @@ function ComparisonTable() {
                       <td key={j} className="py-4 px-6 text-center text-muted">
                         {typeof val === "boolean" ? (
                           val ? (
-                            <Check className="h-5 w-5 text-blue mx-auto" />
+                            <Check className="h-5 w-5 text-gold mx-auto" />
                           ) : (
                             <Minus className="h-5 w-4 text-muted/40 mx-auto" />
                           )
@@ -219,7 +219,7 @@ export function VisaTypesClient() {
         </div>
         <div className="relative mx-auto max-w-5xl text-center">
           <FadeIn direction="up" delay={0}>
-            <p className="text-blue text-xs font-sans font-semibold uppercase tracking-widest mb-2">
+            <p className="text-gold text-xs font-sans font-semibold uppercase tracking-widest mb-2">
               Visa Catalogue
             </p>
           </FadeIn>

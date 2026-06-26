@@ -15,7 +15,7 @@ export function VisaShowcase({ visaTypes }: VisaShowcaseProps) {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-end justify-between gap-4 flex-wrap mb-10">
           <div className="min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-widest text-blue font-sans mb-3">
+            <p className="text-xs font-semibold uppercase tracking-widest text-gold font-sans mb-3">
               Visa Types
             </p>
             <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-navy leading-tight">
@@ -25,7 +25,7 @@ export function VisaShowcase({ visaTypes }: VisaShowcaseProps) {
           </div>
           <Link
             href="/visa-types"
-            className="inline-flex items-center gap-1.5 text-sm font-sans font-semibold text-blue hover:underline flex-shrink-0"
+            className="inline-flex items-center gap-1.5 text-sm font-sans font-semibold text-gold hover:underline flex-shrink-0"
           >
             Compare all <ArrowRight className="h-4 w-4" />
           </Link>

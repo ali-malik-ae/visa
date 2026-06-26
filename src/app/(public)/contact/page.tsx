@@ -100,7 +100,7 @@ export default function ContactPage() {
           <div className="space-y-8">
             <FadeIn direction="left" delay={0}>
               <div>
-                <p className="text-blue text-xs font-sans font-semibold uppercase tracking-widest mb-3">
+                <p className="text-gold text-xs font-sans font-semibold uppercase tracking-widest mb-3">
                   Contact
                 </p>
                 <h1 className="font-display font-bold text-4xl lg:text-5xl text-ink mb-4">
@@ -118,7 +118,7 @@ export default function ContactPage() {
                 href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 bg-whatsapp text-white font-sans font-semibold text-sm rounded-full px-8 py-4 hover:bg-whatsapp-hover transition-colors"
+                className="inline-flex items-center gap-2 bg-whatsapp text-white font-sans font-semibold text-sm rounded-xl px-6 py-3 hover:bg-whatsapp-hover transition-colors"
               >
                 <FaWhatsapp className="h-5 w-5" />
                 WhatsApp &middot; {CONTACT.whatsappReplyTime}
@@ -129,8 +129,8 @@ export default function ContactPage() {
               <div className="grid grid-cols-2 gap-6">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="h-8 w-8 rounded-full bg-blue/10 flex items-center justify-center">
-                      <Mail className="h-4 w-4 text-blue" />
+                    <div className="h-8 w-8 rounded-full bg-gold/10 flex items-center justify-center">
+                      <Mail className="h-4 w-4 text-gold" />
                     </div>
                     <span className="text-[11px] font-sans font-semibold uppercase tracking-wider text-muted">Email</span>
                   </div>
@@ -142,8 +142,8 @@ export default function ContactPage() {
 
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="h-8 w-8 rounded-full bg-blue/10 flex items-center justify-center">
-                      <Phone className="h-4 w-4 text-blue" />
+                    <div className="h-8 w-8 rounded-full bg-gold/10 flex items-center justify-center">
+                      <Phone className="h-4 w-4 text-gold" />
                     </div>
                     <span className="text-[11px] font-sans font-semibold uppercase tracking-wider text-muted">Phone</span>
                   </div>
@@ -155,8 +155,8 @@ export default function ContactPage() {
 
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="h-8 w-8 rounded-full bg-blue/10 flex items-center justify-center">
-                      <MapPin className="h-4 w-4 text-blue" />
+                    <div className="h-8 w-8 rounded-full bg-gold/10 flex items-center justify-center">
+                      <MapPin className="h-4 w-4 text-gold" />
                     </div>
                     <span className="text-[11px] font-sans font-semibold uppercase tracking-wider text-muted">Office</span>
                   </div>
@@ -166,8 +166,8 @@ export default function ContactPage() {
 
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="h-8 w-8 rounded-full bg-blue/10 flex items-center justify-center">
-                      <Clock className="h-4 w-4 text-blue" />
+                    <div className="h-8 w-8 rounded-full bg-gold/10 flex items-center justify-center">
+                      <Clock className="h-4 w-4 text-gold" />
                     </div>
                     <span className="text-[11px] font-sans font-semibold uppercase tracking-wider text-muted">Hours</span>
                   </div>

@@ -27,7 +27,7 @@ const TRUST_ICONS = [
 export function Hero({ children }: { children?: React.ReactNode }) {
   return (
     <>
-      <section className="relative overflow-hidden bg-navy">
+      <section className="relative overflow-x-clip bg-navy">
         {/* Background — slow zoom-in */}
         <div
           className="absolute inset-0 hero-bg"
@@ -46,6 +46,10 @@ export function Hero({ children }: { children?: React.ReactNode }) {
           <div
             className="absolute top-24 -right-24 w-[580px] h-[580px] rounded-full bg-blue opacity-[0.18]"
             style={{ filter: "blur(130px)" }}
+          />
+          <div
+            className="absolute top-1/4 left-[60%] w-[300px] h-[300px] rounded-full bg-gold opacity-[0.06]"
+            style={{ filter: "blur(100px)" }}
           />
           <div
             className="absolute -bottom-24 -left-24 w-[440px] h-[440px] rounded-full bg-blue opacity-[0.09]"
@@ -73,7 +77,7 @@ export function Hero({ children }: { children?: React.ReactNode }) {
                     key={label}
                     className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-sans font-medium text-white/80"
                   >
-                    <span className="h-1.5 w-1.5 rounded-full bg-blue" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-gold" />
                     {label}
                   </span>
                 ))}
@@ -88,10 +92,14 @@ export function Hero({ children }: { children?: React.ReactNode }) {
                   Dubai Visa
                 </span>
                 <span
-                  className="block text-5xl sm:text-6xl lg:text-7xl text-blue hero-enter"
+                  className="block text-5xl sm:text-6xl lg:text-7xl hero-enter"
                   style={{ animationDelay: "200ms" }}
                 >
-                  Made Simple.
+                  Made{" "}
+                  <span className="text-gold">
+                    Simple
+                  </span>
+                  <span className="text-blue">.</span>
                 </span>
               </h1>
 
@@ -111,7 +119,7 @@ export function Hero({ children }: { children?: React.ReactNode }) {
               >
                 <Link
                   href="/apply"
-                  className="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-blue text-white text-sm font-semibold font-sans hover:bg-blue-hover transition-colors whitespace-nowrap"
+                  className="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-gold text-navy text-sm font-semibold font-sans hover:bg-gold/90 transition-colors whitespace-nowrap"
                 >
                   Apply Now
                   <ArrowRight className="h-4 w-4 flex-shrink-0" />
@@ -187,13 +195,13 @@ export function Hero({ children }: { children?: React.ReactNode }) {
       </section>
 
       {/* Stats bar */}
-      <section className="bg-navy-2">
+      <section className="bg-navy-2 border-t border-white/5">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-8">
             {HERO_STATS.map((stat, i) => (
               <div
                 key={stat.label}
-                className="px-2 lg:px-6 text-center lg:text-left hero-appear"
+                className="px-2 lg:px-6 text-center hero-appear"
                 style={{ animationDelay: `${900 + i * 80}ms` }}
               >
                 <p className="font-display font-bold text-3xl lg:text-4xl text-white">

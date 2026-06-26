@@ -138,7 +138,7 @@ export function Dropdown({
           <ul
             ref={listRef}
             role="listbox"
-            className="absolute z-50 mt-1.5 w-full max-h-60 overflow-auto rounded-lg border border-line bg-white shadow-lg py-1 font-sans text-sm scrollbar-thin"
+            className="absolute z-[60] mt-1.5 w-full max-h-60 overflow-auto rounded-lg border border-line bg-white shadow-lg py-1 font-sans text-sm scrollbar-thin"
           >
             {options.map((opt, i) => {
               const isSelected = opt.value === value;
@@ -215,7 +215,7 @@ export function DropdownCompact({
         {selected?.label ?? "Select"}
       </button>
       {open && (
-        <ul className="absolute z-50 mt-1.5 right-0 w-max min-w-[140px] max-h-60 overflow-auto rounded-lg border border-line bg-white shadow-lg py-1 font-sans text-sm scrollbar-thin">
+        <ul className="absolute z-[60] mt-1.5 right-0 w-max min-w-[140px] max-h-60 overflow-auto rounded-lg border border-line bg-white shadow-lg py-1 font-sans text-sm scrollbar-thin">
           {options.map((opt) => {
             const isSelected = opt.value === value;
             return (

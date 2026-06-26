@@ -29,7 +29,7 @@ export function ProcessSteps() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <FadeIn>
           <div className="text-center mb-14">
-            <p className="text-xs font-sans font-semibold uppercase tracking-widest text-blue mb-3">
+            <p className="text-xs font-sans font-semibold uppercase tracking-widest text-gold mb-3">
               The Process
             </p>
             <h2 className="font-display font-bold text-3xl lg:text-5xl text-navy">
@@ -43,7 +43,7 @@ export function ProcessSteps() {
           {STEPS.map((s, i) => (
             <FadeIn key={s.step} delay={i * 100} direction="left">
               <div className="flex items-center gap-4 rounded-2xl border border-line bg-white p-5">
-                <span className="font-display text-2xl font-bold text-blue w-10 flex-shrink-0">
+                <span className="font-display text-2xl font-bold text-gold w-10 flex-shrink-0">
                   {s.step}
                 </span>
                 <div>

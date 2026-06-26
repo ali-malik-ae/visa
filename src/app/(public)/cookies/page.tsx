@@ -40,7 +40,7 @@ export default function CookiesPage() {
               You can control or delete cookies through your browser settings.
               Disabling essential cookies may prevent parts of the site from
               functioning. Questions?{" "}
-              <a href={`mailto:${CONTACT.email}`} className="text-blue hover:underline">
+              <a href={`mailto:${CONTACT.email}`} className="text-gold hover:underline">
                 {CONTACT.email}
               </a>
               .

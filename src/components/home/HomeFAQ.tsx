@@ -37,7 +37,7 @@ export function HomeFAQ() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           {/* Left — heading */}
           <div className="lg:col-span-4">
-            <p className="text-xs font-semibold uppercase tracking-widest text-blue font-sans mb-4">
+            <p className="text-xs font-semibold uppercase tracking-widest text-gold font-sans mb-4">
               FAQ
             </p>
             <h2 className="font-display font-bold text-3xl lg:text-5xl text-navy leading-tight">
@@ -66,7 +66,7 @@ export function HomeFAQ() {
                   key={item.q}
                   className={cn(
                     "rounded-xl border bg-white overflow-hidden transition-colors",
-                    isOpen ? "border-blue" : "border-line"
+                    isOpen ? "border-gold/50" : "border-line"
                   )}
                 >
                   <button

@@ -172,7 +172,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-sm text-white/60 hover:text-whatsapp font-sans transition-colors"
               >
-                <FaWhatsapp className="h-3.5 w-3.5 flex-shrink-0" />
+                <FaWhatsapp className="h-3.5 w-3.5 flex-shrink-0 text-whatsapp" />
                 WhatsApp (24/7)
               </a>
             </div>

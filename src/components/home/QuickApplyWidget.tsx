@@ -52,10 +52,10 @@ export function QuickApplyWidget({ visaTypes }: QuickApplyWidgetProps) {
     "text-[11px] font-semibold uppercase tracking-widest text-white/50 font-sans";
 
   return (
-    <div className="rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 p-6 shadow-2xl relative z-20">
+    <div className="rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 p-6 shadow-lg relative z-50">
       <div className="flex items-start justify-between gap-3 mb-5">
         <div className="min-w-0">
-          <p className="text-[11px] font-semibold uppercase tracking-widest text-blue font-sans mb-1.5">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-gold font-sans mb-1.5">
             Quick Apply
           </p>
           <h3 className="font-display font-bold text-lg text-white leading-snug">
@@ -112,7 +112,7 @@ export function QuickApplyWidget({ visaTypes }: QuickApplyWidgetProps) {
 
         <button
           onClick={handleContinue}
-          className="w-full h-12 rounded-xl bg-blue text-white font-semibold font-sans text-sm flex items-center justify-center gap-2 hover:bg-blue-hover transition-colors"
+          className="w-full h-12 rounded-xl bg-gold text-navy font-semibold font-sans text-sm flex items-center justify-center gap-2 hover:bg-gold/90 transition-colors"
         >
           Continue
           <ArrowRight className="h-4 w-4 flex-shrink-0" />

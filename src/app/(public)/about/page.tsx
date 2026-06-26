@@ -52,7 +52,7 @@ export default function AboutPage() {
         </div>
         <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pt-28 lg:pt-32 pb-20 lg:pb-28 text-center">
           <FadeIn direction="up" delay={0}>
-            <p className="text-blue text-xs font-sans font-semibold uppercase tracking-widest mb-4">
+            <p className="text-gold text-xs font-sans font-semibold uppercase tracking-widest mb-4">
               About Visati
             </p>
           </FadeIn>
@@ -73,7 +73,7 @@ export default function AboutPage() {
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
                 href="/apply"
-                className="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-blue text-white font-sans font-semibold text-sm hover:bg-blue-hover transition-colors"
+                className="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-gold text-navy font-sans font-semibold text-sm hover:bg-gold/90 transition-colors"
               >
                 Apply Now
                 <ArrowRight className="h-4 w-4" />
@@ -127,7 +127,7 @@ export default function AboutPage() {
             {/* Left: copy */}
             <FadeIn direction="left" delay={0}>
               <div>
-                <p className="text-blue text-xs font-sans font-semibold uppercase tracking-widest mb-3">
+                <p className="text-gold text-xs font-sans font-semibold uppercase tracking-widest mb-3">
                   Our Mission
                 </p>
                 <h2 className="font-display font-bold text-3xl sm:text-4xl text-ink mb-6 leading-tight">
@@ -150,7 +150,7 @@ export default function AboutPage() {
                     "No hidden fees",
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-3">
-                      <CheckCircle className="h-4 w-4 text-blue flex-shrink-0 mt-0.5" />
+                      <CheckCircle className="h-4 w-4 text-gold flex-shrink-0 mt-0.5" />
                       <span className="text-sm text-ink font-sans">{item}</span>
                     </li>
                   ))}
@@ -183,7 +183,7 @@ export default function AboutPage() {
                   <div className="flex items-center gap-2 mb-5">
                     <div className="flex">
                       {Array.from({ length: 5 }).map((_, i) => (
-                        <Star key={i} className="h-4 w-4 text-blue fill-blue" />
+                        <Star key={i} className="h-4 w-4 text-gold fill-gold" />
                       ))}
                     </div>
                     <span className="text-white/50 font-sans text-xs">
@@ -196,7 +196,7 @@ export default function AboutPage() {
                     in the dark for a moment.&rdquo;
                   </blockquote>
                   <div className="flex items-center gap-3 pt-5 border-t border-white/10">
-                    <div className="h-9 w-9 rounded-full bg-blue/20 flex items-center justify-center flex-shrink-0">
+                    <div className="h-9 w-9 rounded-full bg-gold/20 flex items-center justify-center flex-shrink-0">
                       <span className="text-white font-display font-bold text-xs">
                         SR
                       </span>
@@ -211,7 +211,7 @@ export default function AboutPage() {
                     </div>
                   </div>
                   {/* Accent badge */}
-                  <div className="absolute -bottom-4 -right-4 hidden lg:flex h-[68px] w-[68px] rounded-2xl bg-blue items-center justify-center flex-col shadow-lg">
+                  <div className="absolute -bottom-4 -right-4 hidden lg:flex h-[68px] w-[68px] rounded-2xl bg-gold items-center justify-center flex-col shadow-lg">
                     <p className="font-display font-bold text-white text-lg leading-none">
                       {BRAND.approvalRate}
                     </p>
@@ -233,7 +233,7 @@ export default function AboutPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <FadeIn direction="up" delay={0}>
             <div className="text-center mb-12">
-              <p className="text-blue text-xs font-sans font-semibold uppercase tracking-widest mb-3">
+              <p className="text-gold text-xs font-sans font-semibold uppercase tracking-widest mb-3">
                 Why Visati
               </p>
               <h2 className="font-display font-bold text-3xl sm:text-4xl text-ink">
@@ -245,8 +245,8 @@ export default function AboutPage() {
             {VALUES.map(({ Icon, title, body }, i) => (
               <FadeIn key={title} direction="up" delay={100 + i * 100}>
                 <div className="rounded-2xl bg-white border border-line p-7">
-                  <div className="h-10 w-10 rounded-xl bg-blue/10 flex items-center justify-center mb-5">
-                    <Icon className="h-5 w-5 text-blue" />
+                  <div className="h-10 w-10 rounded-xl bg-gold/10 flex items-center justify-center mb-5">
+                    <Icon className="h-5 w-5 text-gold" />
                   </div>
                   <h3 className="font-display font-bold text-lg text-ink mb-3">
                     {title}

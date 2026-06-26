@@ -43,7 +43,7 @@ export function SectionCTA({
           <div className="rounded-2xl bg-[#0a1a3a]/60 backdrop-blur-sm p-8 lg:p-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
             <div className="min-w-0">
               {tag && (
-                <p className="text-blue text-xs font-sans font-semibold uppercase tracking-widest mb-2">
+                <p className="text-gold text-xs font-sans font-semibold uppercase tracking-widest mb-2">
                   {tag}
                 </p>
               )}

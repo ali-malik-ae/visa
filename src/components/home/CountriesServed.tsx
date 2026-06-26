@@ -25,7 +25,7 @@ export function CountriesServed() {
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-10">
           <div className="min-w-0">
             <FadeIn direction="up" delay={0}>
-              <p className="text-xs font-semibold uppercase tracking-widest text-blue font-sans mb-3">
+              <p className="text-xs font-semibold uppercase tracking-widest text-gold font-sans mb-3">
                 Countries
               </p>
             </FadeIn>
@@ -47,7 +47,7 @@ export function CountriesServed() {
           {COUNTRIES.map(({ Flag, name }, i) => (
             <FadeIn key={name} direction="up" delay={100 + i * 50}>
               <div
-                className="flex items-center gap-3 rounded-lg border border-line bg-white px-4 py-3 hover:border-blue/30 transition-colors"
+                className="flex items-center gap-3 rounded-lg border border-line bg-white px-4 py-3 hover:border-gold/30 transition-colors"
               >
                 <Flag
                   className="h-4 w-6 rounded-[2px] flex-shrink-0 ring-1 ring-line"

@@ -233,7 +233,7 @@ export function NationalityDropdown({
         />
         {open && (
           <div className={cn(
-            "absolute z-50 mt-1.5 w-full rounded-lg border shadow-xl",
+            "absolute z-[60] mt-1.5 w-full rounded-lg border shadow-xl",
             dark
               ? "border-white/15 bg-navy"
               : "border-line bg-white"

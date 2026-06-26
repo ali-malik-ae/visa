@@ -212,7 +212,7 @@ export default function FAQPage() {
         </div>
         <div className="relative mx-auto max-w-3xl text-center">
           <FadeIn direction="up" delay={0}>
-            <p className="text-blue text-xs font-sans font-semibold uppercase tracking-widest mb-2">
+            <p className="text-gold text-xs font-sans font-semibold uppercase tracking-widest mb-2">
               Help Centre
             </p>
           </FadeIn>
@@ -233,7 +233,7 @@ export default function FAQPage() {
                 placeholder="Search questions — try 'processing time'"
                 className="w-full h-14 pl-12 pr-28 rounded-full bg-white text-ink font-sans text-sm placeholder:text-muted/60 border border-white focus:outline-none focus:border-blue focus:ring-2 focus:ring-blue/20 transition-colors"
               />
-              <button className="absolute right-2 top-1/2 -translate-y-1/2 h-10 px-6 rounded-full bg-blue text-white font-sans font-semibold text-sm hover:bg-blue-hover transition-colors">
+              <button className="absolute right-2 top-1/2 -translate-y-1/2 h-10 px-6 rounded-full bg-gold text-navy font-sans font-semibold text-sm hover:bg-gold/90 transition-colors">
                 Search
               </button>
             </div>
@@ -279,7 +279,7 @@ export default function FAQPage() {
                   className={cn(
                     "w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-sans text-left transition-colors",
                     activeCategory === cat && !search
-                      ? "bg-blue/5 text-blue font-medium"
+                      ? "bg-blue/5 text-gold font-medium"
                       : "text-ink hover:bg-mist"
                   )}
                 >
