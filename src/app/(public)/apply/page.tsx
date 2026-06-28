@@ -3,13 +3,16 @@ import { ArrowLeft } from "lucide-react";
 import { ApplicationForm } from "@/components/apply/ApplicationForm";
 import { Step5Success } from "@/components/apply/steps/Step5Success";
 import { getDisplayVisaTypes } from "@/lib/visa-data";
+import { getPageSeo } from "@/lib/sanity/client";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Apply for UAE Visa",
-  description:
-    "Complete your UAE visa application online in minutes. Secure, fast, and trusted.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("apply").catch(() => null);
+  return {
+    title: seo?.title || "Apply for UAE Visa",
+    description: seo?.description || "Complete your UAE visa application online in minutes. Secure, fast, and trusted.",
+  };
+}
 
 interface ApplyPageProps {
   searchParams: Promise<{

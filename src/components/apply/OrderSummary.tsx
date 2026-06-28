@@ -1,12 +1,13 @@
 "use client";
 
 import { CheckCircle, Phone, Shield } from "lucide-react";
-import type { VisaType, ProcessingTier } from "@/types/db";
+import type { VisaTypeData } from "@/types/visa";
+import type { ProcessingTier } from "@/types/db";
 import { formatAed } from "@/lib/utils";
 import { EXPRESS_SURCHARGE_AED, WHATSAPP_URL } from "@/lib/constants";
 
 interface OrderSummaryProps {
-  visaType: VisaType | null;
+  visaType: VisaTypeData | null;
   processingTier: ProcessingTier;
 }
 

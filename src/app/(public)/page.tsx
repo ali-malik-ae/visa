@@ -9,12 +9,16 @@ import { VisaShowcase } from "@/components/home/VisaShowcase";
 import { WhyChoose } from "@/components/home/WhyChoose";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { getDisplayVisaTypes } from "@/lib/visa-data";
+import { getPageSeo } from "@/lib/sanity/client";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  description:
-    "Apply for UAE tourist, transit, and long-stay visas online. Fast processing, 99% approval rate, trusted by 1,000+ travellers.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("home").catch(() => null);
+  return {
+    title: seo?.title || "Visati — UAE Visa Online | Fast Processing, 99% Approval",
+    description: seo?.description || "Apply for UAE tourist, transit, and long-stay visas online. Fast processing, 99% approval rate, trusted by 1,000+ travellers.",
+  };
+}
 
 export default async function HomePage() {
   const visaTypes = await getDisplayVisaTypes();

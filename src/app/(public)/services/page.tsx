@@ -10,11 +10,15 @@ import {
 import type { Metadata } from "next";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { SectionCTA } from "@/components/ui/SectionCTA";
+import { getPageSeo } from "@/lib/sanity/client";
 
-export const metadata: Metadata = {
-  title: "Services — UAE Visa Solutions",
-  description: `Explore Visati's full range of UAE visa services: tourist visas, business visas, multi-entry permits, document assistance, and express processing.`,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("services").catch(() => null);
+  return {
+    title: seo?.title || "Services — UAE Visa Solutions",
+    description: seo?.description || `Explore Visati's full range of UAE visa services: tourist visas, business visas, multi-entry permits, document assistance, and express processing.`,
+  };
+}
 
 const SERVICES = [
   {

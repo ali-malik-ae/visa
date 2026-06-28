@@ -1,6 +1,6 @@
 "use client";
 
-import type { VisaType } from "@/types/db";
+import type { VisaTypeData } from "@/types/visa";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight, Lock, Zap } from "lucide-react";
@@ -9,7 +9,7 @@ import { DatePickerDark } from "@/components/ui/DatePicker";
 import { NationalityDropdown } from "@/components/ui/NationalityDropdown";
 
 interface QuickApplyWidgetProps {
-  visaTypes: VisaType[];
+  visaTypes: VisaTypeData[];
 }
 
 export function QuickApplyWidget({ visaTypes }: QuickApplyWidgetProps) {

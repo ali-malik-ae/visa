@@ -1,10 +1,10 @@
 import { VisaTypeCard } from "@/components/ui/VisaTypeCard";
-import type { VisaType } from "@/types/db";
+import type { VisaTypeData } from "@/types/visa";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 interface VisaShowcaseProps {
-  visaTypes: VisaType[];
+  visaTypes: VisaTypeData[];
 }
 
 export function VisaShowcase({ visaTypes }: VisaShowcaseProps) {

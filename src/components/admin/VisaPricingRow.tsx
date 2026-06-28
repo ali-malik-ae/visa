@@ -1,17 +1,23 @@
 "use client";
 
-import type { VisaType } from "@/types/db";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { inputClasses } from "@/components/ui/FormInput";
 import { cn } from "@/lib/utils";
 
-export function VisaPricingRow({ visa }: { visa: VisaType }) {
-  const [price, setPrice] = useState(visa.standard_price_aed);
-  const [active, setActive] = useState(visa.is_active);
-  // Local baseline so saving works optimistically in the UI-first phase.
-  const [savedPrice, setSavedPrice] = useState(visa.standard_price_aed);
-  const [savedActive, setSavedActive] = useState(visa.is_active);
+interface PricingVisa {
+  id: number;
+  slug: string;
+  name: string;
+  price_aed: number;
+  has_express: boolean;
+}
+
+export function VisaPricingRow({ visa }: { visa: PricingVisa }) {
+  const [price, setPrice] = useState(visa.price_aed);
+  const [active, setActive] = useState(visa.has_express);
+  const [savedPrice, setSavedPrice] = useState(visa.price_aed);
+  const [savedActive, setSavedActive] = useState(visa.has_express);
   const [loading, setLoading] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -20,12 +26,11 @@ export function VisaPricingRow({ visa }: { visa: VisaType }) {
   async function save() {
     setLoading(true);
     setSaved(false);
-    // Best-effort persist; succeeds locally even without a backend (UI-first).
     try {
       await fetch(`/api/admin/visa-types/${visa.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ standard_price_aed: price, is_active: active }),
+        body: JSON.stringify({ standard_price_aed: price, has_express: active }),
       }).catch(() => null);
     } finally {
       setSavedPrice(price);

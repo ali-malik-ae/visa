@@ -7,7 +7,8 @@ import { Step3Documents, type DocumentSet } from "./steps/Step3Documents";
 import { Step4Review } from "./steps/Step4Review";
 import { Step5Success } from "./steps/Step5Success";
 import { OrderSummary } from "./OrderSummary";
-import type { VisaType, ProcessingTier } from "@/types/db";
+import type { VisaTypeData } from "@/types/visa";
+import type { ProcessingTier } from "@/types/db";
 import { useReducer, useCallback, useRef, useEffect } from "react";
 
 /* ── State ────────────────────────────────────────────── */
@@ -109,7 +110,7 @@ function validateStep3(documents: DocumentSet) {
 
 /* ── Component ────────────────────────────────────────── */
 interface ApplicationFormProps {
-  visaTypes: VisaType[];
+  visaTypes: VisaTypeData[];
   prefilledVisaTypeId?: number | null;
   prefilledNationality?: string;
   prefilledTravelDate?: string;

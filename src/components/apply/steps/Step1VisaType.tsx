@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/Button";
 import { DatePicker } from "@/components/ui/DatePicker";
 import { Dropdown } from "@/components/ui/Dropdown";
 import { NationalityDropdown } from "@/components/ui/NationalityDropdown";
-import type { VisaType, ProcessingTier } from "@/types/db";
+import type { VisaTypeData } from "@/types/visa";
+import type { ProcessingTier } from "@/types/db";
 
 interface Step1Props {
-  visaTypes: VisaType[];
+  visaTypes: VisaTypeData[];
   selectedVisaTypeId: number | null;
   processingTier: ProcessingTier;
   onVisaTypeChange: (id: number) => void;

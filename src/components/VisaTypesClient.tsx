@@ -6,8 +6,7 @@ import Link from "next/link";
 import { cn, formatAed } from "@/lib/utils";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { DropdownCompact } from "@/components/ui/Dropdown";
-import { SAMPLE_VISA_TYPES, VISA_DETAILS, COMPARE_SLUGS, COMPARE_ROWS } from "@/lib/sample-visas";
-import type { VisaType } from "@/types/db";
+import { COMPARE_SLUGS, type CompareRow, type VisaTypeData } from "@/types/visa";
 
 const DURATION_FILTERS = ["All", "30-day", "60-day", "90-day", "2-year"] as const;
 const ENTRY_FILTERS = ["All", "Single", "Multiple"] as const;
@@ -21,7 +20,7 @@ function durationBadge(days: number): string {
   return `${days} DAY`;
 }
 
-function matchesDuration(visa: VisaType, filter: string): boolean {
+function matchesDuration(visa: VisaTypeData, filter: string): boolean {
   if (filter === "All") return true;
   if (filter === "30-day") return visa.duration_days >= 28 && visa.duration_days <= 32;
   if (filter === "60-day") return visa.duration_days >= 58 && visa.duration_days <= 62;
@@ -30,8 +29,7 @@ function matchesDuration(visa: VisaType, filter: string): boolean {
   return true;
 }
 
-function VisaCard({ visa }: { visa: VisaType }) {
-  const details = VISA_DETAILS[visa.slug];
+function VisaCard({ visa }: { visa: VisaTypeData }) {
   const isPopular = visa.slug === "30d-single";
 
   return (
@@ -43,9 +41,9 @@ function VisaCard({ visa }: { visa: VisaType }) {
           : "border border-line hover:border-blue/40 hover:shadow-sm"
       )}
     >
-      {isPopular && (
+      {visa.badge_text && (
         <span className="absolute top-4 right-4 inline-flex items-center rounded-full bg-blue px-3 py-1 text-[11px] font-semibold text-white font-sans">
-          Most Popular
+          {visa.badge_text}
         </span>
       )}
 
@@ -62,11 +60,11 @@ function VisaCard({ visa }: { visa: VisaType }) {
         {visa.name}
       </h3>
       <p className="text-xs text-muted font-sans mb-1">
-        Processing: {details?.processing ?? "24–72h"}
+        Processing: {visa.processing_time}
       </p>
 
       <ul className="mt-4 space-y-2 mb-6 flex-1">
-        {details?.features.map((feat) => (
+        {visa.features.map((feat) => (
           <li key={feat} className="flex items-start gap-2 text-sm text-ink font-sans">
             <Check className="h-4 w-4 text-gold flex-shrink-0 mt-0.5" />
             {feat}
@@ -94,7 +92,15 @@ function VisaCard({ visa }: { visa: VisaType }) {
   );
 }
 
-function ComparisonTable() {
+function ComparisonTable({ visaTypes }: { visaTypes: VisaTypeData[] }) {
+  const COMPARE_ROWS: CompareRow[] = [
+    { label: "Price", values: COMPARE_SLUGS.map((s) => { const v = visaTypes.find((x) => x.slug === s); return v ? `AED ${v.standard_price_aed}` : "—"; }) as [string, string, string] },
+    { label: "Duration", values: COMPARE_SLUGS.map((s) => { const v = visaTypes.find((x) => x.slug === s); return v ? `${v.duration_days} days` : "—"; }) as [string, string, string] },
+    { label: "Entry", values: COMPARE_SLUGS.map((s) => { const v = visaTypes.find((x) => x.slug === s); return v?.entry_type === "single" ? "Single" : "Multiple"; }) as [string, string, string] },
+    { label: "Processing", values: COMPARE_SLUGS.map((s) => { const v = visaTypes.find((x) => x.slug === s); return v?.processing_time ?? "—"; }) as [string, string, string] },
+    { label: "Express Available", values: COMPARE_SLUGS.map((s) => { const v = visaTypes.find((x) => x.slug === s); return v?.has_express ?? false; }) as [boolean, boolean, boolean] },
+  ];
+
   return (
     <section className="py-16 px-4 bg-mist">
       <div className="mx-auto max-w-5xl">
@@ -117,15 +123,12 @@ function ComparisonTable() {
                 <tr className="border-b border-line">
                   <th className="text-left py-4 px-6 font-semibold text-ink">Features</th>
                   {COMPARE_SLUGS.map((slug) => {
-                    const visa = SAMPLE_VISA_TYPES.find((v) => v.slug === slug);
+                    const visa = visaTypes.find((v) => v.slug === slug);
                     const isPopular = slug === "30d-single";
                     return (
                       <th key={slug} className="text-center py-4 px-6">
                         <span className={cn("font-semibold", isPopular ? "text-gold" : "text-ink")}>
-                          {visa?.name.split("·")[0]?.trim() ?? slug}
-                        </span>
-                        <span className="text-ink font-semibold">
-                          {" "}{visa?.name.split("·")[1]?.trim() ?? ""}
+                          {visa?.name ?? slug}
                         </span>
                         {isPopular && (
                           <span className="ml-2 inline-flex items-center rounded-full bg-gold/10 px-2 py-0.5 text-[10px] font-semibold text-gold">
@@ -171,18 +174,22 @@ function ComparisonTable() {
   );
 }
 
-export function VisaTypesClient() {
+interface VisaTypesClientProps {
+  visaTypes: VisaTypeData[];
+}
+
+export function VisaTypesClient({ visaTypes }: VisaTypesClientProps) {
   const [duration, setDuration] = useState<string>("All");
   const [entryType, setEntryType] = useState<string>("All");
   const [sortBy, setSortBy] = useState<string>("Popular");
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 3000]);
 
-  const allPrices = SAMPLE_VISA_TYPES.map((v) => v.standard_price_aed);
-  const minPrice = Math.min(...allPrices);
-  const maxPrice = Math.max(...allPrices);
+  const allPrices = visaTypes.map((v) => v.standard_price_aed);
+  const minPrice = Math.min(...allPrices, 0);
+  const maxPrice = Math.max(...allPrices, 3000);
 
   const filtered = useMemo(() => {
-    let result = SAMPLE_VISA_TYPES.filter((visa) => {
+    let result = visaTypes.filter((visa) => {
       if (!matchesDuration(visa, duration)) return false;
       if (entryType === "Single" && visa.entry_type !== "single") return false;
       if (entryType === "Multiple" && visa.entry_type !== "multiple") return false;
@@ -206,7 +213,7 @@ export function VisaTypesClient() {
     }
 
     return result;
-  }, [duration, entryType, sortBy, priceRange]);
+  }, [visaTypes, duration, entryType, sortBy, priceRange]);
 
   return (
     <div className="min-h-screen bg-white">
@@ -336,7 +343,7 @@ export function VisaTypesClient() {
       </section>
 
       {/* Comparison Table */}
-      <ComparisonTable />
+      <ComparisonTable visaTypes={visaTypes} />
     </div>
   );
 }

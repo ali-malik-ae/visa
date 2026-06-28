@@ -1,13 +1,25 @@
 "use client";
 
-import { SAMPLE_VISA_TYPES } from "@/lib/sample-visas";
 import { Check, Plus, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import type { SanityVisaType } from "@/lib/sanity/client";
 
 export function NewApplicationButton() {
   const [open, setOpen] = useState(false);
   const [done, setDone] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", nationality: "", visa: SAMPLE_VISA_TYPES[0].slug });
+  const [visaTypes, setVisaTypes] = useState<SanityVisaType[]>([]);
+  const [form, setForm] = useState({ name: "", email: "", nationality: "", visa: "" });
+
+  useEffect(() => {
+    fetch("/api/cms/visa-types")
+      .then((r) => r.json())
+      .then((d) => {
+        const types = d.visa_types ?? [];
+        setVisaTypes(types);
+        if (types.length > 0) setForm((f) => ({ ...f, visa: types[0].slug }));
+      })
+      .catch(() => {});
+  }, []);
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -18,7 +30,7 @@ export function NewApplicationButton() {
     setOpen(false);
     setTimeout(() => {
       setDone(false);
-      setForm({ name: "", email: "", nationality: "", visa: SAMPLE_VISA_TYPES[0].slug });
+      setForm({ name: "", email: "", nationality: "", visa: visaTypes[0]?.slug ?? "" });
     }, 200);
   }
 
@@ -50,7 +62,7 @@ export function NewApplicationButton() {
                 </div>
                 <h3 className="font-display font-bold text-xl text-navy">Application created</h3>
                 <p className="text-sm text-muted font-sans mt-1">
-                  {form.name || "New applicant"} · {SAMPLE_VISA_TYPES.find((v) => v.slug === form.visa)?.name}
+                  {form.name || "New applicant"} · {visaTypes.find((v) => v.slug === form.visa)?.name}
                 </p>
                 <button onClick={close} className="mt-6 h-10 px-5 rounded-lg bg-navy text-white text-sm font-semibold font-sans">
                   Done
@@ -74,8 +86,8 @@ export function NewApplicationButton() {
                 <div>
                   <label className={label}>Visa Type</label>
                   <select className={`${input} appearance-none`} value={form.visa} onChange={(e) => setForm({ ...form, visa: e.target.value })}>
-                    {SAMPLE_VISA_TYPES.map((v) => (
-                      <option key={v.slug} value={v.slug}>{v.name} — AED {v.standard_price_aed}</option>
+                    {visaTypes.map((v) => (
+                      <option key={v.slug} value={v.slug}>{v.name} — AED {v.price_aed}</option>
                     ))}
                   </select>
                 </div>

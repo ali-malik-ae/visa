@@ -12,11 +12,15 @@ import {
 import type { Metadata } from "next";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { SectionCTA } from "@/components/ui/SectionCTA";
+import { getPageSeo } from "@/lib/sanity/client";
 
-export const metadata: Metadata = {
-  title: "Careers — Join Our Dubai Team",
-  description: `Join Visati's team in Dubai. We are hiring visa consultants, customer support specialists, and operations staff.`,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("careers").catch(() => null);
+  return {
+    title: seo?.title || "Careers — Join Our Dubai Team",
+    description: seo?.description || `Join Visati's team in Dubai. We are hiring visa consultants, customer support specialists, and operations staff.`,
+  };
+}
 
 const PERKS = [
   { Icon: Heart, label: "Health insurance" },

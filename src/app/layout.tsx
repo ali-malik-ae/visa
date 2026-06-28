@@ -3,10 +3,7 @@ import { inter, poppins, jetbrainsMono, montserrat } from "./fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: {
-    default: "Visati — Dubai Visas. Simplified.",
-    template: "%s | Visati",
-  },
+  title: "Visati — Dubai Visas. Simplified.",
   description:
     "Apply for UAE tourist, transit, and long-stay visas online. Fast processing, 99% approval rate, trusted by 1,000+ travellers worldwide.",
   metadataBase: new URL("https://visati.ae"),

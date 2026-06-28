@@ -54,7 +54,7 @@ export function StepIndicator({ currentStep, className }: StepIndicatorProps) {
                 </span>
                 <span
                   className={cn(
-                    "text-xs font-sans font-medium whitespace-nowrap",
+                    "text-xs font-sans font-medium whitespace-nowrap hidden sm:block",
                     isActive && "text-ink",
                     isDone && "text-ink",
                     !isDone && !isActive && "text-muted"

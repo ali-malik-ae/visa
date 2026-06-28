@@ -3,13 +3,14 @@
 import { Button } from "@/components/ui/Button";
 import { formatAed } from "@/lib/utils";
 import { EXPRESS_SURCHARGE_AED } from "@/lib/constants";
-import type { VisaType, ProcessingTier } from "@/types/db";
+import type { VisaTypeData } from "@/types/visa";
+import type { ProcessingTier } from "@/types/db";
 import type { PersonalDetails } from "./Step2PersonalDetails";
 import type { DocumentSet } from "./Step3Documents";
 import { FileText, Pencil } from "lucide-react";
 
 interface Step4Props {
-  visaType: VisaType;
+  visaType: VisaTypeData;
   processingTier: ProcessingTier;
   details: PersonalDetails;
   documents: DocumentSet;

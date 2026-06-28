@@ -1,9 +1,9 @@
 "use client";
 
 import { VisaPricingRow } from "./VisaPricingRow";
-import { SAMPLE_VISA_TYPES } from "@/lib/sample-visas";
 import { useEffect, useState } from "react";
 import { Lock } from "lucide-react";
+import type { SanityVisaType } from "@/lib/sanity/client";
 
 function getCookie(name: string): string | undefined {
   if (typeof document === "undefined") return undefined;
@@ -13,14 +13,19 @@ function getCookie(name: string): string | undefined {
 
 export function VisaPricingSection() {
   const [role, setRole] = useState<string | null>(null);
+  const [visaTypes, setVisaTypes] = useState<SanityVisaType[]>([]);
 
   useEffect(() => {
     setRole(getCookie("visati-preview-role") ?? "consultant");
+    fetch("/api/cms/visa-types")
+      .then((r) => r.json())
+      .then((d) => setVisaTypes(d.visa_types ?? []))
+      .catch(() => {});
   }, []);
 
-  const list = [...SAMPLE_VISA_TYPES].sort((a, b) => a.sort_order - b.sort_order);
+  const list = [...visaTypes].sort((a, b) => a.sort_order - b.sort_order);
 
-  if (role === null) return null; // hydrating
+  if (role === null) return null;
 
   if (role !== "admin") {
     return (
@@ -40,7 +45,7 @@ export function VisaPricingSection() {
     <div className="bg-white rounded-xl border border-line shadow-sm overflow-hidden">
       <div className="px-6 py-4 border-b border-line">
         <h2 className="font-display font-semibold text-navy">Visa Pricing</h2>
-        <p className="text-xs text-muted font-sans mt-0.5">Set here (stored in the database) — not in Sanity.</p>
+        <p className="text-xs text-muted font-sans mt-0.5">Managed in Sanity CMS — pricing updates reflect instantly.</p>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
@@ -53,8 +58,8 @@ export function VisaPricingSection() {
             </tr>
           </thead>
           <tbody className="divide-y divide-line">
-            {list.map((visa) => (
-              <VisaPricingRow key={visa.id} visa={visa} />
+            {list.map((visa, i) => (
+              <VisaPricingRow key={visa.slug} visa={{ ...visa, id: i + 1 }} />
             ))}
           </tbody>
         </table>

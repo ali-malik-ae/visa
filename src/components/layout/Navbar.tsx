@@ -12,6 +12,7 @@ const NAV_LINKS = [
   { label: "Visa Types", href: "/visa-types" },
   { label: "Apply", href: "/apply" },
   { label: "Track", href: "/track" },
+  { label: "Blog", href: "/blog" },
   { label: "FAQ", href: "/faq" },
   { label: "Contact", href: "/contact" },
 ];

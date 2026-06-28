@@ -15,11 +15,15 @@ import { ProcessSteps } from "@/components/home/ProcessSteps";
 import { HomeFAQ } from "@/components/home/HomeFAQ";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { SectionCTA } from "@/components/ui/SectionCTA";
+import { getPageSeo } from "@/lib/sanity/client";
 
-export const metadata: Metadata = {
-  title: `About Us — ${BRAND.tagline}`,
-  description: `Learn about Visati, Dubai's trusted UAE visa consultancy. ${BRAND.clientCount} clients served with a ${BRAND.approvalRate} approval rate across ${BRAND.countriesServed} countries.`,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("about").catch(() => null);
+  return {
+    title: seo?.title || `About Us — ${BRAND.tagline}`,
+    description: seo?.description || `Learn about Visati, Dubai's trusted UAE visa consultancy. ${BRAND.clientCount} clients served with a ${BRAND.approvalRate} approval rate across ${BRAND.countriesServed} countries.`,
+  };
+}
 
 const VALUES = [
   {

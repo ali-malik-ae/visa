@@ -33,7 +33,7 @@ export const ADMIN_NAV = [
   { href: "/admin/clients", label: "Clients", icon: Users, exact: false, count: null, adminOnly: false },
   { href: "/admin/users", label: "Users", icon: ShieldCheck, exact: false, count: 2, adminOnly: true },
   { href: "/admin/settings", label: "Settings", icon: Settings, exact: false, count: null, adminOnly: false },
-  { href: "/admin/studio", label: "CMS Studio", icon: PenLine, exact: false, count: null, adminOnly: true },
+  { href: "/dashboard/cms", label: "CMS Studio", icon: PenLine, exact: false, count: null, adminOnly: true, external: true },
 ];
 
 export function AdminSidebar() {
@@ -82,12 +82,14 @@ export function AdminSidebar() {
           Workspace
         </p>
         <div className="space-y-1">
-          {ADMIN_NAV.filter((item) => !item.adminOnly || isAdmin).map(({ href, label, icon: Icon, exact, count }) => {
+          {ADMIN_NAV.filter((item) => !item.adminOnly || isAdmin).map(({ href, label, icon: Icon, exact, count, external }) => {
             const active = exact ? pathname === href : pathname.startsWith(href);
+            const linkProps = external ? { target: "_blank", rel: "noopener noreferrer" } : {};
             return (
               <Link
                 key={href}
                 href={href}
+                {...linkProps}
                 className={cn(
                   "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-sans font-medium transition-colors",
                   active

@@ -40,6 +40,7 @@ export const visaTypes = pgTable("visa_types", {
   has_express: boolean("has_express").notNull().default(true),
   is_active: boolean("is_active").notNull().default(true),
   sort_order: integer("sort_order").notNull().default(0),
+  sample_id: varchar("sample_id", { length: 50 }),
   created_at: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),
@@ -70,6 +71,7 @@ export const applications = pgTable("applications", {
     length: 100,
   }),
   amount_paid_aed: integer("amount_paid_aed"),
+  sample_id: varchar("sample_id", { length: 50 }),
   created_at: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),
@@ -87,6 +89,7 @@ export const statusHistory = pgTable("status_history", {
   status: applicationStatusEnum("status").notNull(),
   note: text("note"),
   changed_by_admin_id: varchar("changed_by_admin_id", { length: 100 }),
+  sample_id: varchar("sample_id", { length: 50 }),
   created_at: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),
@@ -102,6 +105,7 @@ export const documents = pgTable("documents", {
   r2_key: varchar("r2_key", { length: 500 }).notNull(),
   filename: varchar("filename", { length: 255 }).notNull(),
   size_bytes: integer("size_bytes").notNull(),
+  sample_id: varchar("sample_id", { length: 50 }),
   uploaded_at: timestamp("uploaded_at", { withTimezone: true })
     .notNull()
     .defaultNow(),
@@ -120,6 +124,7 @@ export const payments = pgTable("payments", {
     .unique(),
   amount_aed: integer("amount_aed").notNull(),
   status: paymentStatusEnum("status").notNull().default("pending"),
+  sample_id: varchar("sample_id", { length: 50 }),
   created_at: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),
@@ -186,6 +191,7 @@ export const inquiries = pgTable("inquiries", {
   subject: varchar("subject", { length: 300 }).notNull(),
   message: text("message").notNull(),
   resolved: boolean("resolved").notNull().default(false),
+  sample_id: varchar("sample_id", { length: 50 }),
   created_at: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),

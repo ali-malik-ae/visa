@@ -1,19 +1,7 @@
 import { formatAed } from "@/lib/utils";
-import type { VisaType } from "@/types/db";
+import type { VisaTypeData } from "@/types/visa";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-
-/** Short marketing blurbs keyed by visa slug (editorial, not operational data). */
-const DESCRIPTIONS: Record<string, string> = {
-  "14d-single": "Single entry, perfect for short visits, leisure and family stays.",
-  "30d-single": "Single entry, perfect for short visits, leisure and family stays.",
-  "30d-multi": "Frequent travellers. Multiple entries within validity period.",
-  "60d-single": "Extended stay, single or multiple entry options available.",
-  "60d-multi": "Frequent travellers. Multiple entries within validity period.",
-  "96h-transit": "Quick stop-over visa for travellers connecting through UAE.",
-  "30d-gcc": "For GCC residents. Fast-tracked documentation and approval.",
-  "5y-multi": "Long-term multiple entry. End-to-end documentation support.",
-};
 
 function durationBadge(days: number): string {
   if (days >= 1825) return "5 YEARS";
@@ -23,7 +11,7 @@ function durationBadge(days: number): string {
   return `${days} DAYS`;
 }
 
-export function VisaTypeCard({ visa }: { visa: VisaType }) {
+export function VisaTypeCard({ visa }: { visa: VisaTypeData }) {
   const isPopular = visa.slug === "30d-single";
 
   return (
@@ -35,9 +23,9 @@ export function VisaTypeCard({ visa }: { visa: VisaType }) {
           : "border border-line hover:border-gold/40 hover:shadow-sm")
       }
     >
-      {isPopular && (
+      {visa.badge_text && (
         <span className="absolute top-6 right-6 inline-flex items-center rounded-full bg-blue px-3 py-1 text-[11px] font-semibold text-white font-sans">
-          Most Popular
+          {visa.badge_text}
         </span>
       )}
 
@@ -55,7 +43,7 @@ export function VisaTypeCard({ visa }: { visa: VisaType }) {
         {visa.name}
       </h3>
       <p className="text-sm text-muted font-sans leading-relaxed mb-7 min-h-[2.75rem]">
-        {DESCRIPTIONS[visa.slug] ??
+        {visa.tagline ??
           "Reliable UAE visa processing with full document support."}
       </p>
 
