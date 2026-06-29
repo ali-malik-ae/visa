@@ -33,7 +33,7 @@ function getStatusColor(status: string) {
   switch (status) {
     case "approved": return "bg-success";
     case "rejected": return "bg-danger";
-    case "processing": return "bg-blue";
+    case "processing": return "bg-info";
     default: return "bg-muted";
   }
 }
@@ -197,7 +197,7 @@ export function TrackClient() {
             />
             <Button
               type="submit"
-              variant="primary"
+              variant="gold"
               size="md"
               loading={loading}
               className="whitespace-nowrap flex-shrink-0"
@@ -325,7 +325,7 @@ export function TrackClient() {
                   <span className="text-xs font-sans text-muted">On track</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-blue" />
+                  <span className="h-2 w-2 rounded-full bg-info" />
                   <span className="text-xs font-sans text-muted">Processing</span>
                 </div>
                 <div className="flex items-center gap-1.5">

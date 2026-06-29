@@ -275,7 +275,7 @@ export function ContactClient() {
                 )}
                 <Button
                   type="submit"
-                  variant="primary"
+                  variant="gold"
                   size="lg"
                   loading={loading}
                   className="w-full"

@@ -119,7 +119,7 @@ export function Step2PersonalDetails({
         <Button variant="ghost" size="md" onClick={onBack}>
           Back
         </Button>
-        <Button variant="primary" size="lg" onClick={onNext}>
+        <Button variant="gold" size="lg" onClick={onNext}>
           Continue
         </Button>
       </div>

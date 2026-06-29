@@ -107,7 +107,7 @@ export function Step1VisaType({
 
       <div className="flex justify-end pt-2">
         <Button
-          variant="primary"
+          variant="gold"
           size="lg"
           onClick={onNext}
           disabled={!selectedVisaTypeId}

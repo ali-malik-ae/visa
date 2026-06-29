@@ -143,13 +143,13 @@ export function Footer() {
             </h4>
             <div className="space-y-4">
               <div className="flex items-start gap-2.5">
-                <MapPin className="h-3.5 w-3.5 text-blue flex-shrink-0 mt-0.5" />
+                <MapPin className="h-3.5 w-3.5 text-gold flex-shrink-0 mt-0.5" />
                 <p className="text-sm text-white/60 font-sans leading-snug whitespace-pre-line">
                   {CONTACT.office}
                 </p>
               </div>
               <div className="flex items-center gap-2.5">
-                <Mail className="h-3.5 w-3.5 text-blue flex-shrink-0" />
+                <Mail className="h-3.5 w-3.5 text-gold flex-shrink-0" />
                 <a
                   href={`mailto:${CONTACT.email}`}
                   className="text-sm text-white/60 hover:text-white font-sans transition-colors break-all"
@@ -158,7 +158,7 @@ export function Footer() {
                 </a>
               </div>
               <div className="flex items-center gap-2.5">
-                <Phone className="h-3.5 w-3.5 text-blue flex-shrink-0" />
+                <Phone className="h-3.5 w-3.5 text-gold flex-shrink-0" />
                 <a
                   href={`tel:${CONTACT.phone}`}
                   className="text-sm text-white/60 hover:text-white font-sans transition-colors"

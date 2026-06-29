@@ -152,12 +152,12 @@ export function Step5Success({ applicationId }: Step5Props) {
         {/* Action buttons */}
         <div className="flex items-center justify-center gap-3 mb-6">
           <Link href={`/track?id=${applicationId}`} className="flex-1">
-            <Button variant="primary" size="md" className="w-full">
+            <Button variant="gold" size="md" className="w-full">
               Track Application
             </Button>
           </Link>
           <Button
-            variant="secondary"
+            variant="gold-outline"
             size="md"
             className="flex-1"
             onClick={handlePrint}

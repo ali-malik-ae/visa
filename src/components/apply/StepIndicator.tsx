@@ -20,7 +20,7 @@ export function StepIndicator({ currentStep, className }: StepIndicatorProps) {
         {/* Connecting line */}
         <div className="absolute top-4 left-[calc(12.5%+8px)] right-[calc(12.5%+8px)] h-0.5 bg-line" />
         <div
-          className="absolute top-4 left-[calc(12.5%+8px)] h-0.5 bg-blue transition-all duration-300"
+          className="absolute top-4 left-[calc(12.5%+8px)] h-0.5 bg-navy transition-all duration-300"
           style={{
             width: `${((Math.min(currentStep, 4) - 1) / 3) * (100 - 25)}%`,
           }}
@@ -37,8 +37,8 @@ export function StepIndicator({ currentStep, className }: StepIndicatorProps) {
               <div
                 className={cn(
                   "h-8 w-8 rounded-full flex items-center justify-center border-2 transition-colors text-sm font-mono font-medium",
-                  isDone && "bg-blue border-blue text-white",
-                  isActive && "bg-blue border-blue text-white",
+                  isDone && "bg-navy border-navy text-white",
+                  isActive && "bg-navy border-navy text-white",
                   !isDone && !isActive && "bg-white border-line text-muted"
                 )}
               >

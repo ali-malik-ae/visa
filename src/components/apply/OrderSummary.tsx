@@ -15,7 +15,7 @@ export function OrderSummary({ visaType, processingTier }: OrderSummaryProps) {
   if (!visaType) {
     return (
       <div className="sticky top-6">
-        <h3 className="text-xs font-sans font-semibold uppercase tracking-wider text-blue mb-4">
+        <h3 className="text-xs font-sans font-semibold uppercase tracking-wider text-gold mb-4">
           Order Summary
         </h3>
         <p className="text-sm font-sans text-muted">
@@ -65,7 +65,7 @@ export function OrderSummary({ visaType, processingTier }: OrderSummaryProps) {
     <div className="sticky top-6">
       {/* Order Summary with grey background */}
       <div className="rounded-xl bg-mist p-5">
-        <h3 className="text-xs font-sans font-semibold uppercase tracking-wider text-blue mb-4">
+        <h3 className="text-xs font-sans font-semibold uppercase tracking-wider text-gold mb-4">
           Order Summary
         </h3>
 

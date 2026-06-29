@@ -37,12 +37,12 @@ function VisaCard({ visa }: { visa: VisaTypeData }) {
       className={cn(
         "relative rounded-2xl bg-white p-6 flex flex-col transition-all",
         isPopular
-          ? "border-2 border-blue shadow-md"
-          : "border border-line hover:border-blue/40 hover:shadow-sm"
+          ? "border-2 border-gold shadow-md"
+          : "border border-line hover:border-gold/40 hover:shadow-sm"
       )}
     >
       {visa.badge_text && (
-        <span className="absolute top-4 right-4 inline-flex items-center rounded-full bg-blue px-3 py-1 text-[11px] font-semibold text-white font-sans">
+        <span className="absolute top-4 right-4 inline-flex items-center rounded-full bg-navy px-3 py-1 text-[11px] font-semibold text-white font-sans">
           {visa.badge_text}
         </span>
       )}
@@ -83,7 +83,7 @@ function VisaCard({ visa }: { visa: VisaTypeData }) {
         </div>
         <Link
           href={`/apply?visa=${visa.slug}`}
-          className="inline-flex items-center gap-1.5 h-10 px-5 rounded-lg bg-blue text-white text-sm font-semibold font-sans hover:bg-blue-hover transition-colors whitespace-nowrap"
+          className="inline-flex items-center gap-1.5 h-10 px-5 rounded-lg bg-gradient-to-r from-gold to-[#F0C864] text-navy text-sm font-semibold font-sans hover:opacity-90 transition-opacity whitespace-nowrap"
         >
           Apply Now <ArrowRight className="h-4 w-4" />
         </Link>
@@ -259,7 +259,7 @@ export function VisaTypesClient({ visaTypes }: VisaTypesClientProps) {
                   className={cn(
                     "h-8 px-3 rounded-full text-xs font-sans font-medium transition-colors",
                     duration === d
-                      ? "bg-blue text-white"
+                      ? "bg-navy text-white"
                       : "bg-mist text-ink hover:bg-mist-2"
                   )}
                 >
@@ -282,7 +282,7 @@ export function VisaTypesClient({ visaTypes }: VisaTypesClientProps) {
                   className={cn(
                     "h-8 px-3 rounded-full text-xs font-sans font-medium transition-colors",
                     entryType === e
-                      ? "bg-blue text-white"
+                      ? "bg-navy text-white"
                       : "bg-mist text-ink hover:bg-mist-2"
                   )}
                 >

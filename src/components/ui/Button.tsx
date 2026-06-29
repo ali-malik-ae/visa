@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { ButtonHTMLAttributes, forwardRef } from "react";
 
-type Variant = "primary" | "secondary" | "ghost" | "dark" | "whatsapp";
+type Variant = "primary" | "secondary" | "ghost" | "dark" | "whatsapp" | "gold" | "gold-outline";
 type Size = "sm" | "md" | "lg";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -23,6 +23,8 @@ const variants: Record<Variant, string> = {
   ghost: "text-blue bg-transparent hover:bg-mist active:scale-[0.98]",
   dark: "bg-navy text-white hover:bg-navy-2 active:scale-[0.98]",
   whatsapp: "bg-whatsapp text-white hover:bg-whatsapp-hover active:scale-[0.98]",
+  gold: "bg-gradient-to-r from-gold to-[#F0C864] text-navy font-semibold hover:opacity-90 active:scale-[0.98]",
+  "gold-outline": "border border-gold/60 text-gold bg-transparent hover:bg-gold/5 active:scale-[0.98]",
 };
 
 const sizes: Record<Size, string> = {

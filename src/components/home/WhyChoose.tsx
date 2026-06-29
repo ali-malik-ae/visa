@@ -13,7 +13,7 @@ const FEATURES = [
   },
   {
     icon: Clock,
-    iconClass: "text-blue bg-blue/10",
+    iconClass: "text-gold bg-gold/10",
     title: "Fast Processing",
     description:
       "Most visas processed in 24–48 hours. Same-day express option available.",

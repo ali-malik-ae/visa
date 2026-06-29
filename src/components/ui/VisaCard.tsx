@@ -96,7 +96,7 @@ export function VisaCard({
 
           {showApplyLink && !onSelect && (
             <Link href={`/apply?visa=${visa.slug}`}>
-              <Button size="sm" variant="primary">
+              <Button size="sm" variant="gold">
                 Apply Now
               </Button>
             </Link>

@@ -76,7 +76,7 @@ export function Step4Review({
           </span>
           <button
             onClick={() => onEdit(1)}
-            className="inline-flex items-center gap-1.5 text-xs text-blue hover:underline"
+            className="inline-flex items-center gap-1.5 text-xs text-gold hover:underline"
           >
             <Pencil className="h-3 w-3" />
             Edit
@@ -104,7 +104,7 @@ export function Step4Review({
           </span>
           <button
             onClick={() => onEdit(2)}
-            className="inline-flex items-center gap-1.5 text-xs text-blue hover:underline"
+            className="inline-flex items-center gap-1.5 text-xs text-gold hover:underline"
           >
             <Pencil className="h-3 w-3" />
             Edit
@@ -129,7 +129,7 @@ export function Step4Review({
           </span>
           <button
             onClick={() => onEdit(3)}
-            className="inline-flex items-center gap-1.5 text-xs text-blue hover:underline"
+            className="inline-flex items-center gap-1.5 text-xs text-gold hover:underline"
           >
             <Pencil className="h-3 w-3" />
             Edit
@@ -139,7 +139,7 @@ export function Step4Review({
           {Object.entries(documents).map(([type, file]) =>
             file ? (
               <div key={type} className="flex items-center gap-2">
-                <FileText className="h-4 w-4 text-blue flex-shrink-0" />
+                <FileText className="h-4 w-4 text-gold flex-shrink-0" />
                 <span className="text-sm font-sans text-ink truncate flex-1 min-w-0">
                   {file.name}
                 </span>
@@ -153,7 +153,7 @@ export function Step4Review({
       </div>
 
       {/* Price summary */}
-      <div className="rounded-xl border border-blue/20 bg-blue/5 px-5 py-4 flex items-center justify-between gap-4 flex-wrap">
+      <div className="rounded-xl border border-gold/20 bg-gold/5 px-5 py-4 flex items-center justify-between gap-4 flex-wrap">
         <div>
           <p className="text-xs font-sans text-muted uppercase tracking-wider">
             Total Amount
@@ -172,7 +172,7 @@ export function Step4Review({
           Back
         </Button>
         <Button
-          variant="primary"
+          variant="gold"
           size="lg"
           onClick={onSubmit}
           loading={submitting}
