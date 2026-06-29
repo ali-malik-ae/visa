@@ -77,7 +77,7 @@ export default function AboutPage() {
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
                 href="/apply"
-                className="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-gold text-navy font-sans font-semibold text-sm hover:bg-gold/90 transition-colors"
+                className="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-gradient-to-r from-gold to-[#F0C864] text-navy font-sans font-semibold text-sm hover:opacity-90 transition-opacity"
               >
                 Apply Now
                 <ArrowRight className="h-4 w-4" />

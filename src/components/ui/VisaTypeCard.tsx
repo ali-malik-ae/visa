@@ -58,7 +58,7 @@ export function VisaTypeCard({ visa }: { visa: VisaTypeData }) {
         </div>
         <Link
           href={`/apply?visa=${visa.slug}`}
-          className="inline-flex items-center gap-1.5 h-10 px-5 rounded-lg bg-gold text-navy text-sm font-semibold font-sans hover:bg-gold/90 transition-colors whitespace-nowrap flex-shrink-0"
+          className="inline-flex items-center gap-1.5 h-10 px-5 rounded-lg bg-gradient-to-r from-gold to-[#F0C864] text-navy text-sm font-semibold font-sans hover:opacity-90 transition-opacity whitespace-nowrap flex-shrink-0"
         >
           Apply <ArrowRight className="h-4 w-4" />
         </Link>

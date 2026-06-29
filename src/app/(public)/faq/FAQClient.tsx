@@ -233,7 +233,7 @@ export function FAQClient() {
                 placeholder="Search questions — try 'processing time'"
                 className="w-full h-14 pl-12 pr-28 rounded-full bg-white text-ink font-sans text-sm placeholder:text-muted/60 border border-white focus:outline-none focus:border-blue focus:ring-2 focus:ring-blue/20 transition-colors"
               />
-              <button className="absolute right-2 top-1/2 -translate-y-1/2 h-10 px-6 rounded-full bg-gold text-navy font-sans font-semibold text-sm hover:bg-gold/90 transition-colors">
+              <button className="absolute right-2 top-1/2 -translate-y-1/2 h-10 px-6 rounded-full bg-gradient-to-r from-gold to-[#F0C864] text-navy font-sans font-semibold text-sm hover:opacity-90 transition-opacity">
                 Search
               </button>
             </div>

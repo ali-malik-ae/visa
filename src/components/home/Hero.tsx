@@ -96,10 +96,10 @@ export function Hero({ children }: { children?: React.ReactNode }) {
                   style={{ animationDelay: "200ms" }}
                 >
                   Made{" "}
-                  <span className="text-gold">
+                  <span className="bg-gradient-to-r from-gold to-[#F0C864] bg-clip-text text-transparent">
                     Simple
                   </span>
-                  <span className="text-blue">.</span>
+                  <span className="text-[#F0C864]">.</span>
                 </span>
               </h1>
 
@@ -119,7 +119,7 @@ export function Hero({ children }: { children?: React.ReactNode }) {
               >
                 <Link
                   href="/apply"
-                  className="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-gold text-navy text-sm font-semibold font-sans hover:bg-gold/90 transition-colors whitespace-nowrap"
+                  className="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-gradient-to-r from-gold to-[#F0C864] text-navy text-sm font-semibold font-sans hover:opacity-90 transition-opacity whitespace-nowrap"
                 >
                   Apply Now
                   <ArrowRight className="h-4 w-4 flex-shrink-0" />

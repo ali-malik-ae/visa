@@ -68,7 +68,7 @@ export function Navbar() {
             <div className="flex items-center gap-3 flex-shrink-0">
               <Link
                 href="/apply"
-                className="hidden sm:inline-flex items-center gap-2 h-9 px-4 rounded-lg bg-gold text-navy text-sm font-semibold font-sans hover:bg-gold/90 transition-colors whitespace-nowrap"
+                className="hidden sm:inline-flex items-center gap-2 h-9 px-4 rounded-lg bg-gradient-to-r from-gold to-[#F0C864] text-navy text-sm font-semibold font-sans hover:opacity-90 transition-opacity whitespace-nowrap"
               >
                 Apply Now
                 <ArrowRight className="h-4 w-4 flex-shrink-0" />
