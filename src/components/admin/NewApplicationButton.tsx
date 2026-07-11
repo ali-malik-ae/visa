@@ -4,13 +4,18 @@ import { Check, Loader2, Plus, Upload, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { SanityVisaType } from "@/lib/sanity/client";
 import { NationalityDropdown } from "@/components/ui/NationalityDropdown";
+import { ADMIN_EVENTS } from "@/lib/admin-events";
+
+// /api/cms/visa-types merges in the real (Postgres) price under these two
+// fields — see that route for why price never comes from Sanity directly.
+type VisaTypeOption = SanityVisaType & { price_aed: number; price_usd: number };
 
 export function NewApplicationButton() {
   const [open, setOpen] = useState(false);
   const [done, setDone] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [visaTypes, setVisaTypes] = useState<SanityVisaType[]>([]);
+  const [visaTypes, setVisaTypes] = useState<VisaTypeOption[]>([]);
   const [form, setForm] = useState({ name: "", email: "", nationality: "", visa: "" });
   const [applicationId, setApplicationId] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
@@ -52,6 +57,7 @@ export function NewApplicationButton() {
       }
       setApplicationId(data.application_id);
       setDone(true);
+      window.dispatchEvent(new Event(ADMIN_EVENTS.applicationsChanged));
     } catch {
       setError("Network error. Please try again.");
     } finally {
@@ -130,28 +136,39 @@ export function NewApplicationButton() {
 
                 <div className="mt-6 text-left">
                   <label className={label}>Passport document (optional)</label>
+                  <p className="text-xs text-muted font-sans mb-2 -mt-1">
+                    Attach the client&apos;s passport scan now, or add it later from the application page.
+                  </p>
                   {uploaded ? (
-                    <p className="text-sm text-emerald-600 font-sans">Document uploaded.</p>
-                  ) : (
+                    <p className="text-sm text-emerald-600 font-sans flex items-center gap-1.5">
+                      <Check className="h-4 w-4" /> Document uploaded.
+                    </p>
+                  ) : file ? (
                     <div className="flex items-center gap-2">
+                      <span className="flex-1 min-w-0 text-xs font-sans text-ink truncate">{file.name}</span>
+                      <button onClick={() => setFile(null)} className="text-xs font-sans text-muted hover:text-ink flex-shrink-0">
+                        Clear
+                      </button>
+                      <button
+                        onClick={uploadFile}
+                        disabled={uploading}
+                        className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg bg-navy text-white text-xs font-semibold font-sans disabled:opacity-50 flex-shrink-0"
+                      >
+                        {uploading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Upload className="h-3.5 w-3.5" />}
+                        {uploading ? "Uploading…" : "Upload"}
+                      </button>
+                    </div>
+                  ) : (
+                    <label className="flex items-center justify-center gap-2 h-10 px-3 rounded-lg border border-dashed border-line text-xs font-sans font-medium text-muted hover:border-gold hover:text-gold cursor-pointer transition-colors">
+                      <Upload className="h-3.5 w-3.5" />
+                      Choose a file to attach
                       <input
                         type="file"
                         accept=".pdf,.jpg,.jpeg,.png"
                         onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-                        className="flex-1 text-xs font-sans"
+                        className="hidden"
                       />
-                      <button
-                        onClick={uploadFile}
-                        disabled={!file || uploading}
-                        className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg bg-navy text-white text-xs font-semibold font-sans disabled:opacity-50"
-                      >
-                        {uploading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Upload className="h-3.5 w-3.5" />}
-                        Upload
-                      </button>
-                    </div>
-                  )}
-                  {!file && !uploaded && (
-                    <p className="text-xs text-muted font-sans mt-1.5">Choose a file above, then Upload.</p>
+                    </label>
                   )}
                   {error && <p className="text-xs text-danger font-sans mt-2">{error}</p>}
                 </div>

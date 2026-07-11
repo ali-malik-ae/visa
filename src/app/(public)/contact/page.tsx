@@ -1,4 +1,4 @@
-import { getPageSeo } from "@/lib/sanity/client";
+import { getContactDetails, getPageSeo } from "@/lib/sanity/client";
 import type { Metadata } from "next";
 import { ContactClient } from "./ContactClient";
 
@@ -10,6 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function ContactPage() {
-  return <ContactClient />;
+export default async function ContactPage() {
+  const details = await getContactDetails().catch(() => null);
+  return <ContactClient details={details} />;
 }

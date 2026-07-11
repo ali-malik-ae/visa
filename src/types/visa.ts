@@ -27,7 +27,16 @@ export interface VisaTypeData {
   sort_order: number;
 }
 
-export function sanityToVisaType(v: SanityVisaType, index: number): VisaTypeData {
+/**
+ * Merges Sanity's display content with Postgres's price (the source of
+ * truth for anything money-related — see visa-data.ts). `price` must come
+ * from a `visa_types` row looked up by the same slug.
+ */
+export function sanityToVisaType(
+  v: SanityVisaType,
+  index: number,
+  price: { standard_price_aed: number; standard_price_usd: number }
+): VisaTypeData {
   return {
     id: index + 1,
     slug: v.slug,
@@ -39,8 +48,8 @@ export function sanityToVisaType(v: SanityVisaType, index: number): VisaTypeData
     badge_text: v.badge_text,
     entry_type: v.entry_type,
     duration_days: v.duration_days,
-    standard_price_aed: v.price_aed,
-    standard_price_usd: v.price_usd,
+    standard_price_aed: price.standard_price_aed,
+    standard_price_usd: price.standard_price_usd,
     processing_time: v.processing_time,
     has_express: v.has_express,
     sort_order: v.sort_order,

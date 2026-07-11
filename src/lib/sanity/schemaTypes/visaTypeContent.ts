@@ -4,6 +4,8 @@ export const visaTypeContent = defineType({
   name: "visaTypeContent",
   title: "Visa Type",
   type: "document",
+  description:
+    "Marketing content only — pricing is not edited here. Prices live in the admin dashboard (Settings → Visa Pricing) and are matched to this document by slug.",
   fields: [
     defineField({
       name: "slug",
@@ -67,20 +69,6 @@ export const visaTypeContent = defineType({
       type: "string",
       description: 'e.g. "Most Popular" — leave empty for no badge',
       validation: (rule) => rule.max(30),
-    }),
-    defineField({
-      name: "price_aed",
-      title: "Price (AED)",
-      type: "number",
-      description: "Standard price in AED",
-      validation: (rule) => rule.required().min(0).max(100000),
-    }),
-    defineField({
-      name: "price_usd",
-      title: "Price (USD)",
-      type: "number",
-      description: "Standard price in USD — set independently, not auto-converted. Only shown on the site if \"Show USD pricing\" is turned on in the admin dashboard's Settings page.",
-      validation: (rule) => rule.required().min(0).max(100000),
     }),
     defineField({
       name: "duration_days",
@@ -154,9 +142,6 @@ export const visaTypeContent = defineType({
     },
   ],
   preview: {
-    select: { title: "name", subtitle: "price_aed", media: "icon" },
-    prepare(selection) {
-      return { ...selection, subtitle: selection.subtitle ? `AED ${selection.subtitle}` : "" };
-    },
+    select: { title: "name", subtitle: "tagline", media: "icon" },
   },
 });

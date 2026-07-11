@@ -143,6 +143,7 @@ export const user = pgTable("user", {
   // "pending" at the application level (see auth.ts); this DB-level default
   // is "active" so the migration doesn't retroactively lock out existing rows.
   status: text("status").notNull().default("active"),
+  email_alerts: boolean("email_alerts").notNull().default(true),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });

@@ -97,16 +97,16 @@ export function ApplicationDetailClient({
     setUpdating(true);
     setDropOpen(false);
     try {
-      const res = await fetch(`/api/admin/applications/${app.id}/status`, {
+      const res = await fetch(`/api/admin/applications/${app.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: s, note: note.trim() || undefined }),
       });
+      const data = await res.json();
       if (!res.ok) {
-        showToast("Could not update status.");
+        showToast(data.error ?? "Could not update status.");
         return;
       }
-      const data = await res.json();
       setStatus(s);
       setHistory((h) => [...h, { id: h.length + 1000, status: s, note: note.trim() || null, created_at: data.updated_at }]);
       setNote("");
@@ -281,24 +281,34 @@ export function ApplicationDetailClient({
               </ul>
             )}
 
-            <div className="flex items-center gap-2 flex-wrap">
-              <input
-                ref={fileRef}
-                type="file"
-                accept={ALLOWED_UPLOAD_TYPES.join(",")}
-                onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-                className="flex-1 min-w-0 text-xs font-sans"
-              />
-              <button
-                onClick={uploadFile}
-                disabled={!file || uploading}
-                className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg bg-navy text-white text-xs font-semibold font-sans disabled:opacity-50 flex-shrink-0"
-              >
-                {uploading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Upload className="h-3.5 w-3.5" />}
-                Upload
-              </button>
-            </div>
-            {!file && <p className="text-xs text-muted font-sans mt-1.5">Choose a file above, then Upload.</p>}
+            {file ? (
+              <div className="flex items-center gap-2">
+                <span className="flex-1 min-w-0 text-xs font-sans text-ink truncate">{file.name}</span>
+                <button onClick={() => setFile(null)} className="text-xs font-sans text-muted hover:text-ink flex-shrink-0">
+                  Clear
+                </button>
+                <button
+                  onClick={uploadFile}
+                  disabled={uploading}
+                  className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg bg-navy text-white text-xs font-semibold font-sans disabled:opacity-50 flex-shrink-0"
+                >
+                  {uploading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Upload className="h-3.5 w-3.5" />}
+                  {uploading ? "Uploading…" : "Upload"}
+                </button>
+              </div>
+            ) : (
+              <label className="flex items-center justify-center gap-2 h-10 px-3 rounded-lg border border-dashed border-line text-xs font-sans font-medium text-muted hover:border-gold hover:text-gold cursor-pointer transition-colors">
+                <Upload className="h-3.5 w-3.5" />
+                Choose a file to attach
+                <input
+                  ref={fileRef}
+                  type="file"
+                  accept={ALLOWED_UPLOAD_TYPES.join(",")}
+                  onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+                  className="hidden"
+                />
+              </label>
+            )}
             {uploadError && <p className="text-xs text-danger font-sans mt-1.5">{uploadError}</p>}
           </div>
         </div>

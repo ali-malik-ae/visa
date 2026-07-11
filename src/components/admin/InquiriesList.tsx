@@ -3,9 +3,10 @@
 import { cn } from "@/lib/utils";
 import { Avatar, InquiryBadge } from "./ui";
 import type { InquiryStatus } from "@/lib/admin-sample-data";
-import { Loader2, Search } from "lucide-react";
+import { Loader2, RefreshCw, Search } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useAdminFetch } from "@/hooks/useAdminFetch";
 
 interface Inquiry {
   id: number;
@@ -36,17 +37,10 @@ function timeAgo(iso: string) {
 }
 
 export function InquiriesList() {
-  const [inquiries, setInquiries] = useState<Inquiry[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { data, loading, refreshing, refetch } = useAdminFetch<{ inquiries: Inquiry[] }>("/api/admin/inquiries");
+  const inquiries = data?.inquiries ?? [];
   const [filter, setFilter] = useState<Filter>("all");
   const [q, setQ] = useState("");
-
-  useEffect(() => {
-    fetch("/api/admin/inquiries")
-      .then((r) => r.json())
-      .then((d) => setInquiries(d.inquiries ?? []))
-      .finally(() => setLoading(false));
-  }, []);
 
   const rows = inquiries.filter((i) => {
     const status: InquiryStatus = i.resolved ? "closed" : "new";
@@ -95,14 +89,24 @@ export function InquiriesList() {
             </button>
           ))}
         </div>
-        <div className="relative flex-shrink-0">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted" />
-          <input
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Search inquiries…"
-            className="h-9 w-full sm:w-64 pl-9 pr-3 rounded-lg border border-line bg-white text-sm font-sans text-navy placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-gold/20 focus:border-gold"
-          />
+        <div className="flex items-center gap-2 flex-shrink-0">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted" />
+            <input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Search inquiries…"
+              className="h-9 w-full sm:w-64 pl-9 pr-3 rounded-lg border border-line bg-white text-sm font-sans text-navy placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-gold/20 focus:border-gold"
+            />
+          </div>
+          <button
+            onClick={refetch}
+            disabled={refreshing}
+            title="Refresh"
+            className="inline-flex items-center justify-center h-9 w-9 rounded-lg border border-line text-ink hover:bg-mist transition-colors flex-shrink-0 disabled:opacity-50"
+          >
+            <RefreshCw className={cn("h-3.5 w-3.5", refreshing && "animate-spin")} />
+          </button>
         </div>
       </div>
 

@@ -5,10 +5,12 @@ import { AppStatusBadge } from "@/components/admin/ui";
 import { NewApplicationButton } from "@/components/admin/NewApplicationButton";
 import { QuickActions } from "@/components/admin/QuickActions";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useAdminFetch } from "@/hooks/useAdminFetch";
+import { ADMIN_EVENTS } from "@/lib/admin-events";
 import type { AdminAppStatus } from "@/lib/admin-sample-data";
-import { ArrowRight, Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { ArrowRight, Loader2, RefreshCw } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 interface DashboardApplication {
   id: string;
@@ -55,21 +57,16 @@ function timeAgo(iso: string) {
 
 export default function AdminDashboard() {
   const currentUser = useCurrentUser();
-  const [stats, setStats] = useState<DashboardStats | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { data: stats, loading, refreshing, refetch } = useAdminFetch<DashboardStats>(
+    "/api/admin/dashboard-stats",
+    { changeEvent: ADMIN_EVENTS.applicationsChanged }
+  );
   const today = new Date().toLocaleDateString("en-GB", {
     weekday: "long",
     day: "numeric",
     month: "long",
     year: "numeric",
   });
-
-  useEffect(() => {
-    fetch("/api/admin/dashboard-stats")
-      .then((r) => r.json())
-      .then(setStats)
-      .finally(() => setLoading(false));
-  }, []);
 
   const statCards = stats
     ? [
@@ -85,7 +82,19 @@ export default function AdminDashboard() {
       <AdminPageHeader
         title="Dashboard"
         subtitle={`${today} · Good afternoon, ${currentUser.name.split(" ")[0]}`}
-        action={<NewApplicationButton />}
+        action={
+          <div className="flex items-center gap-2">
+            <button
+              onClick={refetch}
+              disabled={refreshing}
+              title="Refresh"
+              className="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-line text-ink hover:bg-mist transition-colors disabled:opacity-50"
+            >
+              <RefreshCw className={cn("h-4 w-4", refreshing && "animate-spin")} />
+            </button>
+            <NewApplicationButton />
+          </div>
+        }
       />
 
       <div className="px-4 lg:px-8 pb-10 space-y-6">

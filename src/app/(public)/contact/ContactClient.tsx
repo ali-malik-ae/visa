@@ -5,6 +5,7 @@ import { FormInput, FormTextarea } from "@/components/ui/FormInput";
 import { Dropdown } from "@/components/ui/Dropdown";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { CONTACT, WHATSAPP_URL } from "@/lib/constants";
+import type { SanityContactDetails } from "@/lib/sanity/client";
 import { Clock, Mail, MapPin, Phone, X } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { useState } from "react";
@@ -34,7 +35,15 @@ const subjectOptions = [
   { value: "Other", label: "Other" },
 ];
 
-export function ContactClient() {
+export function ContactClient({ details }: { details: SanityContactDetails | null }) {
+  // Sanity's contactDetails is CMS-editable; falls back to the static
+  // CONTACT constant (also used sitewide for the WhatsApp button) when no
+  // Sanity document exists yet.
+  const email = details?.email || CONTACT.email;
+  const phone = details?.phone || CONTACT.phone;
+  const office = details?.address || CONTACT.office;
+  const hours = details?.hours || CONTACT.hours;
+
   const [form, setForm] = useState<FormState>(initial);
   const [errors, setErrors] = useState<Partial<FormState>>({});
   const [loading, setLoading] = useState(false);
@@ -134,8 +143,8 @@ export function ContactClient() {
                     </div>
                     <span className="text-[11px] font-sans font-semibold uppercase tracking-wider text-muted">Email</span>
                   </div>
-                  <a href={`mailto:${CONTACT.email}`} className="text-sm text-ink font-sans font-medium hover:underline break-all block">
-                    {CONTACT.email}
+                  <a href={`mailto:${email}`} className="text-sm text-ink font-sans font-medium hover:underline break-all block">
+                    {email}
                   </a>
                   <p className="text-xs text-muted font-sans mt-0.5">{CONTACT.emailReplyTime}</p>
                 </div>
@@ -147,8 +156,8 @@ export function ContactClient() {
                     </div>
                     <span className="text-[11px] font-sans font-semibold uppercase tracking-wider text-muted">Phone</span>
                   </div>
-                  <a href={`tel:${CONTACT.phone}`} className="text-sm text-ink font-sans font-medium hover:underline block">
-                    {CONTACT.phone}
+                  <a href={`tel:${phone}`} className="text-sm text-ink font-sans font-medium hover:underline block">
+                    {phone}
                   </a>
                   <p className="text-xs text-muted font-sans mt-0.5">{CONTACT.phoneHours}</p>
                 </div>
@@ -160,7 +169,7 @@ export function ContactClient() {
                     </div>
                     <span className="text-[11px] font-sans font-semibold uppercase tracking-wider text-muted">Office</span>
                   </div>
-                  <p className="text-sm text-ink font-sans font-medium whitespace-pre-line">{CONTACT.office}</p>
+                  <p className="text-sm text-ink font-sans font-medium whitespace-pre-line">{office}</p>
                   <p className="text-xs text-muted font-sans mt-0.5">{CONTACT.officeNote}</p>
                 </div>
 
@@ -171,7 +180,7 @@ export function ContactClient() {
                     </div>
                     <span className="text-[11px] font-sans font-semibold uppercase tracking-wider text-muted">Hours</span>
                   </div>
-                  <p className="text-sm text-ink font-sans font-medium whitespace-pre-line">{CONTACT.hours}</p>
+                  <p className="text-sm text-ink font-sans font-medium whitespace-pre-line">{hours}</p>
                   <p className="text-xs text-muted font-sans mt-0.5">{CONTACT.hoursNote}</p>
                 </div>
               </div>

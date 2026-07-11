@@ -18,8 +18,11 @@ export interface SanityVisaType {
   description: string;
   features: string[];
   badge_text: string | null;
-  price_aed: number;
-  price_usd: number;
+  // Pricing is NOT sourced from Sanity — Postgres (visa_types table, joined
+  // by this slug) is the sole source of truth for price everywhere in the
+  // app, including what's actually charged via Stripe. Keeping a second
+  // editable price in Sanity previously let displayed and charged prices
+  // silently diverge; see getDisplayVisaTypes() / /api/cms/visa-types.
   duration_days: number;
   entry_type: "single" | "multiple";
   processing_time: string;
@@ -91,7 +94,7 @@ export async function getVisaTypes(): Promise<SanityVisaType[]> {
   return sanityClient.fetch(
     `*[_type == "visaTypeContent" && !(_id in path("drafts.**"))] | order(sort_order asc) {
       "slug": slug.current, name, icon, tagline, description, features, badge_text,
-      price_aed, price_usd, duration_days, entry_type, processing_time, has_express, sort_order,
+      duration_days, entry_type, processing_time, has_express, sort_order,
       seo { title, description }
     }`,
     {},

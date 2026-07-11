@@ -1,4 +1,4 @@
-import { getPageSeo } from "@/lib/sanity/client";
+import { getFaqs, getPageSeo } from "@/lib/sanity/client";
 import type { Metadata } from "next";
 import { FAQClient } from "./FAQClient";
 
@@ -10,6 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function FAQPage() {
-  return <FAQClient />;
+export default async function FAQPage() {
+  const faqs = await getFaqs().catch(() => []);
+  return <FAQClient faqs={faqs} />;
 }

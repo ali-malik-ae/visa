@@ -10,7 +10,9 @@ function initialsFrom(label: string): string {
 /** Returns the real logged-in user's profile from the BetterAuth session. */
 export function useCurrentUser() {
   const { data } = authClient.useSession();
-  const user = data?.user as { name?: string; email?: string; role?: string } | undefined;
+  const user = data?.user as
+    | { name?: string; email?: string; role?: string; image?: string | null; email_alerts?: boolean }
+    | undefined;
 
   const isAdmin = user?.role === "admin";
   const name = user?.name ?? "";
@@ -22,5 +24,7 @@ export function useCurrentUser() {
     isAdmin,
     role: isAdmin ? "Administrator" : "Consultant",
     initials: initialsFrom(name || email),
+    image: user?.image ?? null,
+    emailAlerts: user?.email_alerts ?? true,
   };
 }

@@ -1,33 +1,32 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useAdminFetch } from "./useAdminFetch";
+import { ADMIN_EVENTS } from "@/lib/admin-events";
+
+interface DashboardStatsResponse {
+  totalApplications: number;
+  totalInquiries: number;
+  totalUsers: number;
+  pendingUsers: number;
+}
 
 interface NavCounts {
   applications: number | null;
   inquiries: number | null;
-  pendingUsers: number | null;
+  users: number | null;
+  pendingUsers: number;
 }
 
-/** Real sidebar badge counts, fetched once per admin session. */
+/** Real sidebar badge counts — polled in the background so they stay fresh. */
 export function useNavCounts(): NavCounts {
-  const [counts, setCounts] = useState<NavCounts>({
-    applications: null,
-    inquiries: null,
-    pendingUsers: null,
+  const { data } = useAdminFetch<DashboardStatsResponse>("/api/admin/dashboard-stats", {
+    changeEvent: ADMIN_EVENTS.applicationsChanged,
   });
 
-  useEffect(() => {
-    fetch("/api/admin/dashboard-stats")
-      .then((r) => r.json())
-      .then((d) =>
-        setCounts({
-          applications: d.totalApplications ?? null,
-          inquiries: d.totalInquiries ?? null,
-          pendingUsers: d.pendingUsers ?? null,
-        })
-      )
-      .catch(() => {});
-  }, []);
-
-  return counts;
+  return {
+    applications: data?.totalApplications ?? null,
+    inquiries: data?.totalInquiries ?? null,
+    users: data?.totalUsers ?? null,
+    pendingUsers: data?.pendingUsers ?? 0,
+  };
 }

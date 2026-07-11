@@ -4,135 +4,24 @@ import { useState, useMemo, useCallback } from "react";
 import { ChevronDown, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { FadeIn } from "@/components/ui/FadeIn";
-import { CONTACT, WHATSAPP_URL } from "@/lib/constants";
-import { Logo } from "@/components/ui/Logo";
+import { WHATSAPP_URL } from "@/lib/constants";
 import { SectionCTA } from "@/components/ui/SectionCTA";
+import type { SanityFaq } from "@/lib/sanity/client";
 
-interface FAQItem {
-  _id: string;
-  question: string;
-  answer: string;
-  category: string;
-}
-
-const FAQ_DATA: FAQItem[] = [
-  // General
-  {
-    _id: "1",
-    question: "What does Visati do?",
-    answer:
-      "We handle UAE visa applications end-to-end — from documentation review to embassy submission and follow-up — for travellers and businesses in 184 countries.",
-    category: "General",
-  },
-  {
-    _id: "2",
-    question: "How is Visati different from other agencies?",
-    answer:
-      "We combine concierge-grade service with real-time tracking, transparent pricing, and a 99% approval rate. Every application is assigned a dedicated consultant.",
-    category: "General",
-  },
-  {
-    _id: "3",
-    question: "Are you authorised by UAE authorities?",
-    answer:
-      "Yes, we are a licensed UAE visa consultancy operating under DED trade licence. We process applications through official government channels.",
-    category: "General",
-  },
-  // Visa Types
-  {
-    _id: "4",
-    question: "Which visa do I need for a 2-week holiday?",
-    answer:
-      "For a 2-week holiday, the 30-Day Single Entry tourist visa is the most popular choice. It gives you 30 days from the date of entry to stay in the UAE.",
-    category: "Visa Types",
-  },
-  {
-    _id: "5",
-    question: "Can I extend my visa once inside the UAE?",
-    answer:
-      "Tourist visas can be extended by applying for a new visa before the current one expires. Contact us on WhatsApp and we'll assist with the renewal process.",
-    category: "Visa Types",
-  },
-  {
-    _id: "6",
-    question: "Do you offer multi-entry options?",
-    answer:
-      "Yes, we offer 30-Day and 90-Day Multiple Entry visas, ideal for business travellers or those planning to visit neighbouring countries and return.",
-    category: "Visa Types",
-  },
-  // Application Process
-  {
-    _id: "7",
-    question: "How long does the application take?",
-    answer:
-      "Standard processing takes 3–5 working days. Express processing is available for 1–2 working days at an additional fee of AED 99.",
-    category: "Application Process",
-  },
-  {
-    _id: "8",
-    question: "Can I save my application and come back later?",
-    answer:
-      "Yes, your progress is saved automatically. You can return to complete your application using the same device and browser within 7 days.",
-    category: "Application Process",
-  },
-  {
-    _id: "9",
-    question: "How do I track my application status?",
-    answer:
-      "Once submitted, you'll receive a unique Application ID (VIS-YYYY-XXXXXX). Enter it on our Track page to see real-time status updates.",
-    category: "Application Process",
-  },
-  // Documents
-  {
-    _id: "10",
-    question: "What documents do I need to upload?",
-    answer:
-      "You'll need: a clear scan of your passport bio-data page (valid for at least 6 months), a recent passport-sized photograph, and any supporting documents depending on the visa type.",
-    category: "Documents",
-  },
-  {
-    _id: "11",
-    question: "Are photo specifications strict?",
-    answer:
-      "Yes, UAE authorities require a recent passport-sized photo with a white background, clear face, and no accessories. We'll notify you if your photo doesn't meet requirements.",
-    category: "Documents",
-  },
-  {
-    _id: "12",
-    question: "My passport expires in 5 months — am I eligible?",
-    answer:
-      "UAE visas require at least 6 months validity on your passport from the date of entry. If your passport expires in 5 months, you'll need to renew it before applying.",
-    category: "Documents",
-  },
-  // Fees & Payments
-  {
-    _id: "13",
-    question: "What payment methods do you accept?",
-    answer:
-      "We accept all major credit and debit cards (Visa, Mastercard, Amex), Apple Pay, and Google Pay through our secure Stripe payment gateway.",
-    category: "Fees & Payments",
-  },
-  {
-    _id: "14",
-    question: "Are there hidden charges?",
-    answer:
-      "No. The price you see at checkout is the total price. Government fees, service charges, and taxes are all included. Express processing (+AED 99) is clearly marked.",
-    category: "Fees & Payments",
-  },
-  {
-    _id: "15",
-    question: "What is your refund policy?",
-    answer:
-      "Government processing fees are non-refundable once submitted. If your application hasn't been submitted yet, contact us within 24 hours for a full refund of service fees.",
-    category: "Fees & Payments",
-  },
-];
-
-const CATEGORIES = ["General", "Visa Types", "Application Process", "Documents", "Fees & Payments"];
+// Mirrors the faqItem schema's category options.list (src/lib/sanity/schemaTypes/faqItem.ts) —
+// just the display label for each stored category slug.
+const CATEGORY_LABELS: Record<string, string> = {
+  general: "General",
+  "visa-types": "Visa Types",
+  documents: "Documents",
+  pricing: "Pricing",
+  process: "Process",
+  application: "Application",
+};
 
 const POPULAR_TAGS = ["Processing Time", "Refund", "Rejection", "60-Day Visa", "Photo Specs"];
 
-function AccordionItem({ item, isOpen, onToggle }: { item: FAQItem; isOpen: boolean; onToggle: () => void }) {
+function AccordionItem({ item, isOpen, onToggle }: { item: SanityFaq; isOpen: boolean; onToggle: () => void }) {
   return (
     <div className="border-b border-line last:border-0">
       <button
@@ -159,10 +48,13 @@ function AccordionItem({ item, isOpen, onToggle }: { item: FAQItem; isOpen: bool
   );
 }
 
-export function FAQClient() {
+export function FAQClient({ faqs }: { faqs: SanityFaq[] }) {
   const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] = useState("General");
-  const [openId, setOpenId] = useState<string | null>("1");
+  const [activeCategory, setActiveCategory] = useState(faqs[0]?.category ?? "");
+  const [openId, setOpenId] = useState<string | null>(faqs[0]?._id ?? null);
+
+  // Preserves the order categories first appear in (already sort_order-sorted from Sanity).
+  const categories = useMemo(() => Array.from(new Set(faqs.map((f) => f.category))), [faqs]);
 
   const scrollToCategory = useCallback((cat: string) => {
     const el = document.getElementById(`faq-category-${cat}`);
@@ -172,34 +64,34 @@ export function FAQClient() {
   }, []);
 
   const filteredFaqs = useMemo(() => {
-    if (!search.trim()) return FAQ_DATA;
+    if (!search.trim()) return faqs;
     const q = search.toLowerCase();
-    return FAQ_DATA.filter(
+    return faqs.filter(
       (item) =>
         item.question.toLowerCase().includes(q) ||
         item.answer.toLowerCase().includes(q)
     );
-  }, [search]);
+  }, [faqs, search]);
 
   const categoryCounts = useMemo(() => {
     const counts: Record<string, number> = {};
-    CATEGORIES.forEach((cat) => {
+    categories.forEach((cat) => {
       counts[cat] = filteredFaqs.filter((f) => f.category === cat).length;
     });
     return counts;
-  }, [filteredFaqs]);
+  }, [categories, filteredFaqs]);
 
   const groupedFaqs = useMemo(() => {
-    const groups: Record<string, FAQItem[]> = {};
-    CATEGORIES.forEach((cat) => {
+    const groups: Record<string, SanityFaq[]> = {};
+    categories.forEach((cat) => {
       groups[cat] = filteredFaqs.filter((f) => f.category === cat);
     });
     return groups;
-  }, [filteredFaqs]);
+  }, [categories, filteredFaqs]);
 
   const visibleCategories = search.trim()
-    ? CATEGORIES.filter((cat) => groupedFaqs[cat].length > 0)
-    : CATEGORIES;
+    ? categories.filter((cat) => groupedFaqs[cat].length > 0)
+    : categories;
 
   return (
     <div className="min-h-screen bg-white">
@@ -266,7 +158,7 @@ export function FAQClient() {
               Categories
             </p>
             <nav className="space-y-1">
-              {CATEGORIES.map((cat) => (
+              {categories.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => {
@@ -283,7 +175,7 @@ export function FAQClient() {
                       : "text-ink hover:bg-mist"
                   )}
                 >
-                  <span>{cat}</span>
+                  <span>{CATEGORY_LABELS[cat] ?? cat}</span>
                   <span className="text-muted text-xs">{categoryCounts[cat]}</span>
                 </button>
               ))}
@@ -298,7 +190,7 @@ export function FAQClient() {
               return (
                 <div key={cat} id={`faq-category-${cat}`} className="mb-10 last:mb-0 scroll-mt-34">
                   <h2 className="font-display font-bold text-2xl text-ink mb-4">
-                    {cat}
+                    {CATEGORY_LABELS[cat] ?? cat}
                   </h2>
                   <div>
                     {items.map((item) => (

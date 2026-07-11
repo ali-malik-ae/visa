@@ -2,8 +2,9 @@
 
 import { cn } from "@/lib/utils";
 import { Avatar } from "./ui";
-import { Ban, Loader2, RotateCcw, Trash2, Check } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Ban, Loader2, RefreshCw, RotateCcw, Trash2, Check } from "lucide-react";
+import { useState } from "react";
+import { useAdminFetch } from "@/hooks/useAdminFetch";
 
 type UserStatus = "pending" | "active" | "banned";
 
@@ -47,18 +48,10 @@ function StatusBadge({ status }: { status: UserStatus }) {
 }
 
 export function UsersManager() {
-  const [users, setUsers] = useState<StaffUser[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { data, loading, refreshing, refetch } = useAdminFetch<{ users: StaffUser[] }>("/api/admin/users");
+  const users = data?.users ?? [];
   const [busyId, setBusyId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    fetch("/api/admin/users")
-      .then((r) => r.json())
-      .then((d) => setUsers(d.users ?? []))
-      .catch(() => setError("Could not load users."))
-      .finally(() => setLoading(false));
-  }, []);
 
   async function setStatus(id: string, status: UserStatus) {
     setBusyId(id);
@@ -70,11 +63,11 @@ export function UsersManager() {
         body: JSON.stringify({ status }),
       });
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        setError(data.error ?? "Could not update user.");
+        const resData = await res.json().catch(() => ({}));
+        setError(resData.error ?? "Could not update user.");
         return;
       }
-      setUsers((list) => list.map((u) => (u.id === id ? { ...u, status } : u)));
+      await refetch();
     } catch {
       setError("Network error. Please try again.");
     } finally {
@@ -88,11 +81,11 @@ export function UsersManager() {
     try {
       const res = await fetch(`/api/admin/users/${id}`, { method: "DELETE" });
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        setError(data.error ?? "Could not remove user.");
+        const resData = await res.json().catch(() => ({}));
+        setError(resData.error ?? "Could not remove user.");
         return;
       }
-      setUsers((list) => list.filter((u) => u.id !== id));
+      await refetch();
     } catch {
       setError("Network error. Please try again.");
     } finally {
@@ -127,6 +120,17 @@ export function UsersManager() {
       {error && (
         <p className="mb-4 text-sm text-danger font-sans">{error}</p>
       )}
+
+      <div className="flex justify-end mb-3">
+        <button
+          onClick={refetch}
+          disabled={refreshing}
+          title="Refresh"
+          className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg border border-line text-sm font-sans text-ink hover:bg-mist transition-colors disabled:opacity-50"
+        >
+          <RefreshCw className={cn("h-3.5 w-3.5", refreshing && "animate-spin")} /> Refresh
+        </button>
+      </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">

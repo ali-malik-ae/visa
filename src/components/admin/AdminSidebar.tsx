@@ -31,7 +31,7 @@ export const ADMIN_NAV = [
   { href: "/admin/inquiries", label: "Inquiries", icon: MessageSquare, exact: false, countKey: "inquiries" as const, adminOnly: false },
   { href: "/admin/documents", label: "Documents", icon: FolderOpen, exact: false, countKey: null, adminOnly: false },
   { href: "/admin/clients", label: "Clients", icon: Users, exact: false, countKey: null, adminOnly: false },
-  { href: "/admin/users", label: "Users", icon: ShieldCheck, exact: false, countKey: "pendingUsers" as const, adminOnly: true },
+  { href: "/admin/users", label: "Users", icon: ShieldCheck, exact: false, countKey: "users" as const, adminOnly: true },
   { href: "/admin/settings", label: "Settings", icon: Settings, exact: false, countKey: null, adminOnly: false },
   { href: "/dashboard/cms", label: "CMS Studio", icon: PenLine, exact: false, countKey: null, adminOnly: true, external: true },
 ];
@@ -39,7 +39,10 @@ export const ADMIN_NAV = [
 export function AdminSidebar() {
   const pathname = usePathname();
   const currentUser = useCurrentUser();
-  const { src: avatarSrc } = useAvatar();
+  const { src: localAvatarSrc } = useAvatar();
+  // Fall back to the account's synced photo (session) when this browser has
+  // no local copy yet — makes the avatar follow the user across devices.
+  const avatarSrc = localAvatarSrc ?? currentUser.image;
   const navCounts = useNavCounts();
   const [open, setOpen] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
@@ -86,6 +89,7 @@ export function AdminSidebar() {
             const active = exact ? pathname === href : pathname.startsWith(href);
             const linkProps = external ? { target: "_blank", rel: "noopener noreferrer" } : {};
             const count = countKey ? navCounts[countKey] : null;
+            const hasPendingUsers = countKey === "users" && navCounts.pendingUsers > 0;
             return (
               <Link
                 key={href}
@@ -104,7 +108,11 @@ export function AdminSidebar() {
                   <span
                     className={cn(
                       "text-[11px] font-semibold rounded-full px-1.5 py-0.5 min-w-[20px] text-center",
-                      active ? "bg-white/20 text-white" : "bg-white/10 text-white/70"
+                      hasPendingUsers
+                        ? "bg-amber-400 text-navy"
+                        : active
+                          ? "bg-white/20 text-white"
+                          : "bg-white/10 text-white/70"
                     )}
                   >
                     {count}

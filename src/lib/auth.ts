@@ -25,6 +25,12 @@ export const auth = betterAuth({
         defaultValue: "pending", // new self-service signups need admin approval
         input: false,
       },
+      email_alerts: {
+        type: "boolean",
+        required: false,
+        defaultValue: true,
+        input: true, // self-service preference, not a privilege — user-settable
+      },
     },
   },
   emailAndPassword: {

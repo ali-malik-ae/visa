@@ -25,7 +25,10 @@ export function AdminPageHeader({
 }: AdminPageHeaderProps) {
   const router = useRouter();
   const currentUser = useCurrentUser();
-  const { src: avatarSrc } = useAvatar();
+  const { src: localAvatarSrc } = useAvatar();
+  // Fall back to the account's synced photo (session) when this browser has
+  // no local copy yet — makes the avatar follow the user across devices.
+  const avatarSrc = localAvatarSrc ?? currentUser.image;
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);

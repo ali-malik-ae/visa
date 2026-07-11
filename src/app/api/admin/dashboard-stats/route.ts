@@ -18,6 +18,7 @@ export async function GET() {
     [{ value: todayQueue }],
     [{ value: totalInquiries }],
     [{ value: pendingUsers }],
+    [{ value: totalUsers }],
     recentApplications,
     recentActivity,
   ] = await Promise.all([
@@ -28,6 +29,7 @@ export async function GET() {
     db.select({ value: count() }).from(applications).where(inArray(applications.status, ["submitted", "reviewing", "processing"])),
     db.select({ value: count() }).from(inquiries),
     db.select({ value: count() }).from(user).where(eq(user.status, "pending")),
+    db.select({ value: count() }).from(user),
     db
       .select()
       .from(applications)
@@ -59,6 +61,7 @@ export async function GET() {
     todayQueue,
     totalInquiries,
     pendingUsers,
+    totalUsers,
     recentApplications: recentApplications.map((r) => ({
       ...r.applications,
       visa_type_name: r.visa_types.name,

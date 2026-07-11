@@ -3,10 +3,12 @@
 import { cn } from "@/lib/utils";
 import type { AdminAppStatus } from "@/lib/admin-sample-data";
 import { AppStatusBadge } from "./ui";
-import { ChevronDown, Download, Loader2, MoreHorizontal, Search, X } from "lucide-react";
+import { ChevronDown, Download, Loader2, RefreshCw, Search, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { useAdminFetch } from "@/hooks/useAdminFetch";
+import { ADMIN_EVENTS } from "@/lib/admin-events";
 
 interface AdminApplicationRow {
   id: string;
@@ -119,24 +121,30 @@ function Dropdown({
   );
 }
 
+const VALID_STATUS_FILTERS: (AdminAppStatus | "all")[] = ["all", "submitted", "reviewing", "processing", "approved", "rejected"];
+
 export function ApplicationsList() {
   const searchParams = useSearchParams();
   const urlQ = searchParams.get("q") ?? "";
+  const urlStatusParam = searchParams.get("status");
+  const urlStatus = VALID_STATUS_FILTERS.includes(urlStatusParam as AdminAppStatus | "all")
+    ? (urlStatusParam as AdminAppStatus | "all")
+    : "all";
 
-  const [applications, setApplications] = useState<AdminApplicationRow[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<AdminAppStatus | "all">("all");
+  const { data, loading, refreshing, refetch } = useAdminFetch<{ applications: AdminApplicationRow[] }>(
+    "/api/admin/applications",
+    { changeEvent: ADMIN_EVENTS.applicationsChanged }
+  );
+  const applications = useMemo(
+    () => (data?.applications ?? []).filter((a) => a.status !== "draft"),
+    [data]
+  );
+  const [filter, setFilter] = useState<AdminAppStatus | "all">(urlStatus);
   const [q, setQ] = useState(urlQ);
   const [dateRange, setDateRange] = useState("");
   const [visaType, setVisaType] = useState("");
   const [syncedUrlQ, setSyncedUrlQ] = useState(urlQ);
-
-  useEffect(() => {
-    fetch("/api/admin/applications")
-      .then((r) => r.json())
-      .then((d) => setApplications((d.applications ?? []).filter((a: AdminApplicationRow) => a.status !== "draft")))
-      .finally(() => setLoading(false));
-  }, []);
+  const [syncedUrlStatus, setSyncedUrlStatus] = useState(urlStatus);
 
   // Adjust local search state during render when the URL query param changes
   // (global search bar navigation) — avoids the extra render an effect-based
@@ -144,6 +152,10 @@ export function ApplicationsList() {
   if (urlQ !== syncedUrlQ) {
     setSyncedUrlQ(urlQ);
     setQ(urlQ);
+  }
+  if (urlStatus !== syncedUrlStatus) {
+    setSyncedUrlStatus(urlStatus);
+    setFilter(urlStatus);
   }
 
   const visaOptions = useMemo(
@@ -248,6 +260,14 @@ export function ApplicationsList() {
           >
             Export <Download className="h-3.5 w-3.5 text-muted" />
           </button>
+          <button
+            onClick={refetch}
+            disabled={refreshing}
+            title="Refresh"
+            className="inline-flex items-center justify-center h-9 w-9 rounded-lg border border-line text-ink hover:bg-mist transition-colors flex-shrink-0 disabled:opacity-50"
+          >
+            <RefreshCw className={cn("h-3.5 w-3.5", refreshing && "animate-spin")} />
+          </button>
         </div>
       </div>
 
@@ -261,7 +281,6 @@ export function ApplicationsList() {
               <th className="px-3 py-3 font-semibold">Visa Type</th>
               <th className="px-3 py-3 font-semibold">Submitted</th>
               <th className="px-3 py-3 font-semibold">Status</th>
-              <th className="px-3 py-3 w-8" />
             </tr>
           </thead>
           <tbody className="divide-y divide-line">
@@ -279,9 +298,6 @@ export function ApplicationsList() {
                 <td className="px-3 py-3.5 font-sans text-muted whitespace-nowrap">{a.visa_type_name}</td>
                 <td className="px-3 py-3.5 font-sans text-muted whitespace-nowrap">{formatDate(a.created_at)}</td>
                 <td className="px-3 py-3.5"><AppStatusBadge status={a.status as AdminAppStatus} /></td>
-                <td className="px-3 py-3.5">
-                  <button className="text-muted hover:text-ink"><MoreHorizontal className="h-4 w-4" /></button>
-                </td>
               </tr>
             ))}
           </tbody>

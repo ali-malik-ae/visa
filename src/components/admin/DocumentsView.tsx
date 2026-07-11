@@ -1,9 +1,10 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Download, FileText, LayoutGrid, List, Loader2, Search } from "lucide-react";
+import { Download, FileText, LayoutGrid, List, Loader2, RefreshCw, Search } from "lucide-react";
 import Link from "next/link";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
+import { useAdminFetch } from "@/hooks/useAdminFetch";
 
 interface AdminDocument {
   id: number;
@@ -29,19 +30,12 @@ function formatSize(bytes: number) {
 }
 
 export function DocumentsView() {
-  const [allDocs, setAllDocs] = useState<AdminDocument[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { data, loading, refreshing, refetch } = useAdminFetch<{ documents: AdminDocument[] }>("/api/admin/documents");
+  const allDocs = useMemo(() => data?.documents ?? [], [data]);
   const [filter, setFilter] = useState("all");
   const [view, setView] = useState<"grid" | "list">("list");
   const [applicant, setApplicant] = useState("all");
   const [q, setQ] = useState("");
-
-  useEffect(() => {
-    fetch("/api/admin/documents")
-      .then((r) => r.json())
-      .then((d) => setAllDocs(d.documents ?? []))
-      .finally(() => setLoading(false));
-  }, []);
 
   const applicants = useMemo(
     () => Array.from(new Set(allDocs.map((d) => d.applicant))).sort(),
@@ -85,12 +79,22 @@ export function DocumentsView() {
               </button>
             ))}
           </div>
-          <div className="hidden sm:flex items-center gap-1 bg-white border border-line rounded-lg p-1 flex-shrink-0">
-            <button onClick={() => setView("grid")} className={cn("h-7 px-2.5 rounded inline-flex items-center gap-1.5 text-xs font-sans font-medium", view === "grid" ? "bg-mist text-navy" : "text-muted")}>
-              <LayoutGrid className="h-3.5 w-3.5" /> Grid
-            </button>
-            <button onClick={() => setView("list")} className={cn("h-7 px-2.5 rounded inline-flex items-center gap-1.5 text-xs font-sans font-medium", view === "list" ? "bg-mist text-navy" : "text-muted")}>
-              <List className="h-3.5 w-3.5" /> List
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <div className="hidden sm:flex items-center gap-1 bg-white border border-line rounded-lg p-1">
+              <button onClick={() => setView("grid")} className={cn("h-7 px-2.5 rounded inline-flex items-center gap-1.5 text-xs font-sans font-medium", view === "grid" ? "bg-mist text-navy" : "text-muted")}>
+                <LayoutGrid className="h-3.5 w-3.5" /> Grid
+              </button>
+              <button onClick={() => setView("list")} className={cn("h-7 px-2.5 rounded inline-flex items-center gap-1.5 text-xs font-sans font-medium", view === "list" ? "bg-mist text-navy" : "text-muted")}>
+                <List className="h-3.5 w-3.5" /> List
+              </button>
+            </div>
+            <button
+              onClick={refetch}
+              disabled={refreshing}
+              title="Refresh"
+              className="inline-flex items-center justify-center h-9 w-9 rounded-lg border border-line text-ink hover:bg-mist transition-colors disabled:opacity-50"
+            >
+              <RefreshCw className={cn("h-3.5 w-3.5", refreshing && "animate-spin")} />
             </button>
           </div>
         </div>

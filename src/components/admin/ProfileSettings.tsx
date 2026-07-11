@@ -12,19 +12,24 @@ export function ProfileSettings() {
   const { src: avatarSrc, set: setAvatar } = useAvatar();
   const [name, setName] = useState(currentUser.name);
   const [syncedName, setSyncedName] = useState(currentUser.name);
-  const [emailAlerts, setEmailAlerts] = useState(true);
+  const [emailAlerts, setEmailAlerts] = useState(currentUser.emailAlerts);
+  const [syncedEmailAlerts, setSyncedEmailAlerts] = useState(currentUser.emailAlerts);
   const [saved, setSaved] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
-  // currentUser.name arrives asynchronously (authClient.useSession() resolves
+  // currentUser fields arrive asynchronously (authClient.useSession() resolves
   // after first render) — adjust during render once real data lands instead
-  // of getting stuck on the empty-string initial value.
+  // of getting stuck on the initial-value defaults.
   if (currentUser.name && currentUser.name !== syncedName) {
     setSyncedName(currentUser.name);
     setName(currentUser.name);
+  }
+  if (currentUser.emailAlerts !== syncedEmailAlerts) {
+    setSyncedEmailAlerts(currentUser.emailAlerts);
+    setEmailAlerts(currentUser.emailAlerts);
   }
 
   const input =
@@ -39,9 +44,14 @@ export function ProfileSettings() {
 
     setUploading(true);
     const reader = new FileReader();
-    reader.onload = (ev) => {
+    reader.onload = async (ev) => {
       const result = ev.target?.result as string;
-      setAvatar(result);
+      setAvatar(result); // instant local reactivity (header/sidebar)
+      try {
+        await authClient.updateUser({ image: result }); // cross-device persistence
+      } catch {
+        // Non-fatal — the photo still shows locally even if the sync failed.
+      }
       setUploading(false);
     };
     reader.readAsDataURL(file);
@@ -50,15 +60,20 @@ export function ProfileSettings() {
     e.target.value = "";
   }
 
-  function removeAvatar() {
+  async function removeAvatar() {
     setAvatar(null);
+    try {
+      await authClient.updateUser({ image: null });
+    } catch {
+      // ignore
+    }
   }
 
   async function save() {
     setSaving(true);
     setError(null);
     try {
-      const { error: updateError } = await authClient.updateUser({ name });
+      const { error: updateError } = await authClient.updateUser({ name, email_alerts: emailAlerts });
       if (updateError) {
         setError(updateError.message ?? "Could not save changes.");
         return;

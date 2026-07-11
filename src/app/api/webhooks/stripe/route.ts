@@ -1,8 +1,8 @@
 import { db } from "@/lib/db";
-import { applications, payments, statusHistory } from "@/lib/db/schema";
-import { sendConfirmationEmail } from "@/lib/resend";
+import { applications, payments, statusHistory, user, visaTypes } from "@/lib/db/schema";
+import { sendConfirmationEmail, sendNewApplicationAlertEmail } from "@/lib/resend";
 import { stripe } from "@/lib/stripe";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -102,6 +102,24 @@ export async function POST(request: NextRequest) {
         travelDate: app.travel_date,
       }).catch(() => null);
     }
+
+    /* Alert opted-in admins of the new submission (non-blocking) */
+    Promise.all([
+      db
+        .select({ email: user.email })
+        .from(user)
+        .where(and(eq(user.role, "admin"), eq(user.status, "active"), eq(user.email_alerts, true))),
+      db.select({ name: visaTypes.name }).from(visaTypes).where(eq(visaTypes.id, app.visa_type_id)).limit(1),
+    ])
+      .then(([admins, [visaType]]) =>
+        sendNewApplicationAlertEmail({
+          to: admins.map((a) => a.email),
+          applicationId,
+          applicantName: `${app.given_name} ${app.surname}`,
+          visaTypeName: visaType?.name ?? "Unknown",
+        })
+      )
+      .catch(() => null);
   } else if (event.type === "checkout.session.async_payment_failed") {
     const session = event.data.object as Stripe.Checkout.Session;
     const applicationId = session.metadata?.application_id;

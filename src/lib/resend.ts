@@ -89,6 +89,31 @@ export async function sendAdminNotificationEmail(params: {
   }
 }
 
+export async function sendNewApplicationAlertEmail(params: {
+  to: string[];
+  applicationId: string;
+  applicantName: string;
+  visaTypeName: string;
+}): Promise<void> {
+  if (params.to.length === 0) return;
+  try {
+    await resend.emails.send({
+      from: FROM,
+      to: params.to,
+      subject: `New Application — ${params.applicationId}`,
+      html: `
+        <h2>New visa application submitted</h2>
+        <p><strong>Applicant:</strong> ${params.applicantName}</p>
+        <p><strong>Application ID:</strong> ${params.applicationId}</p>
+        <p><strong>Visa Type:</strong> ${params.visaTypeName}</p>
+        <p><a href="${process.env.NEXT_PUBLIC_APP_URL}/admin/applications/${params.applicationId}">View in dashboard</a></p>
+      `,
+    });
+  } catch (err) {
+    console.error("[resend] sendNewApplicationAlertEmail failed", err);
+  }
+}
+
 export async function sendInquiryReplyEmail(params: {
   to: string;
   inquiryName: string;
