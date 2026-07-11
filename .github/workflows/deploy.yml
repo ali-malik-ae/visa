@@ -9,8 +9,9 @@ on:
   workflow_dispatch:
 
 env:
-  # GHCR requires a lowercase image path.
-  IMAGE: ghcr.io/mrowaisabdullah/visati
+  # GHCR requires a lowercase image path. Matches whichever repo this
+  # workflow actually runs in — GITHUB_TOKEN is auto-scoped per-repo.
+  IMAGE: ghcr.io/ali-malik-ae/visa
 
 jobs:
   build:
@@ -47,18 +48,13 @@ jobs:
             NEXT_PUBLIC_SANITY_PROJECT_ID=${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
             NEXT_PUBLIC_SANITY_DATASET=${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
 
-  # ─────────────────────────────────────────────────────────────────────────
-  # Uncomment once the Dokploy app exists and DOKPLOY_URL / DOKPLOY_API_KEY /
-  # DOKPLOY_APP_ID are set as GitHub secrets (Settings → Secrets → Actions).
-  # Until then, this workflow only validates that the Docker build succeeds.
-  # ─────────────────────────────────────────────────────────────────────────
-  # deploy:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Trigger Dokploy deploy
-  #       run: |
-  #         curl -fsSL -X POST "${{ secrets.DOKPLOY_URL }}/api/application.deploy" \
-  #           -H "x-api-key: ${{ secrets.DOKPLOY_API_KEY }}" \
-  #           -H "Content-Type: application/json" \
-  #           -d '{"applicationId":"${{ secrets.DOKPLOY_APP_ID }}"}'
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Dokploy deploy
+        run: |
+          curl -fsSL -X POST "${{ secrets.DOKPLOY_URL }}/api/application.deploy" \
+            -H "x-api-key: ${{ secrets.DOKPLOY_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{"applicationId":"${{ secrets.DOKPLOY_APP_ID }}"}'
