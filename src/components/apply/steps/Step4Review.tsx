@@ -1,8 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
-import { formatAed } from "@/lib/utils";
-import { EXPRESS_SURCHARGE_AED } from "@/lib/constants";
+import { formatDualPrice } from "@/lib/utils";
+import { useCurrency } from "@/components/CurrencyProvider";
+import { EXPRESS_SURCHARGE_AED, EXPRESS_SURCHARGE_USD } from "@/lib/constants";
 import type { VisaTypeData } from "@/types/visa";
 import type { ProcessingTier } from "@/types/db";
 import type { PersonalDetails } from "./Step2PersonalDetails";
@@ -49,10 +50,15 @@ export function Step4Review({
   onEdit,
   onSubmit,
 }: Step4Props) {
+  const { showUsd } = useCurrency();
   const price =
     processingTier === "express"
       ? visaType.standard_price_aed + EXPRESS_SURCHARGE_AED
       : visaType.standard_price_aed;
+  const priceUsd =
+    processingTier === "express"
+      ? visaType.standard_price_usd + EXPRESS_SURCHARGE_USD
+      : visaType.standard_price_usd;
 
   return (
     <div className="space-y-6">
@@ -159,7 +165,7 @@ export function Step4Review({
             Total Amount
           </p>
           <p className="text-2xl font-display font-bold text-navy mt-0.5">
-            {formatAed(price)}
+            {formatDualPrice(showUsd, price, priceUsd)}
           </p>
         </div>
         <p className="text-xs font-sans text-muted">

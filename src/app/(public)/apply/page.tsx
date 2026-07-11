@@ -2,8 +2,10 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { ApplicationForm } from "@/components/apply/ApplicationForm";
 import { Step5Success } from "@/components/apply/steps/Step5Success";
+import { CurrencyProvider } from "@/components/CurrencyProvider";
 import { getDisplayVisaTypes } from "@/lib/visa-data";
 import { getPageSeo } from "@/lib/sanity/client";
+import { getShowUsdSetting } from "@/lib/site-settings";
 import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -37,7 +39,10 @@ export default async function ApplyPage({ searchParams }: ApplyPageProps) {
     );
   }
 
-  const visaTypes = await getDisplayVisaTypes();
+  const [visaTypes, showUsd] = await Promise.all([
+    getDisplayVisaTypes(),
+    getShowUsdSetting().catch(() => false),
+  ]);
   const prefilledVisa = visaTypes.find((v) => v.slug === params.visa) ?? null;
 
   return (
@@ -65,12 +70,14 @@ export default async function ApplyPage({ searchParams }: ApplyPageProps) {
       {/* Form */}
       <section className="pb-16 px-4">
         <div className="mx-auto max-w-6xl">
-          <ApplicationForm
-            visaTypes={visaTypes}
-            prefilledVisaTypeId={prefilledVisa?.id ?? null}
-            prefilledNationality={params.nationality}
-            prefilledTravelDate={params.date}
-          />
+          <CurrencyProvider showUsd={showUsd}>
+            <ApplicationForm
+              visaTypes={visaTypes}
+              prefilledVisaTypeId={prefilledVisa?.id ?? null}
+              prefilledNationality={params.nationality}
+              prefilledTravelDate={params.date}
+            />
+          </CurrencyProvider>
         </div>
       </section>
     </div>

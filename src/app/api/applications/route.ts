@@ -2,12 +2,13 @@ import { db } from "@/lib/db";
 import { applications, statusHistory, visaTypes } from "@/lib/db/schema";
 import { stripe } from "@/lib/stripe";
 import { generateAppId, EXPRESS_SURCHARGE_AED } from "@/lib/utils";
+import { checkRateLimit } from "@/lib/rate-limit";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 const CreateApplicationSchema = z.object({
-  visa_type_id: z.number().int().positive(),
+  visa_type_slug: z.string().min(1).max(100),
   nationality: z.string().min(1).max(100),
   given_name: z.string().min(1).max(200),
   surname: z.string().min(1).max(200),
@@ -20,6 +21,9 @@ const CreateApplicationSchema = z.object({
 });
 
 export async function POST(request: NextRequest) {
+  const limited = checkRateLimit(request, "applications-create", { max: 10, windowSeconds: 60 });
+  if (limited) return limited;
+
   let body: unknown;
   try {
     body = await request.json();
@@ -37,11 +41,11 @@ export async function POST(request: NextRequest) {
 
   const data = parsed.data;
 
-  /* Fetch visa type for pricing */
+  /* Fetch visa type for pricing — linked by slug (shared key with Sanity content) */
   const [visaType] = await db
     .select()
     .from(visaTypes)
-    .where(eq(visaTypes.id, data.visa_type_id))
+    .where(eq(visaTypes.slug, data.visa_type_slug))
     .limit(1);
 
   if (!visaType || !visaType.is_active) {
@@ -70,7 +74,6 @@ export async function POST(request: NextRequest) {
   /* Create Stripe Checkout session */
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
-    payment_method_types: ["card"],
     line_items: [
       {
         price_data: {
@@ -94,7 +97,7 @@ export async function POST(request: NextRequest) {
   /* Persist draft application */
   await db.insert(applications).values({
     id: applicationId,
-    visa_type_id: data.visa_type_id,
+    visa_type_id: visaType.id,
     nationality: data.nationality,
     given_name: data.given_name,
     surname: data.surname,

@@ -9,7 +9,7 @@ import { WHATSAPP_URL, BRAND, CONTACT } from "@/lib/constants";
 import { inputClasses } from "@/components/ui/FormInput";
 import { cn } from "@/lib/utils";
 import { Search, Printer, Phone } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("en-AE", {
@@ -121,15 +121,17 @@ function printReceipt(result: TrackResponse) {
   win.document.close();
 }
 
-export function TrackClient() {
-  const [inputId, setInputId] = useState("");
+interface TrackClientProps {
+  initialId?: string;
+}
+
+export function TrackClient({ initialId }: TrackClientProps) {
+  const [inputId, setInputId] = useState(initialId?.toUpperCase() ?? "");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<TrackResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const id = inputId.trim().toUpperCase();
+  async function track(id: string) {
     if (!APP_ID_REGEX.test(id)) {
       setError("Please enter a valid Application ID (e.g. VIS-2026-AB1234).");
       return;
@@ -150,6 +152,16 @@ export function TrackClient() {
     } finally {
       setLoading(false);
     }
+  }
+
+  useEffect(() => {
+    if (initialId) track(initialId.trim().toUpperCase());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialId]);
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    track(inputId.trim().toUpperCase());
   }
 
   return (

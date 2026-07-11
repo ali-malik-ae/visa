@@ -8,8 +8,10 @@ import { Testimonials } from "@/components/home/Testimonials";
 import { VisaShowcase } from "@/components/home/VisaShowcase";
 import { WhyChoose } from "@/components/home/WhyChoose";
 import { FadeIn } from "@/components/ui/FadeIn";
+import { CurrencyProvider } from "@/components/CurrencyProvider";
 import { getDisplayVisaTypes } from "@/lib/visa-data";
 import { getPageSeo } from "@/lib/sanity/client";
+import { getShowUsdSetting } from "@/lib/site-settings";
 import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -21,7 +23,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const visaTypes = await getDisplayVisaTypes();
+  const [visaTypes, showUsd] = await Promise.all([
+    getDisplayVisaTypes(),
+    getShowUsdSetting().catch(() => false),
+  ]);
 
   return (
     <>
@@ -32,7 +37,11 @@ export default async function HomePage() {
 
       {/* 2 — Visa types */}
       <FadeIn delay={100}>
-        {visaTypes.length > 0 && <VisaShowcase visaTypes={visaTypes} />}
+        {visaTypes.length > 0 && (
+          <CurrencyProvider showUsd={showUsd}>
+            <VisaShowcase visaTypes={visaTypes} />
+          </CurrencyProvider>
+        )}
       </FadeIn>
 
       {/* 3 — Global reach + stats */}

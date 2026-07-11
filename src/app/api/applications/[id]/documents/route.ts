@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
-import { documents } from "@/lib/db/schema";
+import { applications, documents } from "@/lib/db/schema";
 import { makeDocumentKey, uploadDocument } from "@/lib/r2";
+import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 const ALLOWED_TYPES = ["application/pdf", "image/jpeg", "image/png"];
@@ -39,6 +40,15 @@ export async function POST(
       { error: "File exceeds 5 MB limit" },
       { status: 422 }
     );
+  }
+
+  const [app] = await db
+    .select({ id: applications.id })
+    .from(applications)
+    .where(eq(applications.id, id))
+    .limit(1);
+  if (!app) {
+    return NextResponse.json({ error: "Application not found" }, { status: 404 });
   }
 
   const key = makeDocumentKey(id, documentType, file.name);

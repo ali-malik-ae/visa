@@ -80,3 +80,4 @@ export const ABOUT_STATS: StatItem[] = [
 
 /* ── Express Surcharge ────────────────────────────────── */
 export const EXPRESS_SURCHARGE_AED = 99;
+export const EXPRESS_SURCHARGE_USD = 27;

@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { inquiries } from "@/lib/db/schema";
 import { sendAdminNotificationEmail } from "@/lib/resend";
+import { checkRateLimit } from "@/lib/rate-limit";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -13,6 +14,9 @@ const InquirySchema = z.object({
 });
 
 export async function POST(request: NextRequest) {
+  const limited = checkRateLimit(request, "inquiries-create", { max: 5, windowSeconds: 60 });
+  if (limited) return limited;
+
   let body: unknown;
   try {
     body = await request.json();

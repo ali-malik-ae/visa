@@ -184,7 +184,7 @@ export function ApplicationForm({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          visa_type_id: state.visaTypeId,
+          visa_type_slug: selectedVisaType.slug,
           nationality: state.details.nationality,
           given_name: state.details.given_name,
           surname: state.details.surname,

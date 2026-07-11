@@ -4,6 +4,7 @@ import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight, Loader2 } from "lucide-react";
+import { isAuthorizedStaffEmail } from "@/lib/staff-email";
 
 const inputCls =
   "w-full h-11 px-3.5 rounded-lg border border-line bg-white text-sm font-sans text-navy placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-gold/20 focus:border-gold transition-colors";
@@ -31,6 +32,10 @@ export function SignupForm() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!isAuthorizedStaffEmail(form.email)) {
+      setError("Please use a @visati.ae work email.");
+      return;
+    }
     if (form.password !== form.confirm) {
       setError("Passwords do not match.");
       return;
@@ -54,8 +59,8 @@ export function SignupForm() {
         router.push("/admin");
       }
     } catch {
-      // UI-first phase: auth backend not connected yet.
-      router.push("/admin");
+      setError("Something went wrong. Please try again.");
+      setLoading(false);
     }
   }
 

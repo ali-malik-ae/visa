@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 import { Logo } from "@/components/ui/Logo";
 import { Avatar } from "./ui";
 import { signOutAndRedirect } from "@/lib/admin-auth";
-import { usePreviewRole } from "@/hooks/usePreviewRole";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useAvatar } from "@/hooks/useAvatar";
 import {
@@ -38,13 +37,12 @@ export const ADMIN_NAV = [
 
 export function AdminSidebar() {
   const pathname = usePathname();
-  const role = usePreviewRole();
   const currentUser = useCurrentUser();
   const { src: avatarSrc } = useAvatar();
   const [open, setOpen] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const isAdmin = role === "admin";
+  const isAdmin = currentUser.isAdmin;
 
   // Close on outside click
   useEffect(() => {

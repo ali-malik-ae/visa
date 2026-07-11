@@ -4,24 +4,20 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { inputClasses } from "@/components/ui/FormInput";
 import { cn } from "@/lib/utils";
+import type { VisaType } from "@/types/db";
 
-interface PricingVisa {
-  id: number;
-  slug: string;
-  name: string;
-  price_aed: number;
-  has_express: boolean;
-}
-
-export function VisaPricingRow({ visa }: { visa: PricingVisa }) {
-  const [price, setPrice] = useState(visa.price_aed);
+export function VisaPricingRow({ visa }: { visa: VisaType }) {
+  const [priceAed, setPriceAed] = useState(visa.standard_price_aed);
+  const [priceUsd, setPriceUsd] = useState(visa.standard_price_usd);
   const [active, setActive] = useState(visa.has_express);
-  const [savedPrice, setSavedPrice] = useState(visa.price_aed);
+  const [savedPriceAed, setSavedPriceAed] = useState(visa.standard_price_aed);
+  const [savedPriceUsd, setSavedPriceUsd] = useState(visa.standard_price_usd);
   const [savedActive, setSavedActive] = useState(visa.has_express);
   const [loading, setLoading] = useState(false);
   const [saved, setSaved] = useState(false);
 
-  const dirty = price !== savedPrice || active !== savedActive;
+  const dirty =
+    priceAed !== savedPriceAed || priceUsd !== savedPriceUsd || active !== savedActive;
 
   async function save() {
     setLoading(true);
@@ -30,10 +26,15 @@ export function VisaPricingRow({ visa }: { visa: PricingVisa }) {
       await fetch(`/api/admin/visa-types/${visa.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ standard_price_aed: price, has_express: active }),
+        body: JSON.stringify({
+          standard_price_aed: priceAed,
+          standard_price_usd: priceUsd,
+          has_express: active,
+        }),
       }).catch(() => null);
     } finally {
-      setSavedPrice(price);
+      setSavedPriceAed(priceAed);
+      setSavedPriceUsd(priceUsd);
       setSavedActive(active);
       setLoading(false);
       setSaved(true);
@@ -52,9 +53,21 @@ export function VisaPricingRow({ visa }: { visa: PricingVisa }) {
           <span className="text-xs text-muted font-sans">AED</span>
           <input
             type="number"
-            value={price}
+            value={priceAed}
             min={0}
-            onChange={(e) => setPrice(Number(e.target.value))}
+            onChange={(e) => setPriceAed(Number(e.target.value))}
+            className={cn(inputClasses, "w-24 h-9 px-2 text-sm")}
+          />
+        </div>
+      </td>
+      <td className="px-5 py-3.5 whitespace-nowrap">
+        <div className="inline-flex items-center gap-1.5">
+          <span className="text-xs text-muted font-sans">$</span>
+          <input
+            type="number"
+            value={priceUsd}
+            min={0}
+            onChange={(e) => setPriceUsd(Number(e.target.value))}
             className={cn(inputClasses, "w-24 h-9 px-2 text-sm")}
           />
         </div>
@@ -69,7 +82,7 @@ export function VisaPricingRow({ visa }: { visa: PricingVisa }) {
               : "bg-mist-2 text-muted border border-line")
           }
         >
-          {active ? "Active" : "Inactive"}
+          {active ? "Available" : "Unavailable"}
         </button>
       </td>
       <td className="px-5 py-3.5 text-right">

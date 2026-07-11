@@ -25,7 +25,7 @@
     "country-flag-icons": "^1.6.18",
     "dotenv": "^17.4.2",
     "dotted-map": "^3.1.0",
-    "drizzle-orm": "^0.44.2",
+    "drizzle-orm": "^0.45.2",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "html2pdf.js": "^0.14.0",

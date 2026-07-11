@@ -7,6 +7,7 @@ import { z } from "zod";
 
 const UpdateVisaSchema = z.object({
   standard_price_aed: z.number().int().min(0).max(100000).optional(),
+  standard_price_usd: z.number().int().min(0).max(100000).optional(),
   has_express: z.boolean().optional(),
   is_active: z.boolean().optional(),
 });

@@ -11,6 +11,11 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function TrackPage() {
-  return <TrackClient />;
+interface TrackPageProps {
+  searchParams: Promise<{ id?: string }>;
+}
+
+export default async function TrackPage({ searchParams }: TrackPageProps) {
+  const { id } = await searchParams;
+  return <TrackClient initialId={id} />;
 }

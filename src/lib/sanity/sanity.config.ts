@@ -5,7 +5,7 @@ import { schemaTypes } from "./schemaTypes";
 export default defineConfig({
   name: "visati",
   title: "Visati CMS",
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? "h1lz1drc",
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? "8vk4vtq0",
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production",
   plugins: [
     structureTool({

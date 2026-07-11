@@ -19,6 +19,7 @@ export interface SanityVisaType {
   features: string[];
   badge_text: string | null;
   price_aed: number;
+  price_usd: number;
   duration_days: number;
   entry_type: "single" | "multiple";
   processing_time: string;
@@ -90,7 +91,7 @@ export async function getVisaTypes(): Promise<SanityVisaType[]> {
   return sanityClient.fetch(
     `*[_type == "visaTypeContent" && !(_id in path("drafts.**"))] | order(sort_order asc) {
       "slug": slug.current, name, icon, tagline, description, features, badge_text,
-      price_aed, duration_days, entry_type, processing_time, has_express, sort_order,
+      price_aed, price_usd, duration_days, entry_type, processing_time, has_express, sort_order,
       seo { title, description }
     }`,
     {},

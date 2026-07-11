@@ -3,8 +3,9 @@
 import { CheckCircle, Phone, Shield } from "lucide-react";
 import type { VisaTypeData } from "@/types/visa";
 import type { ProcessingTier } from "@/types/db";
-import { formatAed } from "@/lib/utils";
-import { EXPRESS_SURCHARGE_AED, WHATSAPP_URL } from "@/lib/constants";
+import { formatDualPrice } from "@/lib/utils";
+import { useCurrency } from "@/components/CurrencyProvider";
+import { EXPRESS_SURCHARGE_AED, EXPRESS_SURCHARGE_USD, WHATSAPP_URL } from "@/lib/constants";
 
 interface OrderSummaryProps {
   visaType: VisaTypeData | null;
@@ -12,6 +13,8 @@ interface OrderSummaryProps {
 }
 
 export function OrderSummary({ visaType, processingTier }: OrderSummaryProps) {
+  const { showUsd } = useCurrency();
+
   if (!visaType) {
     return (
       <div className="sticky top-6">
@@ -55,11 +58,17 @@ export function OrderSummary({ visaType, processingTier }: OrderSummaryProps) {
   }
 
   const price = visaType.standard_price_aed;
+  const priceUsd = visaType.standard_price_usd;
   const serviceFee = Math.round(price * 0.1);
+  const serviceFeeUsd = Math.round(priceUsd * 0.1);
   const total =
     processingTier === "express"
       ? price + EXPRESS_SURCHARGE_AED + serviceFee
       : price + serviceFee;
+  const totalUsd =
+    processingTier === "express"
+      ? priceUsd + EXPRESS_SURCHARGE_USD + serviceFeeUsd
+      : priceUsd + serviceFeeUsd;
 
   return (
     <div className="sticky top-6">
@@ -84,19 +93,19 @@ export function OrderSummary({ visaType, processingTier }: OrderSummaryProps) {
         <div className="space-y-3 py-4 border-b border-line">
           <div className="flex items-center justify-between gap-3">
             <span className="text-sm font-sans text-muted">Visa Fee</span>
-            <span className="text-sm font-sans font-medium text-ink">{formatAed(price)}</span>
+            <span className="text-sm font-sans font-medium text-ink">{formatDualPrice(showUsd, price, priceUsd)}</span>
           </div>
           {processingTier === "express" && (
             <div className="flex items-center justify-between gap-3">
               <span className="text-sm font-sans text-muted">Express Surcharge</span>
               <span className="text-sm font-sans font-medium text-ink">
-                {formatAed(EXPRESS_SURCHARGE_AED)}
+                {formatDualPrice(showUsd, EXPRESS_SURCHARGE_AED, EXPRESS_SURCHARGE_USD)}
               </span>
             </div>
           )}
           <div className="flex items-center justify-between gap-3">
             <span className="text-sm font-sans text-muted">Service Fee</span>
-            <span className="text-sm font-sans font-medium text-ink">{formatAed(serviceFee)}</span>
+            <span className="text-sm font-sans font-medium text-ink">{formatDualPrice(showUsd, serviceFee, serviceFeeUsd)}</span>
           </div>
         </div>
 
@@ -104,7 +113,7 @@ export function OrderSummary({ visaType, processingTier }: OrderSummaryProps) {
         <div className="flex items-center justify-between gap-3 pt-4">
           <span className="text-sm font-sans font-semibold text-ink">Total</span>
           <span className="text-xl font-display font-bold text-navy">
-            {formatAed(total)}
+            {formatDualPrice(showUsd, total, totalUsd)}
           </span>
         </div>
       </div>

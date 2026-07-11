@@ -9,6 +9,16 @@ export const auth = betterAuth({
     provider: "pg",
     schema: { user, session, account, verification },
   }),
+  user: {
+    additionalFields: {
+      role: {
+        type: ["consultant", "admin"],
+        required: false,
+        defaultValue: "consultant",
+        input: false, // server-owned — never settable via signup/update requests
+      },
+    },
+  },
   emailAndPassword: {
     enabled: true,
     sendResetPassword: async ({ user, url }) => {
@@ -24,6 +34,17 @@ export const auth = betterAuth({
   trustedOrigins: [
     process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
   ],
+  rateLimit: {
+    enabled: true,
+    window: 60,
+    max: 60,
+    storage: "memory", // single-container deployment — no Redis configured
+    customRules: {
+      "/sign-in/email": { window: 60, max: 5 },
+      "/sign-up/email": { window: 60, max: 3 },
+      "/forget-password": { window: 60, max: 3 },
+    },
+  },
 });
 
 export type Session = typeof auth.$Infer.Session;

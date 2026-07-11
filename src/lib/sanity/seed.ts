@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 dotenv.config({ path: ".env.local" });
 
 const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? "h1lz1drc",
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? "8vk4vtq0",
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production",
   apiVersion: "2026-06-27",
   token: process.env.SANITY_API_TOKEN,
@@ -65,12 +65,12 @@ async function seed() {
   // 3. Visa Type Content
   console.log("→ Visa Types");
   const visaTypes = [
-    { slug: "14d-single", name: "14-Day Single Entry", icon: "Clock", tagline: "Quick visit visa for short trips, stopovers, or brief business travel.", description: "Perfect for short visits, layovers, and quick business trips to the UAE.", features: ["14-day stay", "Single entry", "Tourist & transit", "Processing: 1–2 days"], badge_text: null, price_aed: 459, duration_days: 14, entry_type: "single", processing_time: "24–72h", has_express: true, sort_order: 1 },
-    { slug: "30d-single", name: "30-Day Single Entry", icon: "Stamp", tagline: "Single entry, perfect for short visits, leisure and family stays.", description: "Our most popular visa for tourists visiting Dubai and the UAE.", features: ["30-day stay", "Single entry", "Tourist visa", "Processing: 2–3 days"], badge_text: "Most Popular", price_aed: 549, duration_days: 30, entry_type: "single", processing_time: "24–72h", has_express: true, sort_order: 2 },
-    { slug: "60d-single", name: "60-Day Single Entry", icon: "Plane", tagline: "Extended stay for longer holidays, family visits, or medical travel.", description: "Extended stay for longer holidays or family visits in the UAE.", features: ["60-day stay", "Single entry", "Multiple purposes", "Processing: 2–3 days"], badge_text: null, price_aed: 918, duration_days: 60, entry_type: "single", processing_time: "24–72h", has_express: true, sort_order: 3 },
-    { slug: "30d-multi", name: "30-Day Multiple Entry", icon: "Repeat", tagline: "Multiple entries within 60 days. Ideal for business travellers.", description: "Flexible entry for business travellers visiting the UAE multiple times.", features: ["30-day stay", "Multiple entries", "Business friendly", "Processing: 2–3 days"], badge_text: null, price_aed: 918, duration_days: 30, entry_type: "multiple", processing_time: "48–72h", has_express: true, sort_order: 4 },
-    { slug: "60d-multi", name: "60-Day Multiple Entry", icon: "Globe", tagline: "Extended multiple entry for complex itineraries across the region.", description: "Maximum flexibility for extended business or personal trips.", features: ["60-day stay", "Multiple entries", "Long-term travel", "Processing: 2–3 days"], badge_text: null, price_aed: 1285, duration_days: 60, entry_type: "multiple", processing_time: "48–72h", has_express: true, sort_order: 5 },
-    { slug: "visa-extension", name: "Visa Extension", icon: "CreditCard", tagline: "Extend your current UAE visa without leaving the country.", description: "Extend your existing UAE visa without leaving the country.", features: ["Extend current visa", "No exit required", "Quick processing", "Same-day to 2 days"], badge_text: null, price_aed: 1285, duration_days: 30, entry_type: "single", processing_time: "3–5 days", has_express: false, sort_order: 6 },
+    { slug: "14d-single", name: "14-Day Single Entry", icon: "Clock", tagline: "Quick visit visa for short trips, stopovers, or brief business travel.", description: "Perfect for short visits, layovers, and quick business trips to the UAE.", features: ["14-day stay", "Single entry", "Tourist & transit", "Processing: 1–2 days"], badge_text: null, price_aed: 459, price_usd: 125, duration_days: 14, entry_type: "single", processing_time: "24–72h", has_express: true, sort_order: 1 },
+    { slug: "30d-single", name: "30-Day Single Entry", icon: "Stamp", tagline: "Single entry, perfect for short visits, leisure and family stays.", description: "Our most popular visa for tourists visiting Dubai and the UAE.", features: ["30-day stay", "Single entry", "Tourist visa", "Processing: 2–3 days"], badge_text: "Most Popular", price_aed: 549, price_usd: 150, duration_days: 30, entry_type: "single", processing_time: "24–72h", has_express: true, sort_order: 2 },
+    { slug: "60d-single", name: "60-Day Single Entry", icon: "Plane", tagline: "Extended stay for longer holidays, family visits, or medical travel.", description: "Extended stay for longer holidays or family visits in the UAE.", features: ["60-day stay", "Single entry", "Multiple purposes", "Processing: 2–3 days"], badge_text: null, price_aed: 918, price_usd: 250, duration_days: 60, entry_type: "single", processing_time: "24–72h", has_express: true, sort_order: 3 },
+    { slug: "30d-multi", name: "30-Day Multiple Entry", icon: "Repeat", tagline: "Multiple entries within 60 days. Ideal for business travellers.", description: "Flexible entry for business travellers visiting the UAE multiple times.", features: ["30-day stay", "Multiple entries", "Business friendly", "Processing: 2–3 days"], badge_text: null, price_aed: 918, price_usd: 250, duration_days: 30, entry_type: "multiple", processing_time: "48–72h", has_express: true, sort_order: 4 },
+    { slug: "60d-multi", name: "60-Day Multiple Entry", icon: "Globe", tagline: "Extended multiple entry for complex itineraries across the region.", description: "Maximum flexibility for extended business or personal trips.", features: ["60-day stay", "Multiple entries", "Long-term travel", "Processing: 2–3 days"], badge_text: null, price_aed: 1285, price_usd: 350, duration_days: 60, entry_type: "multiple", processing_time: "48–72h", has_express: true, sort_order: 5 },
+    { slug: "visa-extension", name: "Visa Extension", icon: "CreditCard", tagline: "Extend your current UAE visa without leaving the country.", description: "Extend your existing UAE visa without leaving the country.", features: ["Extend current visa", "No exit required", "Quick processing", "Same-day to 2 days"], badge_text: null, price_aed: 1285, price_usd: 350, duration_days: 30, entry_type: "single", processing_time: "3–5 days", has_express: false, sort_order: 6 },
   ];
   for (const v of visaTypes) {
     await client.createOrReplace({
@@ -84,6 +84,7 @@ async function seed() {
       features: v.features,
       badge_text: v.badge_text,
       price_aed: v.price_aed,
+      price_usd: v.price_usd,
       duration_days: v.duration_days,
       entry_type: v.entry_type,
       processing_time: v.processing_time,

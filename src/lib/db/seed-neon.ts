@@ -14,12 +14,12 @@ const sql = neon(process.env.DATABASE_URL!);
 const SAMPLE = "sample";
 
 const visaTypesData = [
-  { slug: "14d-single", name: "14-Day Single Entry", entry: "single", days: 14, price: 459, sort: 1 },
-  { slug: "30d-single", name: "30-Day Single Entry", entry: "single", days: 30, price: 549, sort: 2 },
-  { slug: "60d-single", name: "60-Day Single Entry", entry: "single", days: 60, price: 918, sort: 3 },
-  { slug: "30d-multi", name: "30-Day Multiple Entry", entry: "multiple", days: 30, price: 918, sort: 4 },
-  { slug: "60d-multi", name: "60-Day Multiple Entry", entry: "multiple", days: 60, price: 1285, sort: 5 },
-  { slug: "visa-extension", name: "Visa Extension", entry: "single", days: 30, price: 1285, sort: 6 },
+  { slug: "14d-single", name: "14-Day Single Entry", entry: "single", days: 14, price: 459, priceUsd: 125, sort: 1 },
+  { slug: "30d-single", name: "30-Day Single Entry", entry: "single", days: 30, price: 549, priceUsd: 150, sort: 2 },
+  { slug: "60d-single", name: "60-Day Single Entry", entry: "single", days: 60, price: 918, priceUsd: 250, sort: 3 },
+  { slug: "30d-multi", name: "30-Day Multiple Entry", entry: "multiple", days: 30, price: 918, priceUsd: 250, sort: 4 },
+  { slug: "60d-multi", name: "60-Day Multiple Entry", entry: "multiple", days: 60, price: 1285, priceUsd: 350, sort: 5 },
+  { slug: "visa-extension", name: "Visa Extension", entry: "single", days: 30, price: 1285, priceUsd: 350, sort: 6 },
 ];
 
 const applicationsData = [
@@ -53,13 +53,14 @@ async function seed() {
   // Visa types
   for (const v of visaTypesData) {
     await sql`
-      INSERT INTO visa_types (slug, name, entry_type, duration_days, standard_price_aed, sort_order, sample_id)
-      VALUES (${v.slug}, ${v.name}, ${v.entry}, ${v.days}, ${v.price}, ${v.sort}, ${SAMPLE})
+      INSERT INTO visa_types (slug, name, entry_type, duration_days, standard_price_aed, standard_price_usd, sort_order, sample_id)
+      VALUES (${v.slug}, ${v.name}, ${v.entry}, ${v.days}, ${v.price}, ${v.priceUsd}, ${v.sort}, ${SAMPLE})
       ON CONFLICT (slug) DO UPDATE SET
         name = ${v.name},
         entry_type = ${v.entry},
         duration_days = ${v.days},
         standard_price_aed = ${v.price},
+        standard_price_usd = ${v.priceUsd},
         sort_order = ${v.sort},
         sample_id = ${SAMPLE}
     `;

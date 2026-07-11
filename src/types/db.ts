@@ -16,6 +16,7 @@ export interface VisaType {
   entry_type: EntryType;
   duration_days: number;
   standard_price_aed: number;
+  standard_price_usd: number;
   has_express: boolean;
   is_active: boolean;
   sort_order: number;

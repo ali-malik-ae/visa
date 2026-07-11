@@ -1,10 +1,16 @@
 import { AuthShell } from "@/components/admin/AuthShell";
 import { SignupForm } from "@/components/admin/SignupForm";
+import { requireAdminRole } from "@/lib/admin-guard";
 import Link from "next/link";
 
 export const metadata = { title: "Create account" };
 
-export default function AdminSignupPage() {
+export default async function AdminSignupPage() {
+  // Staff accounts are created by an already-logged-in Administrator, not via
+  // open self-registration — the middleware requires a session to reach this
+  // page at all; this adds the role check on top.
+  await requireAdminRole();
+
   return (
     <AuthShell
       eyebrow="Join the team"

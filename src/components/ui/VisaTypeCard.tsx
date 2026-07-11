@@ -1,4 +1,7 @@
-import { formatAed } from "@/lib/utils";
+"use client";
+
+import { formatAed, formatUsd } from "@/lib/utils";
+import { useCurrency } from "@/components/CurrencyProvider";
 import type { VisaTypeData } from "@/types/visa";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -13,6 +16,7 @@ function durationBadge(days: number): string {
 
 export function VisaTypeCard({ visa }: { visa: VisaTypeData }) {
   const isPopular = visa.slug === "30d-single";
+  const { showUsd } = useCurrency();
 
   return (
     <div
@@ -55,6 +59,11 @@ export function VisaTypeCard({ visa }: { visa: VisaTypeData }) {
           <p className="font-display font-bold text-2xl text-navy whitespace-nowrap">
             {formatAed(visa.standard_price_aed)}
           </p>
+          {showUsd && (
+            <p className="text-xs text-muted font-sans mt-0.5 whitespace-nowrap">
+              ~{formatUsd(visa.standard_price_usd)}
+            </p>
+          )}
         </div>
         <Link
           href={`/apply?visa=${visa.slug}`}

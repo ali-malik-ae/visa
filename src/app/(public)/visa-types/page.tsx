@@ -1,5 +1,7 @@
 import { VisaTypesClient } from "@/components/VisaTypesClient";
+import { CurrencyProvider } from "@/components/CurrencyProvider";
 import { getVisaTypes, getPageSeo } from "@/lib/sanity/client";
+import { getShowUsdSetting } from "@/lib/site-settings";
 import { sanityToVisaType, type VisaTypeData } from "@/types/visa";
 import type { Metadata } from "next";
 
@@ -21,6 +23,13 @@ async function loadVisaTypes(): Promise<VisaTypeData[]> {
 }
 
 export default async function VisaTypesPage() {
-  const visaTypes = await loadVisaTypes();
-  return <VisaTypesClient visaTypes={visaTypes} />;
+  const [visaTypes, showUsd] = await Promise.all([
+    loadVisaTypes(),
+    getShowUsdSetting().catch(() => false),
+  ]);
+  return (
+    <CurrencyProvider showUsd={showUsd}>
+      <VisaTypesClient visaTypes={visaTypes} />
+    </CurrencyProvider>
+  );
 }

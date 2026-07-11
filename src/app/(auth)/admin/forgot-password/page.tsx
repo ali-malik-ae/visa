@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { isAuthorizedStaffEmail } from "@/lib/staff-email";
 
 const inputCls =
   "w-full h-11 px-3.5 rounded-lg border border-line bg-white text-sm font-sans text-navy placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-blue/20 focus:border-blue transition-colors";
@@ -14,16 +15,12 @@ export default function ForgotPasswordPage() {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  function validateEmail(val: string): boolean {
-    return /^[^\s@]+@visati\.ae$/i.test(val.trim());
-  }
-
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const trimmed = email.trim().toLowerCase();
 
-    if (!validateEmail(trimmed)) {
-      setError("Only @visati.ae email addresses are allowed.");
+    if (!isAuthorizedStaffEmail(trimmed)) {
+      setError("This email isn't authorized to request a password reset.");
       return;
     }
 
@@ -82,7 +79,7 @@ export default function ForgotPasswordPage() {
               Reset password
             </h1>
             <p className="text-sm text-muted font-sans">
-              Enter your <strong>@visati.ae</strong> email to receive a reset link.
+              Enter your work email to receive a reset link.
             </p>
           </div>
 

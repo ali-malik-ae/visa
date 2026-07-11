@@ -76,6 +76,13 @@ export const visaTypeContent = defineType({
       validation: (rule) => rule.required().min(0).max(100000),
     }),
     defineField({
+      name: "price_usd",
+      title: "Price (USD)",
+      type: "number",
+      description: "Standard price in USD — set independently, not auto-converted. Only shown on the site if \"Show USD pricing\" is turned on in the admin dashboard's Settings page.",
+      validation: (rule) => rule.required().min(0).max(100000),
+    }),
+    defineField({
       name: "duration_days",
       title: "Duration (Days)",
       type: "number",

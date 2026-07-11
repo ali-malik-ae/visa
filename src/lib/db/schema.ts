@@ -37,6 +37,7 @@ export const visaTypes = pgTable("visa_types", {
   entry_type: entryTypeEnum("entry_type").notNull(),
   duration_days: integer("duration_days").notNull(),
   standard_price_aed: integer("standard_price_aed").notNull(),
+  standard_price_usd: integer("standard_price_usd").notNull(),
   has_express: boolean("has_express").notNull().default(true),
   is_active: boolean("is_active").notNull().default(true),
   sort_order: integer("sort_order").notNull().default(0),
@@ -193,6 +194,15 @@ export const inquiries = pgTable("inquiries", {
   resolved: boolean("resolved").notNull().default(false),
   sample_id: varchar("sample_id", { length: 50 }),
   created_at: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
+
+/* ── Site Settings (singleton row, id=1) ────────────────── */
+export const siteSettings = pgTable("site_settings", {
+  id: integer("id").primaryKey().default(1),
+  show_usd_pricing: boolean("show_usd_pricing").notNull().default(false),
+  updated_at: timestamp("updated_at", { withTimezone: true })
     .notNull()
     .defaultNow(),
 });

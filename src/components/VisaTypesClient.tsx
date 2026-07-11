@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { ArrowRight, Check, Minus } from "lucide-react";
+import { ArrowRight, Check, Info, Minus } from "lucide-react";
 import Link from "next/link";
-import { cn, formatAed } from "@/lib/utils";
+import { cn, formatAed, formatUsd } from "@/lib/utils";
+import { useCurrency } from "@/components/CurrencyProvider";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { DropdownCompact } from "@/components/ui/Dropdown";
 import { COMPARE_SLUGS, type CompareRow, type VisaTypeData } from "@/types/visa";
@@ -31,6 +32,7 @@ function matchesDuration(visa: VisaTypeData, filter: string): boolean {
 
 function VisaCard({ visa }: { visa: VisaTypeData }) {
   const isPopular = visa.slug === "30d-single";
+  const { showUsd } = useCurrency();
 
   return (
     <div
@@ -80,6 +82,11 @@ function VisaCard({ visa }: { visa: VisaTypeData }) {
           <p className="font-display font-bold text-2xl text-navy whitespace-nowrap">
             {formatAed(visa.standard_price_aed)}
           </p>
+          {showUsd && (
+            <p className="text-xs text-muted font-sans mt-0.5 whitespace-nowrap">
+              ~{formatUsd(visa.standard_price_usd)}
+            </p>
+          )}
         </div>
         <Link
           href={`/apply?visa=${visa.slug}`}
@@ -93,8 +100,9 @@ function VisaCard({ visa }: { visa: VisaTypeData }) {
 }
 
 function ComparisonTable({ visaTypes }: { visaTypes: VisaTypeData[] }) {
+  const { showUsd } = useCurrency();
   const COMPARE_ROWS: CompareRow[] = [
-    { label: "Price", values: COMPARE_SLUGS.map((s) => { const v = visaTypes.find((x) => x.slug === s); return v ? `AED ${v.standard_price_aed}` : "—"; }) as [string, string, string] },
+    { label: "Price", values: COMPARE_SLUGS.map((s) => { const v = visaTypes.find((x) => x.slug === s); if (!v) return "—"; return showUsd ? `AED ${v.standard_price_aed} (~$${v.standard_price_usd})` : `AED ${v.standard_price_aed}`; }) as [string, string, string] },
     { label: "Duration", values: COMPARE_SLUGS.map((s) => { const v = visaTypes.find((x) => x.slug === s); return v ? `${v.duration_days} days` : "—"; }) as [string, string, string] },
     { label: "Entry", values: COMPARE_SLUGS.map((s) => { const v = visaTypes.find((x) => x.slug === s); return v?.entry_type === "single" ? "Single" : "Multiple"; }) as [string, string, string] },
     { label: "Processing", values: COMPARE_SLUGS.map((s) => { const v = visaTypes.find((x) => x.slug === s); return v?.processing_time ?? "—"; }) as [string, string, string] },
@@ -179,6 +187,7 @@ interface VisaTypesClientProps {
 }
 
 export function VisaTypesClient({ visaTypes }: VisaTypesClientProps) {
+  const { showUsd } = useCurrency();
   const [duration, setDuration] = useState<string>("All");
   const [entryType, setEntryType] = useState<string>("All");
   const [sortBy, setSortBy] = useState<string>("Popular");
@@ -338,6 +347,14 @@ export function VisaTypesClient({ visaTypes }: VisaTypesClientProps) {
                 <VisaCard key={visa.id} visa={visa} />
               ))}
             </div>
+          )}
+
+          {showUsd && (
+            <p className="mt-6 flex items-start gap-2 text-xs text-muted font-sans max-w-2xl mx-auto text-center justify-center">
+              <Info className="h-3.5 w-3.5 flex-shrink-0 mt-0.5" />
+              USD prices shown are approximate — exchange rates fluctuate, so the actual USD
+              equivalent may differ slightly. You&apos;ll always be charged in AED.
+            </p>
           )}
         </div>
       </section>

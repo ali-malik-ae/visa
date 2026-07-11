@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const PUBLIC_ADMIN_PATHS = ["/admin/login", "/admin/signup"];
+// Staff signup is intentionally NOT public — new accounts are created by an
+// already-logged-in admin, not via open self-registration.
+const PUBLIC_ADMIN_PATHS = [
+  "/admin/login",
+  "/admin/forgot-password",
+  "/admin/reset-password",
+];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;

@@ -5,6 +5,11 @@ import type { SanityVisaType } from "@/lib/sanity/client";
  * Maps from Sanity's VisaTypeContent to a format the UI expects.
  */
 export interface VisaTypeData {
+  /**
+   * Synthetic, array-position-derived key for internal form/UI state only
+   * (React keys, dropdown selection matched back against this same array).
+   * NOT a database id — never send this to an API. Use `slug` for that.
+   */
   id: number;
   slug: string;
   name: string;
@@ -16,6 +21,7 @@ export interface VisaTypeData {
   entry_type: "single" | "multiple";
   duration_days: number;
   standard_price_aed: number;
+  standard_price_usd: number;
   processing_time: string;
   has_express: boolean;
   sort_order: number;
@@ -34,6 +40,7 @@ export function sanityToVisaType(v: SanityVisaType, index: number): VisaTypeData
     entry_type: v.entry_type,
     duration_days: v.duration_days,
     standard_price_aed: v.price_aed,
+    standard_price_usd: v.price_usd,
     processing_time: v.processing_time,
     has_express: v.has_express,
     sort_order: v.sort_order,

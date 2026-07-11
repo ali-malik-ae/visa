@@ -1,10 +1,14 @@
 import { db } from "@/lib/db";
 import { applications, statusHistory, visaTypes } from "@/lib/db/schema";
 import { APP_ID_REGEX } from "@/lib/utils";
+import { checkRateLimit } from "@/lib/rate-limit";
 import { asc, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
+  const limited = checkRateLimit(request, "track", { max: 20, windowSeconds: 60 });
+  if (limited) return limited;
+
   const id = request.nextUrl.searchParams.get("id")?.trim().toUpperCase();
 
   if (!id || !APP_ID_REGEX.test(id)) {

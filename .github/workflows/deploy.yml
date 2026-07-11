@@ -1,0 +1,64 @@
+# master is production — every push builds (and, once the deploy job below
+# is uncommented, deploys). workflow_dispatch allows a manual re-run without
+# a code change.
+name: Build and deploy
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+env:
+  # GHCR requires a lowercase image path.
+  IMAGE: ghcr.io/mrowaisabdullah/visati
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          # Hostinger VPS is x86_64 — must match, or the image won't run.
+          platforms: linux/amd64
+          tags: |
+            ${{ env.IMAGE }}:latest
+            ${{ env.IMAGE }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            NEXT_PUBLIC_APP_URL=${{ secrets.NEXT_PUBLIC_APP_URL }}
+            NEXT_PUBLIC_SANITY_PROJECT_ID=${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
+            NEXT_PUBLIC_SANITY_DATASET=${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Uncomment once the Dokploy app exists and DOKPLOY_URL / DOKPLOY_API_KEY /
+  # DOKPLOY_APP_ID are set as GitHub secrets (Settings → Secrets → Actions).
+  # Until then, this workflow only validates that the Docker build succeeds.
+  # ─────────────────────────────────────────────────────────────────────────
+  # deploy:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Trigger Dokploy deploy
+  #       run: |
+  #         curl -fsSL -X POST "${{ secrets.DOKPLOY_URL }}/api/application.deploy" \
+  #           -H "x-api-key: ${{ secrets.DOKPLOY_API_KEY }}" \
+  #           -H "Content-Type: application/json" \
+  #           -d '{"applicationId":"${{ secrets.DOKPLOY_APP_ID }}"}'
