@@ -5,7 +5,10 @@ ARG NODE_VERSION=22-slim
 FROM node:${NODE_VERSION} AS deps
 WORKDIR /app
 COPY package.json package-lock.json* ./
-RUN npm ci --no-audit --no-fund
+# --legacy-peer-deps: sanity@3.x vs next-sanity@13's sanity@5/6 peer requirement
+# is a pre-existing conflict that plain `npm install` already tolerates locally
+# (npm ci is stricter and errors on it without this flag).
+RUN npm ci --no-audit --no-fund --legacy-peer-deps
 
 # ── builder ───────────────────────────────────────────────────────────────────
 FROM node:${NODE_VERSION} AS builder
