@@ -34,7 +34,7 @@ export const ADMINISTRATOR: StaffUser = {
   initials: "MK",
   color: "bg-navy",
   photo: "https://i.pravatar.cc/150?img=43",
-  email: process.env.ADMIN_EMAIL ?? "mariam@visati.ae",
+  email: process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? "mariam@visati.ae",
   role: "Administrator",
   status: "active",
   lastActive: "Online now",
